@@ -5,17 +5,56 @@
 
 ![Logo de Plateful](./images/_593fd117-ce1f-4fd5-919e-9da2321a4f86.jpeg "Logo de Plateful")
 
+---
+
 ## Curso de Desarrollo Basado en Plataformas
 
 ## Integrantes:
-- Diego Alexis Gil Rojas
-- Marco Apolinario Lainez
-- David Huette Ospino
-- Anel Rojas Martinez
+| Nombre                     
+|----------------------------
+| Diego Alexis Gil Rojas 
+| Marco Apolinario Lainez   
+| David Huette Ospino
+| Anel Rojas Martinez
 
 ---
 
 ## Indice
+# Table of Contents
+- [Introducción](#introducción)
+   1. [Contexto del proyecto](#1-contexto-del-proyecto)
+   2. [Objetivos](#2-objetivosobjetivos)
+- [Identificación del Problema o Necesidad](#identificación-del-problema-o-necesidad)
+   3. [Descripcion del problema](#3-descripcion-del-problema)
+   4. [Justificación del problema](#4-justificación-del-problema)
+- [Descripción de la Solución](#descripción-de-la-solución)
+   5. [Funcionalidades Clave](#5-funcionalidades-clave)
+   6. [Tecnologias Usadas](#6-tecnologias-usadas)
+- [Modelo de Entidades](#modelo-de-entidades)
+   7. [Diagrama Entidad-Relacion](#7-diagrama-entidad-relacion)
+   8. [Descripcion de Entidades](#8-descripcion-de-entidades)
+      - [Entidades básicas identificadas](#entidades-básicas-identificadas)
+      - [Atributos](#atributos)
+      - [Relaciones](#relaciones)
+- [Testing y Manejo de Errores](#testing-y-manejo-de-errores)
+   9. [Niveles de Testing Realizados](#9-niveles-de-testing-realizados)
+   10. [Resultados](#10-resultados)
+   11. [Manejo de Errores](#11-manejo-de-errores)
+- [Medidas de Seguridad Implementadas](#medidas-de-seguridad-implementadas)
+   12. [Seguridad de Datos](#12-seguridad-de-datos)
+   13. [Prevencion de Vulnerabilidades](#13-prevencion-de-vulnerabilidades)
+- [Eventos y Asincronía](#eventos-y-asincronia)
+   14. [Descripcion de Eventos](#14-descripcion-de-eventos)
+- [GitHub](#github)
+   15. [Utilizacion de Github Projects](#15-utilizacion-de-github-projects)
+   16. [Utilizacion de Github Actions](#16-utilizacion-de-github-actions)
+- [Conclusión](#conclusion)
+   17. [Logros del Projecto](#17-logros-del-projecto)
+   18. [Aprendizajes Clave](#18-aprendizajes-clave)
+   19. [Trabajo Futuro](#19-trabajo-futuro)
+- [Apéndices](#apendices)
+   20. [Licencia](#20-licencia)
+   21. [Referencias](#21-referencias)
 
 ---
 
@@ -172,7 +211,7 @@ Por otro lado, muchos restaurantes carecen de una plataforma fácil de usar para
 - `contenido`
 - `fecha`
 
-#### Relaciones
+#### Relaciones (FALTA ARREGLAR)
 
 - Un Usuario puede ser cliente o restaurante: Se manejan a través del atributo `rol` en la entidad Usuario.
 - Un Restaurante pertenece a un Usuario: Relación one-to-one entre `Usuario` y `Restaurante` donde `id_usuario` en `Restaurante` es FK que referencia a `Usuario`.
