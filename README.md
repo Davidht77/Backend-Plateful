@@ -15,24 +15,23 @@
 | Diego Alexis Gil Rojas 
 | Marco Apolinario Lainez   
 | David Huette Ospino
-| Anel Rojas Martinez
+| Anel Rojas Martinez 
 
 ---
 
-## Indice
-# Table of Contents
+# Índice
 - [Introducción](#introducción)
    1. [Contexto del proyecto](#1-contexto-del-proyecto)
-   2. [Objetivos](#2-objetivosobjetivos)
+   2. [Objetivos](#2-objetivos)
 - [Identificación del Problema o Necesidad](#identificación-del-problema-o-necesidad)
-   3. [Descripcion del problema](#3-descripcion-del-problema)
+   3. [Descripción del problema](#3-descripción-del-problema)
    4. [Justificación del problema](#4-justificación-del-problema)
 - [Descripción de la Solución](#descripción-de-la-solución)
    5. [Funcionalidades Clave](#5-funcionalidades-clave)
-   6. [Tecnologias Usadas](#6-tecnologias-usadas)
+   6. [Tecnologías Usadas](#6-tecnologías-usadas)
 - [Modelo de Entidades](#modelo-de-entidades)
-   7. [Diagrama Entidad-Relacion](#7-diagrama-entidad-relacion)
-   8. [Descripcion de Entidades](#8-descripcion-de-entidades)
+   7. [Diagrama Entidad-Relación](#7-diagrama-entidad-relación)
+   8. [Descripción de Entidades](#8-descripción-de-entidades)
       - [Entidades básicas identificadas](#entidades-básicas-identificadas)
       - [Atributos](#atributos)
       - [Relaciones](#relaciones)
@@ -42,17 +41,17 @@
    11. [Manejo de Errores](#11-manejo-de-errores)
 - [Medidas de Seguridad Implementadas](#medidas-de-seguridad-implementadas)
    12. [Seguridad de Datos](#12-seguridad-de-datos)
-   13. [Prevencion de Vulnerabilidades](#13-prevencion-de-vulnerabilidades)
-- [Eventos y Asincronía](#eventos-y-asincronia)
-   14. [Descripcion de Eventos](#14-descripcion-de-eventos)
+   13. [Prevención de Vulnerabilidades](#13-prevención-de-vulnerabilidades)
+- [Eventos y Asincronía](#eventos-y-asincronía)
+   14. [Descripción de Eventos](#14-descripción-de-eventos)
 - [GitHub](#github)
-   15. [Utilizacion de Github Projects](#15-utilizacion-de-github-projects)
-   16. [Utilizacion de Github Actions](#16-utilizacion-de-github-actions)
-- [Conclusión](#conclusion)
-   17. [Logros del Projecto](#17-logros-del-projecto)
+   15. [Utilización de GitHub Projects](#15-utilización-de-github-projects)
+   16. [Utilización de GitHub Actions](#16-utilización-de-github-actions)
+- [Conclusión](#conclusión)
+   17. [Logros del Proyecto](#17-logros-del-proyecto)
    18. [Aprendizajes Clave](#18-aprendizajes-clave)
    19. [Trabajo Futuro](#19-trabajo-futuro)
-- [Apéndices](#apendices)
+- [Apéndices](#apéndices)
    20. [Licencia](#20-licencia)
    21. [Referencias](#21-referencias)
 
