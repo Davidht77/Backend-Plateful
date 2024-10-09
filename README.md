@@ -24,36 +24,36 @@
    1. [Contexto del proyecto](#1-contexto-del-proyecto)
    2. [Objetivos](#2-objetivos)
 - [Identificación del Problema o Necesidad](#identificación-del-problema-o-necesidad)
-   3. [Descripción del problema](#3-descripción-del-problema)
-   4. [Justificación del problema](#4-justificación-del-problema)
+   1. [Descripción del problema](#3-descripción-del-problema)
+   2. [Justificación del problema](#4-justificación-del-problema)
 - [Descripción de la Solución](#descripción-de-la-solución)
-   5. [Funcionalidades Clave](#5-funcionalidades-clave)
-   6. [Tecnologías Usadas](#6-tecnologías-usadas)
+   1. [Funcionalidades Clave](#5-funcionalidades-clave)
+   2. [Tecnologías Usadas](#6-tecnologías-usadas)
 - [Modelo de Entidades](#modelo-de-entidades)
-   7. [Diagrama Entidad-Relación](#7-diagrama-entidad-relación)
-   8. [Descripción de Entidades](#8-descripción-de-entidades)
+   1. [Diagrama Entidad-Relación](#7-diagrama-entidad-relación)
+   2. [Descripción de Entidades](#8-descripción-de-entidades)
       - [Entidades básicas identificadas](#entidades-básicas-identificadas)
       - [Atributos](#atributos)
       - [Relaciones](#relaciones)
 - [Testing y Manejo de Errores](#testing-y-manejo-de-errores)
-   9. [Niveles de Testing Realizados](#9-niveles-de-testing-realizados)
-   10. [Resultados](#10-resultados)
-   11. [Manejo de Errores](#11-manejo-de-errores)
+   1. [Niveles de Testing Realizados](#9-niveles-de-testing-realizados)
+   2. [Resultados](#10-resultados)
+   3. [Manejo de Errores](#11-manejo-de-errores)
 - [Medidas de Seguridad Implementadas](#medidas-de-seguridad-implementadas)
-   12. [Seguridad de Datos](#12-seguridad-de-datos)
-   13. [Prevención de Vulnerabilidades](#13-prevención-de-vulnerabilidades)
+   1. [Seguridad de Datos](#12-seguridad-de-datos)
+   2. [Prevención de Vulnerabilidades](#13-prevención-de-vulnerabilidades)
 - [Eventos y Asincronía](#eventos-y-asincronía)
-   14. [Descripción de Eventos](#14-descripción-de-eventos)
+   1. [Descripción de Eventos](#14-descripción-de-eventos)
 - [GitHub](#github)
-   15. [Utilización de GitHub Projects](#15-utilización-de-github-projects)
-   16. [Utilización de GitHub Actions](#16-utilización-de-github-actions)
+   1. [Utilización de GitHub Projects](#15-utilización-de-github-projects)
+   2. [Utilización de GitHub Actions](#16-utilización-de-github-actions)
 - [Conclusión](#conclusión)
-   17. [Logros del Proyecto](#17-logros-del-proyecto)
-   18. [Aprendizajes Clave](#18-aprendizajes-clave)
-   19. [Trabajo Futuro](#19-trabajo-futuro)
+   1. [Logros del Proyecto](#17-logros-del-proyecto)
+   2. [Aprendizajes Clave](#18-aprendizajes-clave)
+   3. [Trabajo Futuro](#19-trabajo-futuro)
 - [Apéndices](#apéndices)
-   20. [Licencia](#20-licencia)
-   21. [Referencias](#21-referencias)
+   1. [Licencia](#20-licencia)
+   2. [Referencias](#21-referencias)
 
 ---
 
@@ -99,13 +99,33 @@ Por otro lado, muchos restaurantes carecen de una plataforma fácil de usar para
 
 
 ### 6. Tecnologias Usadas
+Nuestro proyecto emplea una arquitectura modular y escalable, organizada en capas distintas que encapsulan funcionalidades específicas como:
+ - Gestión de entidades, controladores y repositorios
+ - Objetos de transferencia de datos (DTO) 
+ - Manejo eventos e implementación de seguridad
+
+A continuación, se describen las tecnologías utilizadas:
+
+- **Lenguaje de Programación**: Java
+- **Frameworks y Librerías**:
+    - **Spring Boot**: Para el desarrollo del backend.
+- **Herramientas de Persistencia**:
+    - **Spring Data JPA**: Para la gestión de la persistencia.
+- **Base de Datos**:
+    - **PostgreSQL**: Base de datos robusta y escalable.
+- **Entorno de Desarrollo**:
+    - **Maven**: Para la gestión de dependencias.
+- **Control de Versiones**:
+    - **Git**: Para el control de versiones del código.
+    - **GitHub**: Repositorio para la colaboración y gestión del código.
+- **API Externas**:
+    - **API de Google Maps**: Utilizada para la ubicacion de los usuarios. 
 
 ---
 
 ## Modelo de entidades
 
 ### 7. Diagrama Entidad-Relacion
-
 
 ![Logo de Plateful](./images/ER-PROYECTO-DBP.drawio.png "Logo de Plateful")
 
@@ -156,10 +176,6 @@ Por otro lado, muchos restaurantes carecen de una plataforma fácil de usar para
 - `contraseña`
 - `telefono`
 
-#### Cliente
-- `Usuario.id_usuario` (PK FK a `id_usuario`)
-- `ubicacionActual` (FK a `id_ubicacion`)
-
 #### Ubicacion
 - `id_ubicacion`
 - `latitud`
@@ -167,6 +183,10 @@ Por otro lado, muchos restaurantes carecen de una plataforma fácil de usar para
 - `ciudad`
 - `direccionCompleta`
 - `codigoPostal`
+
+#### Cliente
+- `Usuario.id_usuario` (PK FK a `id_usuario`)
+- `ubicacionActual` (FK a `id_ubicacion`)
 
 #### Propietario
 - `Usuario.id_usuario` (PK FK)
@@ -186,7 +206,7 @@ Por otro lado, muchos restaurantes carecen de una plataforma fácil de usar para
 #### Reseña
 - `id_reseña` (PK)
 - `calificación` (1 a 5 estrellas)
-- `id_usuario` (FK de `Usuario`)
+- `id_usuario` (FK de `Cliente.id_usuario`)
 - `id_restaurante` (FK de `Restaurante`)
 - `fecha`
 
@@ -206,20 +226,22 @@ Por otro lado, muchos restaurantes carecen de una plataforma fácil de usar para
 #### Comentario
 - `id_comentario` (PK)
 - `id_reseña` (FK `Reseña`)
-- `id_usuario` (FK `Usuario`)
+- `id_usuario` (FK `Cliente.id_usuario`)
 - `contenido`
 - `fecha`
 
-#### Relaciones (FALTA ARREGLAR)
+#### Relaciones
 
-- Un Usuario puede ser cliente o restaurante: Se manejan a través del atributo `rol` en la entidad Usuario.
-- Un Restaurante pertenece a un Usuario: Relación one-to-one entre `Usuario` y `Restaurante` donde `id_usuario` en `Restaurante` es FK que referencia a `Usuario`.
-- Un Restaurante tiene una carta: Relación one-to-one entre `Restaurante` y `Carta` donde `id_restaurante` es FK en `Carta`.
+- Cada Cliente tiene un sola ubicacion: Relacion de many-to-one, con participacion total, entre `Cliente` y `Ubicacion` donde `id_ubicacion` es FK en `Cliente`.
+- Cada Restaurante tiene una o mas ubicaciones: Relacion many-to-many, con participacion total, entre `Restaurante` y `Ubicacion` donde donde `id_ubicacion` es FK en `Restaurante`.
+- Un Usuario puede ser Cliente o Propietario: Se manejan a través de una herencia de clases donde `id_usuario` es PK y FK en las dos entidades.
+- Un Restaurante pertenece a un solo Propietario: Relación many-to-one entre `Propietario` y `Restaurante` donde existe un participacion total entre cada uno.
+- Un Restaurante tiene sola una carta: Relación one-to-one entre `Restaurante` y `Carta` donde `id_restaurante` es FK en `Carta`.
 - Un Menú tiene varios Platos: Relación one-to-many entre `Carta` y `Plato` donde `id_carta` es FK en `Plato`.
-- Un Usuario puede hacer varias reseñas de diferentes Restaurantes: Relación one-to-many entre `Usuario` y `Reseña` donde `id_usuario` es FK en `Reseña`.
+- Un Usuario puede hacer varias reseñas de diferentes Restaurantes: Relación one-to-many entre `Cliente` y `Reseña` donde `Cliente.id_usuario` es FK en `Reseña`.
 - Un Restaurante puede recibir varias reseñas de diferentes Usuarios: Relación one-to-many entre `Restaurante` y `Reseña` donde `id_restaurante` es FK en `Reseña`.
 - Una Reseña puede tener varios Comentarios: Relación one-to-many entre `Reseña` y `Comentario` donde `id_reseña` es FK en `Comentario`.
-- Un Usuario puede hacer varios Comentarios en diferentes Reseñas: Relación one-to-many entre `Usuario` y `Comentario` donde `id_usuario` es FK en `Comentario`.
+- Un Usuario puede hacer varios Comentarios en diferentes Reseñas: Relación one-to-many entre `Cliente` y `Comentario` donde `Cliente.id_usuario` es FK en `Comentario`.
 
 ---
 
@@ -279,7 +301,7 @@ Sugerir posibles mejoras o extensiones para el proyecto
 ## Apendices
 
 ### 20. Licencia
-Especificar la licencia bajo la cual se distribuye el proyecto
+Este projecto esta bajo la lincencia de [GNU General Public License v3.0](http://www.gnu.org/licenses/gpl-3.0.html).
 
 ### 21. Referencias
 
