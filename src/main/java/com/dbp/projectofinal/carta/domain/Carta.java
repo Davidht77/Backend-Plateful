@@ -2,8 +2,16 @@ package com.dbp.projectofinal.carta.domain;
 
 import jakarta.persistence.*;
 import com.dbp.projectofinal.restaurante.domain.Restaurante;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.util.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "cartas")
 public class Carta {
@@ -15,42 +23,10 @@ public class Carta {
     private String nombre;
 
     @Temporal(TemporalType.DATE)
-    private Date fecha_actualizacion;
+    private LocalDate fecha_actualizacion;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurante_id")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_restaurante", nullable = false)
     private Restaurante restaurante;
 
-    // Getters y Setters
-    public Long getId_carta() {
-        return id_carta;
-    }
-
-    public void setId_carta(Long id_carta) {
-        this.id_carta = id_carta;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Date getFecha_actualizacion() {
-        return fecha_actualizacion;
-    }
-
-    public void setFecha_actualizacion(Date fecha_actualizacion) {
-        this.fecha_actualizacion = fecha_actualizacion;
-    }
-
-    public Restaurante getRestaurante() {
-        return restaurante;
-    }
-
-    public void setRestaurante(Restaurante restaurante) {
-        this.restaurante = restaurante;
-    }
 }

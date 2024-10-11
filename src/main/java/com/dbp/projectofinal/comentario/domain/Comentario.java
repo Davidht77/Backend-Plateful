@@ -2,8 +2,16 @@ package com.dbp.projectofinal.comentario.domain;
 import jakarta.persistence.*;
 import com.dbp.projectofinal.resena.domain.Resena;
 import com.dbp.projectofinal.usuario.domain.Usuario;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.util.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "comentarios")
 public class Comentario {
@@ -23,45 +31,6 @@ public class Comentario {
     private String contenido;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
+    private LocalDate fecha;
 
-    public Long getId_comentario() {
-        return id_comentario;
-    }
-
-    public void setId_comentario(Long id_comentario) {
-        this.id_comentario = id_comentario;
-    }
-
-    public Resena getResena() {
-        return resena;
-    }
-
-    public void setResena(Resena resena) {
-        this.resena = resena;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContenido() {
-        return contenido;
-    }
-
-    public void setContenido(String contenido) {
-        this.contenido = contenido;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
 }

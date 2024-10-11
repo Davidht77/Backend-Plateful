@@ -3,8 +3,16 @@ package com.dbp.projectofinal.resena.domain;
 import jakarta.persistence.*;
 import com.dbp.projectofinal.usuario.domain.Usuario;
 import com.dbp.projectofinal.restaurante.domain.Restaurante;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 import java.util.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "resenas")
 public class Resena {
@@ -24,46 +32,5 @@ public class Resena {
     private Restaurante restaurante;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
-
-    // Getters y Setters
-    public Long getId_resena() {
-        return id_resena;
-    }
-
-    public void setId_resena(Long id_resena) {
-        this.id_resena = id_resena;
-    }
-
-    public int getCalificacion() {
-        return calificacion;
-    }
-
-    public void setCalificacion(int calificacion) {
-        this.calificacion = calificacion;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public Restaurante getRestaurante() {
-        return restaurante;
-    }
-
-    public void setRestaurante(Restaurante restaurante) {
-        this.restaurante = restaurante;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
+    private LocalDate fecha;
 }
