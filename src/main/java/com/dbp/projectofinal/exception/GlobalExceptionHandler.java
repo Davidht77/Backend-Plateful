@@ -47,4 +47,6 @@ public class GlobalExceptionHandler {
   public ResponseEntity<String> handleComentarioNotFound(ComentarioNotFoundException ex) {
     return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
   }
+
+  
 }
