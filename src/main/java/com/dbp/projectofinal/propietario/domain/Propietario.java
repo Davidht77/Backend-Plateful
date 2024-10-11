@@ -20,4 +20,8 @@ public class Propietario extends Usuario {
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Restaurante> restaurantes;
+
+    public Propietario(Long id_usuario) {
+        super(id_usuario);
+    }
 }

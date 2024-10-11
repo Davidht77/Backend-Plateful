@@ -24,4 +24,8 @@ public class Ubicacion {
     private String latitud;
     private LocalDate codigoPostal;
     private LocalDate fechaCreacion;
+
+    public Ubicacion(Long id_ubicacion) {
+        this.id_ubicacion = id_ubicacion;
+    }
 }

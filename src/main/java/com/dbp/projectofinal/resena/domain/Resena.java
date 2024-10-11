@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,4 +32,8 @@ public class Resena {
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDate fecha;
+
+    public Resena(Long id_resena) {
+        this.id_resena = id_resena;
+    }
 }
