@@ -35,4 +35,9 @@ public class Restaurante {
     @JoinColumn(name = "id_ubicacion")
     private Ubicacion ubicacion;
 
+    public Restaurante(Long id_restaurante) {
+        this.id_restaurante = id_restaurante;
+    }
+
+
 }

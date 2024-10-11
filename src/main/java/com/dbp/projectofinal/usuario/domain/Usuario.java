@@ -1,4 +1,5 @@
 package com.dbp.projectofinal.usuario.domain;
+
 import com.dbp.projectofinal.ubicacion.Ubicacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,4 +30,16 @@ public class Usuario {
     @JoinColumn(name = "id_ubicacion")
     private Ubicacion ubicacion;
 
+    public Usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+    public Usuario(String nombre, String correo, String password, String telefono, LocalDate fechaNacimiento, Ubicacion ubicacion) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.password = password;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaCreacion = LocalDate.now();
+        this.ubicacion = ubicacion;
+    }
 }

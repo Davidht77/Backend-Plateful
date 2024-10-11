@@ -28,4 +28,6 @@ public class CartaService {
     public void deleteCarta(Long id) {
         cartaRepository.deleteById(id);
     }
+
+
 }

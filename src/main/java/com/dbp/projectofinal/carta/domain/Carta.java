@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,5 +27,9 @@ public class Carta {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_restaurante", nullable = false)
     private Restaurante restaurante;
+
+    public Carta(Long id_carta) {
+        this.id_carta = id_carta;
+    }
 
 }
