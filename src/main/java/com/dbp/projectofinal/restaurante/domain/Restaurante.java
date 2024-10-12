@@ -1,7 +1,7 @@
 package com.dbp.projectofinal.restaurante.domain;
 import com.dbp.projectofinal.carta.domain.Carta;
 import com.dbp.projectofinal.propietario.domain.Propietario;
-import com.dbp.projectofinal.ubicacion.Ubicacion;
+import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

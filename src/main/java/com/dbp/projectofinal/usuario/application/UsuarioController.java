@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.usuario.controller;
+package com.dbp.projectofinal.usuario.application;
 
 import com.dbp.projectofinal.usuario.domain.Usuario;
 import com.dbp.projectofinal.usuario.dto.CreateUsuarioDTO;

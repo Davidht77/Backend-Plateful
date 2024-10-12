@@ -1,9 +1,9 @@
 package com.dbp.projectofinal.ubicacion.controller;
 
-import com.dbp.projectofinal.ubicacion.Ubicacion;
+import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import com.dbp.projectofinal.ubicacion.dto.CreateUbicacionDTO;
 import com.dbp.projectofinal.ubicacion.dto.UbicacionDTO;
-import com.dbp.projectofinal.ubicacion.UbicacionService;
+import com.dbp.projectofinal.ubicacion.domain.UbicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +46,7 @@ public class UbicacionController {
     }
 
     private UbicacionDTO convertToDTO(Ubicacion ubicacion) {
-        return new UbicacionDTO(ubicacion.getId_ubicacion(), ubicacion.getCiudad(),
+        return new UbicacionDTO(ubicacion.getCiudad(),
                 ubicacion.getDireccionCompleta(), ubicacion.getLongitud(),
                 ubicacion.getLatitud());
     }
@@ -55,6 +55,6 @@ public class UbicacionController {
         return new Ubicacion(null, createUbicacionDTO.getCiudad(),
                 createUbicacionDTO.getDireccionCompleta(),
                 createUbicacionDTO.getLongitud(), createUbicacionDTO.getLatitud(),
-                null, null);
+                null);
     }
 }

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class CreateUbicacionDTO {
     private String ciudad;
     private String direccionCompleta;
-    private String longitud;
-    private String latitud;
+    private Double longitud;
+    private Double latitud;
 }

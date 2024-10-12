@@ -1,5 +1,4 @@
-package com.dbp.projectofinal.ubicacion.dto;
-
+package com.dbp.projectofinal.restaurante.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,9 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class UbicacionDTO {
-    private String ciudad;
-    private String direccionCompleta;
+public class UbiRequestDTO {
     private Double longitud;
     private Double latitud;
 }

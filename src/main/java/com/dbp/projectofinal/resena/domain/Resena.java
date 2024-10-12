@@ -30,7 +30,6 @@ public class Resena {
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate fecha;
 
     public Resena(Long id_resena) {

@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.carta.controller;
+package com.dbp.projectofinal.carta.application;
 
 import com.dbp.projectofinal.carta.dto.CartaDTO;
 import com.dbp.projectofinal.carta.dto.CreateCartaDTO;

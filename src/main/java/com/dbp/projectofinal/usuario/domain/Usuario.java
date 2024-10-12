@@ -1,6 +1,6 @@
 package com.dbp.projectofinal.usuario.domain;
 
-import com.dbp.projectofinal.ubicacion.Ubicacion;
+import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.exception;
+package com.dbp.projectofinal.exceptions;
 
 public class ResenaNotFoundException extends RuntimeException {
     public ResenaNotFoundException(String message) {
