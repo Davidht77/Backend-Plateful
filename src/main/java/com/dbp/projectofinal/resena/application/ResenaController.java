@@ -5,7 +5,7 @@ import com.dbp.projectofinal.resena.dto.CreateResenaDTO;
 import com.dbp.projectofinal.resena.dto.ResenaDTO;
 import com.dbp.projectofinal.resena.domain.Resena;
 import com.dbp.projectofinal.usuario.domain.Usuario;
-import com.dbp.projectofinal.restaurante.domain.Restaurante;
+import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +41,7 @@ public class ResenaController {
         Resena resena = new Resena();
         resena.setCalificacion(createResenaDTO.getCalificacion());
         resena.setUsuario(new Usuario(createResenaDTO.getId_usuario()));
-        resena.setRestaurante(new Restaurante(createResenaDTO.getId_restaurante()));
+        resena.setRestaurante(new RestauranteDTO(createResenaDTO.getId_restaurante()));
 
         Resena savedResena = resenaService.saveResena(resena);
         return ResponseEntity.ok(convertToDTO(savedResena));

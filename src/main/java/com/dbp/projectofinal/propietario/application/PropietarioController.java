@@ -38,7 +38,7 @@ public class PropietarioController {
     public ResponseEntity<PropietarioDTO> savePropietario(@RequestBody CreatePropietarioDTO createPropietarioDTO) {
         Propietario propietario = new Propietario();
         propietario.setNombre(createPropietarioDTO.getNombre());
-        propietario.setCorreo(createPropietarioDTO.getCorreo());
+        propietario.setEmail(createPropietarioDTO.getCorreo());
         propietario.setTipoDocumento(createPropietarioDTO.getTipoDocumento());
         propietario.setNumeroDocumento(createPropietarioDTO.getNumeroDocumento());
         propietario.setFotoPerfil(createPropietarioDTO.getFotoPerfil());
@@ -57,7 +57,7 @@ public class PropietarioController {
         PropietarioDTO dto = new PropietarioDTO();
         dto.setId_usuario(propietario.getId_usuario());
         dto.setNombre(propietario.getNombre());
-        dto.setCorreo(propietario.getCorreo());
+        dto.setCorreo(propietario.getEmail());
         dto.setTipoDocumento(propietario.getTipoDocumento());
         dto.setNumeroDocumento(propietario.getNumeroDocumento());
         dto.setFotoPerfil(propietario.getFotoPerfil());

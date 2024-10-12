@@ -1,6 +1,6 @@
 package com.dbp.projectofinal.propietario.domain;
 
-import com.dbp.projectofinal.restaurante.domain.Restaurante;
+import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
 import com.dbp.projectofinal.usuario.domain.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,7 +19,7 @@ public class Propietario extends Usuario {
     private String fotoPerfil;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<Restaurante> restaurantes;
+    private List<RestauranteDTO> restaurantes;
 
     public Propietario(Long id_usuario) {
         super(id_usuario);
