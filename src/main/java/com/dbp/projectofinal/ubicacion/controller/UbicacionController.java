@@ -38,6 +38,13 @@ public class UbicacionController {
                 .orElseThrow(() -> new RuntimeException("Ubicacion not found"));
         return ResponseEntity.ok(convertToDTO(ubicacion));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<UbicacionDTO> updateUbicacion(@PathVariable Long id, @RequestBody CreateUbicacionDTO createUbicacionDTO) {
+        Ubicacion updatedUbicacion = ubicacionService.updateUbicacion(id, convertToEntity(createUbicacionDTO))
+                .orElseThrow(() -> new RuntimeException("Ubicacion no encontrada"));
+        return ResponseEntity.ok(convertToDTO(updatedUbicacion));
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUbicacion(@PathVariable Long id) {

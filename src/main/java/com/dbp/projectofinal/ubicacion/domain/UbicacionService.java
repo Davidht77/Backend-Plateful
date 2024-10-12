@@ -73,4 +73,15 @@ public class UbicacionService {
         }
         return restaurantsNear;
     }
+    public Optional<Ubicacion> updateUbicacion(Long id, Ubicacion updatedUbicacion) {
+        return ubicacionRepository.findById(id).map(existingUbicacion -> {
+            existingUbicacion.setCiudad(updatedUbicacion.getCiudad());
+            existingUbicacion.setDireccionCompleta(updatedUbicacion.getDireccionCompleta());
+            existingUbicacion.setLatitud(updatedUbicacion.getLatitud());
+            existingUbicacion.setLongitud(updatedUbicacion.getLongitud());
+
+            return ubicacionRepository.save(existingUbicacion);
+        });
+    }
+
 }

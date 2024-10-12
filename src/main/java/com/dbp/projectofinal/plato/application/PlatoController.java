@@ -34,7 +34,6 @@ public class PlatoController {
         plato.setNombre(createPlatoDTO.getNombre());
         plato.setPrecio(createPlatoDTO.getPrecio());
         plato.setDisponibilidad(createPlatoDTO.getDisponibilidad());
-        //relacion con la carta
         plato.setCarta(new Carta(createPlatoDTO.getId_carta()));
 
         Plato savedPlato = platoService.savePlato(plato);
@@ -46,6 +45,35 @@ public class PlatoController {
         Optional<Plato> platoOpt = platoService.getPlatoById(id);
         return platoOpt.map(plato -> ResponseEntity.ok(convertToDTO(plato)))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/carta/{cartaId}")
+    public ResponseEntity<List<PlatoDTO>> getPlatosByCartaId(@PathVariable Long cartaId) {
+        List<PlatoDTO> platos = platoService.getPlatosByCartaId(cartaId).stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(platos);
+    }
+
+    @GetMapping("/disponibles")
+    public ResponseEntity<List<PlatoDTO>> getPlatosDisponibles() {
+        List<PlatoDTO> platos = platoService.getPlatosDisponibles().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(platos);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PlatoDTO> updatePlato(@PathVariable Long id, @RequestBody CreatePlatoDTO createPlatoDTO) {
+        Plato plato = new Plato();
+        plato.setId_plato(id);
+        plato.setNombre(createPlatoDTO.getNombre());
+        plato.setPrecio(createPlatoDTO.getPrecio());
+        plato.setDisponibilidad(createPlatoDTO.getDisponibilidad());
+        plato.setCarta(new Carta(createPlatoDTO.getId_carta()));
+
+        Plato updatedPlato = platoService.updatePlato(plato);
+        return ResponseEntity.ok(convertToDTO(updatedPlato));
     }
 
     @DeleteMapping("/{id}")

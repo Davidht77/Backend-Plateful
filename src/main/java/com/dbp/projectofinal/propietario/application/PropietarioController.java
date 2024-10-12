@@ -47,6 +47,21 @@ public class PropietarioController {
         return ResponseEntity.ok(convertToDTO(savedPropietario));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<PropietarioDTO> updatePropietario(@PathVariable Long id, @RequestBody CreatePropietarioDTO createPropietarioDTO) {
+        Propietario propietario = propietarioService.getPropietarioById(id)
+                .orElseThrow(() -> new RuntimeException("Propietario no encontrado"));
+
+        propietario.setNombre(createPropietarioDTO.getNombre());
+        propietario.setEmail(createPropietarioDTO.getCorreo());
+        propietario.setTipoDocumento(createPropietarioDTO.getTipoDocumento());
+        propietario.setNumeroDocumento(createPropietarioDTO.getNumeroDocumento());
+        propietario.setFotoPerfil(createPropietarioDTO.getFotoPerfil());
+
+        Propietario updatedPropietario = propietarioService.savePropietario(propietario);
+        return ResponseEntity.ok(convertToDTO(updatedPropietario));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePropietario(@PathVariable Long id) {
         propietarioService.deletePropietario(id);

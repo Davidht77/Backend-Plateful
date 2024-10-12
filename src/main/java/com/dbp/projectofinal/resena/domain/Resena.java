@@ -22,6 +22,8 @@ public class Resena {
 
     private int calificacion;
 
+    private String comentario;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;

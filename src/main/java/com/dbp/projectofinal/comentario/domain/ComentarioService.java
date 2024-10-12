@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +42,31 @@ public class ComentarioService {
         return convertToDTO(comentario);
     }
 
+    public List<ComentarioDTO> getComentariosByResenaId(Long resenaId) {
+        return comentarioRepository.findByResenaId(resenaId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ComentarioDTO> getComentariosByUsuarioId(Long usuarioId) {
+        return comentarioRepository.findByUsuarioId(usuarioId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public ComentarioDTO updateComentario(Long id, CreateComentarioDTO createComentarioDTO) {
+        Comentario comentario = comentarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comentario no encontrado"));
+
+        comentario.setContenido(createComentarioDTO.getContenido());
+        comentario.setResena(new Resena(createComentarioDTO.getId_resena()));
+        comentario.setUsuario(new Usuario(createComentarioDTO.getId_usuario()));
+        Comentario updatedComentario = comentarioRepository.save(comentario);
+        return convertToDTO(updatedComentario);
+    }
+
     public void deleteComentario(Long id) {
         comentarioRepository.deleteById(id);
     }
@@ -55,3 +81,4 @@ public class ComentarioService {
         return dto;
     }
 }
+
