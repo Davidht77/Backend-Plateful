@@ -2,11 +2,9 @@ package com.dbp.projectofinal.usuario.infrastructure;
 
 import com.dbp.projectofinal.usuario.domain.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    Optional<Usuario> findByEmail(String email);
+public interface BaseUserRepository<T extends Usuario> extends JpaRepository<T, Long> {
+    Optional<T> findByEmail(String email);
 }

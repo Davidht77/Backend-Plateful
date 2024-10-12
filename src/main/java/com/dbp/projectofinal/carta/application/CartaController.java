@@ -62,7 +62,7 @@ public class CartaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCarta(@PathVariable Long id) {
+    public ResponseEntity<CartaDTO> deleteCarta(@PathVariable Long id) {
         Optional<Carta> optionalCarta = cartaService.getCartaById(id);
         if (optionalCarta.isPresent()) {
             cartaService.deleteCarta(id);
@@ -70,5 +70,11 @@ public class CartaController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CartaDTO> put(@PathVariable Long id, @RequestBody CreateCartaDTO createCartaDTO) {
+        CartaDTO cartaDTO = cartaService.reemplazar(id,createCartaDTO);
+        return ResponseEntity.ok(cartaDTO);
     }
 }

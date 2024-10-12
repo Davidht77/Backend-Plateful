@@ -20,7 +20,8 @@ public class Usuario {
     private Long id_usuario;
 
     private String nombre;
-    private String correo;
+    @Column(unique = true)
+    private String email;
     private String password;
     private String telefono;
     private LocalDate fechaNacimiento;
@@ -33,9 +34,9 @@ public class Usuario {
     public Usuario(Long id_usuario) {
         this.id_usuario = id_usuario;
     }
-    public Usuario(String nombre, String correo, String password, String telefono, LocalDate fechaNacimiento, Ubicacion ubicacion) {
+    public Usuario(String nombre, String email, String password, String telefono, LocalDate fechaNacimiento, Ubicacion ubicacion) {
         this.nombre = nombre;
-        this.correo = correo;
+        this.email = email;
         this.password = password;
         this.telefono = telefono;
         this.fechaNacimiento = fechaNacimiento;

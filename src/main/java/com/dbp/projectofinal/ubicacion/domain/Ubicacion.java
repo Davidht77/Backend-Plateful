@@ -21,7 +21,7 @@ public class Ubicacion {
     private String direccionCompleta;
     private Double longitud;
     private Double latitud;
-    private LocalDate codigoPostal;
+    private String codigoPostal;
 
     public Ubicacion(Long id_ubicacion) {
         this.id_ubicacion = id_ubicacion;
