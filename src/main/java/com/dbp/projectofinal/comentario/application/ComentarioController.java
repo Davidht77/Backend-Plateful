@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/comentarios")
+@RequestMapping("/api/comentarios")
 public class ComentarioController {
 
     @Autowired
@@ -31,6 +31,24 @@ public class ComentarioController {
     @GetMapping("/{id}")
     public ResponseEntity<ComentarioDTO> getComentarioById(@PathVariable Long id) {
         ComentarioDTO comentario = comentarioService.getComentarioById(id);
+        return ResponseEntity.ok(comentario);
+    }
+
+    @GetMapping("/resena/{resenaId}")
+    public ResponseEntity<List<ComentarioDTO>> getComentariosByResenaId(@PathVariable Long resenaId) {
+        List<ComentarioDTO> comentarios = comentarioService.getComentariosByResenaId(resenaId);
+        return ResponseEntity.ok(comentarios);
+    }
+
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<ComentarioDTO>> getComentariosByUsuarioId(@PathVariable Long usuarioId) {
+        List<ComentarioDTO> comentarios = comentarioService.getComentariosByUsuarioId(usuarioId);
+        return ResponseEntity.ok(comentarios);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ComentarioDTO> updateComentario(@PathVariable Long id, @RequestBody CreateComentarioDTO createComentarioDTO) {
+        ComentarioDTO comentario = comentarioService.updateComentario(id, createComentarioDTO);
         return ResponseEntity.ok(comentario);
     }
 

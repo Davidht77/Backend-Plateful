@@ -28,4 +28,15 @@ public class PlatoService {
     public void deletePlato(Long id) {
         platoRepository.deleteById(id);
     }
+
+    public List<Plato> getPlatosByCartaId(Long cartaId) {
+        return platoRepository.findByCartaId(cartaId);
+    }
+
+    public List<Plato> getPlatosDisponibles() {
+        return platoRepository.findByDisponibilidadTrue();
+    }
+    public Plato updatePlato(Plato plato) {
+        return platoRepository.save(plato);
+    }
 }

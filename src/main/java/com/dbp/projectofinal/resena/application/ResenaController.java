@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -53,6 +54,30 @@ public class ResenaController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<ResenaDTO>> getResenasByUsuario(@PathVariable Long usuarioId) {
+        List<ResenaDTO> resenas = resenaService.getResenasByUsuario(usuarioId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resenas);
+    }
+
+    @GetMapping("/restaurante/{restauranteId}")
+    public ResponseEntity<List<ResenaDTO>> getResenasByRestaurante(@PathVariable Long restauranteId) {
+        List<ResenaDTO> resenas = resenaService.getResenasByRestaurante(restauranteId)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(resenas);
+    }
+
+    @GetMapping("/restaurante/{restauranteId}/calificacion")
+    public ResponseEntity<Double> getCalificacionPromedioRestaurante(@PathVariable Long restauranteId) {
+        double calificacionPromedio = resenaService.getCalificacionPromedioRestaurante(restauranteId);
+        return ResponseEntity.ok(calificacionPromedio);
+    }
+
     private ResenaDTO convertToDTO(Resena resena) {
         ResenaDTO dto = new ResenaDTO();
         dto.setId_resena(resena.getId_resena());
@@ -62,4 +87,18 @@ public class ResenaController {
         dto.setFecha(resena.getFecha().toString());
         return dto;
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResenaDTO> updateResena(@PathVariable Long id, @RequestBody CreateResenaDTO createResenaDTO) {
+        Resena resena = new Resena();
+        resena.setId_resena(id);  // Asignar el ID que llega por la URL
+        resena.setCalificacion(createResenaDTO.getCalificacion());
+        resena.setComentario(createResenaDTO.getComentario());  // Asignar el comentario
+        resena.setUsuario(new Usuario(createResenaDTO.getId_usuario()));  // Asignar el usuario
+        resena.setRestaurante(new RestauranteDTO(createResenaDTO.getId_restaurante()));  // Asignar el restaurante
+
+        Resena updatedResena = resenaService.updateResena(id, resena);  // Llamar al servicio con Resena
+        return ResponseEntity.ok(convertToDTO(updatedResena));
+    }
+
 }
