@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.ubicacion;
+package com.dbp.projectofinal.ubicacion.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,13 +17,11 @@ public class Ubicacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_ubicacion;
-
     private String ciudad;
     private String direccionCompleta;
-    private String longitud;
-    private String latitud;
+    private Double longitud;
+    private Double latitud;
     private LocalDate codigoPostal;
-    private LocalDate fechaCreacion;
 
     public Ubicacion(Long id_ubicacion) {
         this.id_ubicacion = id_ubicacion;

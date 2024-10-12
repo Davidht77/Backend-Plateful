@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.restaurante.controller;
+package com.dbp.projectofinal.restaurante.application;
 
 
 import com.dbp.projectofinal.restaurante.domain.Restaurante;
@@ -7,11 +7,15 @@ import com.dbp.projectofinal.restaurante.dto.RestauranteDTO;
 import com.dbp.projectofinal.restaurante.domain.RestauranteService;
 import com.dbp.projectofinal.propietario.domain.Propietario;
 import com.dbp.projectofinal.carta.domain.Carta;
-import com.dbp.projectofinal.ubicacion.Ubicacion;
+import com.dbp.projectofinal.restaurante.dto.RestauranteResponseDTO;
+import com.dbp.projectofinal.restaurante.dto.UbiRequestDTO;
+import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
+import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +26,12 @@ public class RestauranteController {
 
     @Autowired
     private RestauranteService restauranteService;
+
+    @GetMapping("/nearby")
+    public ResponseEntity<List<RestauranteResponseDTO>> getNearby1km(@RequestBody UbiRequestDTO ubiRequestDTO) throws IOException, InterruptedException, ApiException {
+        List<RestauranteResponseDTO> lista = restauranteService.getNear(ubiRequestDTO);
+        return ResponseEntity.ok(lista);
+    }
 
     @GetMapping
     public ResponseEntity<List<RestauranteDTO>> getAllRestaurantes() {

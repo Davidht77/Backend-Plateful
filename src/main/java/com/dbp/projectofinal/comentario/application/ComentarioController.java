@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.comentario.controller;
+package com.dbp.projectofinal.comentario.application;
 
 import com.dbp.projectofinal.comentario.dto.CreateComentarioDTO;
 import com.dbp.projectofinal.comentario.dto.ComentarioDTO;

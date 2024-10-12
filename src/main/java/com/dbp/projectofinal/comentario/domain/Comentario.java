@@ -30,7 +30,6 @@ public class Comentario {
 
     private String contenido;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate fecha;
 
 }

@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.resena.controller;
+package com.dbp.projectofinal.resena.application;
 
 import com.dbp.projectofinal.resena.domain.ResenaService;
 import com.dbp.projectofinal.resena.dto.CreateResenaDTO;

@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.propietario.controller;
+package com.dbp.projectofinal.propietario.application;
 
 import com.dbp.projectofinal.propietario.domain.Propietario;
 import com.dbp.projectofinal.propietario.dto.CreatePropietarioDTO;

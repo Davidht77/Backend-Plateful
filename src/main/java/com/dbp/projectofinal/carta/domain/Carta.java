@@ -21,7 +21,6 @@ public class Carta {
 
     private String nombre;
 
-    @Temporal(TemporalType.DATE)
     private LocalDate fecha_actualizacion;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

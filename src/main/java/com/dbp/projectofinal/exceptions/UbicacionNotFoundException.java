@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.exception;
+package com.dbp.projectofinal.exceptions;
 
 public class UbicacionNotFoundException extends RuntimeException {
     public UbicacionNotFoundException(String message) {

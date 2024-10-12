@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.exception;
+package com.dbp.projectofinal.exceptions;
 
 public class CartaNotFoundException extends RuntimeException {
     public CartaNotFoundException(Long id) {

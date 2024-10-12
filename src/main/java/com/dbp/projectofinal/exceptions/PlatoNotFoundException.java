@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.exception;
+package com.dbp.projectofinal.exceptions;
 
 public class PlatoNotFoundException extends RuntimeException {
     public PlatoNotFoundException(String message) {

@@ -1,4 +1,4 @@
-package com.dbp.projectofinal.plato.controller;
+package com.dbp.projectofinal.plato.application;
 
 import com.dbp.projectofinal.carta.domain.Carta;
 import com.dbp.projectofinal.plato.dto.CreatePlatoDTO;
