@@ -1,5 +1,6 @@
 package com.dbp.projectofinal.usuario.domain;
 
+import com.dbp.projectofinal.resena.domain.Resena;
 import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,6 +28,9 @@ public class Usuario {
     private String telefono;
     private LocalDate fechaNacimiento;
     private LocalDate fechaCreacion;
+
+    @OneToMany
+    private List<Resena> resenas;
 
     @ManyToOne
     @JoinColumn(name = "id_ubicacion")

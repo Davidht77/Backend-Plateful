@@ -1,11 +1,14 @@
 package com.dbp.projectofinal.restaurante.domain;
 import com.dbp.projectofinal.carta.domain.Carta;
 import com.dbp.projectofinal.propietario.domain.Propietario;
+import com.dbp.projectofinal.resena.domain.Resena;
 import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,6 +33,9 @@ public class Restaurante {
     private Carta carta;
 
     private Double calificacion_promedio;
+
+    @OneToMany
+    private List<Resena> resenas;
 
     @ManyToOne
     @JoinColumn(name = "id_ubicacion")

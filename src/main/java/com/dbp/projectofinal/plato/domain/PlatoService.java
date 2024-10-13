@@ -1,5 +1,8 @@
 package com.dbp.projectofinal.plato.domain;
 
+import com.dbp.projectofinal.carta.domain.Carta;
+import com.dbp.projectofinal.carta.infrastructure.CartaRepository;
+import com.dbp.projectofinal.exceptions.CartaNotFoundException;
 import com.dbp.projectofinal.plato.infrastructure.PlatoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,9 @@ public class PlatoService {
 
     @Autowired
     private PlatoRepository platoRepository;
+
+    @Autowired
+    private CartaRepository cartaRepository;
 
     public List<Plato> getAllPlatos() {
         return platoRepository.findAll();
@@ -30,7 +36,10 @@ public class PlatoService {
     }
 
     public List<Plato> getPlatosByCartaId(Long cartaId) {
-        return platoRepository.findByCartaId(cartaId);
+        Optional<Carta> carta = cartaRepository.findById(cartaId);
+        if(carta.isEmpty())
+            throw new CartaNotFoundException(cartaId);
+        return carta.get().getPlatos();
     }
 
     public List<Plato> getPlatosDisponibles() {
