@@ -1,8 +1,12 @@
 package com.dbp.projectofinal.auth.domain;
 
+import com.dbp.projectofinal.auth.dto.RegisterReq;
 import com.dbp.projectofinal.config.JwtService;
+import com.dbp.projectofinal.usuario.domain.Category;
+import com.dbp.projectofinal.usuario.domain.Role;
 import com.dbp.projectofinal.usuario.domain.Usuario;
 import com.dbp.projectofinal.usuario.infrastructure.BaseUserRepository;
+import com.dbp.projectofinal.usuario.infrastructure.RoleRepository;
 import org.e2e.e2e.auth.dto.JwtAuthResponse;
 import org.e2e.e2e.auth.dto.LoginReq;
 import org.e2e.e2e.auth.exceptions.UserAlreadyExistException;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AuthService {
@@ -22,13 +27,36 @@ public class AuthService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public AuthService(BaseUserRepository<Usuario> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder) {
+    public AuthService(BaseUserRepository<Usuario> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
         this.modelMapper = new ModelMapper();
+    }
+
+    public void register(RegisterReq registerReq) {
+        Usuario usuario = new Usuario();
+        usuario.setNombre(registerReq.getFirstName());
+        usuario.setEmail(registerReq.getEmail());
+        usuario.setPassword(passwordEncoder.encode(registerReq.getPassword()));
+        usuario.setTelefono(registerReq.getPhone());
+
+        Role propietarioRole = roleRepository.findByName("ROLE_PROPIETARIO")
+                .orElseThrow(() -> new RuntimeException("Error: Role PROPIETARIO is not found."));
+        Role clienteRole = roleRepository.findByName("ROLE_CLIENTE")
+                .orElseThrow(() -> new RuntimeException("Error: Role CLIENTE is not found."));
+
+        if (registerReq.getCategory() == Category.PROPIETARIO) {
+            usuario.setRoles(Set.of(propietarioRole));
+        } else {
+            usuario.setRoles(Set.of(clienteRole));
+        }
+
+        userRepository.save(usuario);
     }
 
 //    public JwtAuthResponse login(LoginReq req) {
