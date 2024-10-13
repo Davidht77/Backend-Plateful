@@ -1,7 +1,11 @@
 package com.dbp.projectofinal.resena.domain;
 
+import com.dbp.projectofinal.exceptions.RestauranteNotFoundException;
+import com.dbp.projectofinal.exceptions.UsuarioNotFoundException;
 import com.dbp.projectofinal.resena.infrastructure.ResenaRepository;
+import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import com.dbp.projectofinal.restaurante.infrastructure.RestauranteRepository;
+import com.dbp.projectofinal.usuario.domain.Usuario;
 import com.dbp.projectofinal.usuario.infrastructure.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,9 +47,10 @@ public class ResenaService {
         if (existingResenaOpt.isPresent()) {
             Resena existingResena = existingResenaOpt.get();
             existingResena.setCalificacion(updatedResena.getCalificacion());
-            existingResena.setComentario(updatedResena.getComentario());
+            existingResena.setContenido(updatedResena.getContenido());
             existingResena.setUsuario(updatedResena.getUsuario());
             existingResena.setRestaurante(updatedResena.getRestaurante());
+            existingResena.setComentarios(updatedResena.getComentarios());
             return resenaRepository.save(existingResena);
         } else {
             throw new RuntimeException("Resena no encontrada");
@@ -54,15 +59,24 @@ public class ResenaService {
 
 
     public List<Resena> getResenasByUsuario(Long idUsuario) {
-        return resenaRepository.findByUsuarioId(idUsuario);
+        Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+        if (usuario.isEmpty())
+            throw new UsuarioNotFoundException("");
+        return usuario.get().getResenas();
     }
 
     public List<Resena> getResenasByRestaurante(Long idRestaurante) {
-        return resenaRepository.findByRestauranteId(idRestaurante);
+        Optional<Restaurante> restaurante = restauranteRepository.findById(idRestaurante);
+        if(restaurante.isEmpty())
+            throw new RestauranteNotFoundException("");
+        return restaurante.get().getResenas();
     }
 
     public double getCalificacionPromedioRestaurante(Long idRestaurante) {
-        List<Resena> resenas = resenaRepository.findByRestauranteId(idRestaurante);
+        Optional<Restaurante> restaurante = restauranteRepository.findById(idRestaurante);
+        if(restaurante.isEmpty())
+            throw new RestauranteNotFoundException("");
+        List<Resena> resenas = restaurante.get().getResenas();
         return resenas.stream()
                 .mapToDouble(Resena::getCalificacion)
                 .average()

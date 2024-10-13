@@ -90,9 +90,9 @@ public class ResenaController {
     @PutMapping("/{id}")
     public ResponseEntity<ResenaDTO> updateResena(@PathVariable Long id, @RequestBody CreateResenaDTO createResenaDTO) {
         Resena resena = new Resena();
-        resena.setId_resena(id);  // Asignar el ID que llega por la URL
+        resena.setId_resena(id);
         resena.setCalificacion(createResenaDTO.getCalificacion());
-        resena.setComentario(createResenaDTO.getComentario());  // Asignar el comentario
+        resena.setContenido(createResenaDTO.getContenido());  // Asignar el contenido
         resena.setUsuario(new Usuario(createResenaDTO.getId_usuario()));  // Asignar el usuario
         resena.setRestaurante(new Restaurante(createResenaDTO.getId_restaurante()));  // Asignar el restaurante
 
