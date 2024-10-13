@@ -1,4 +1,5 @@
 package com.dbp.projectofinal.usuario.domain;
+import com.dbp.projectofinal.eventos.SendMailEvent;
 import com.dbp.projectofinal.exceptions.UsuarioNotFoundException;
 import com.dbp.projectofinal.propietario.domain.Propietario;
 import com.dbp.projectofinal.propietario.infrastructure.PropietarioRepository;
@@ -6,13 +7,16 @@ import com.dbp.projectofinal.usuario.dto.CreateUsuarioDTO;
 import com.dbp.projectofinal.usuario.dto.UserNewPassword;
 import com.dbp.projectofinal.usuario.infrastructure.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,6 +28,9 @@ public class UsuarioService {
     @Autowired
     private PropietarioRepository propietarioRepository;
 
+    @Autowired
+    ApplicationEventPublisher applicationEventPublisher;
+
 
     public List<Usuario> getAllUsuarios() {
         return usuarioRepository.findAll();
@@ -34,6 +41,10 @@ public class UsuarioService {
     }
 
     public Usuario saveUsuario(Usuario usuario) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("to",usuario.getEmail());
+        map.put("name",usuario.getNombre());
+        applicationEventPublisher.publishEvent(new SendMailEvent(map) );
         return usuarioRepository.save(usuario);
     }
 
@@ -67,24 +78,7 @@ public class UsuarioService {
         return usuario.get();
     }
 
-//    public Usuario findByEmail(String username, String role) {
-//        Usuario user;
-//        if (role.equals("ROLE_PROPIETARIO"))
-//            user = PropietarioRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//        else
-//            user = usuarioRepository.findByEmail(username).orElseThrow(() -> new UnauthorizeOperationException("User not found"));
-//
-//        return user;
-//    }
-//    @Bean(name = "UserDetailsService")
-//    public UserDetailsService userDetailsService() {
-//        return username -> {
-//            Usuario user = userRepository
-//                    .findByEmail(username)
-//                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//            return (UserDetails) user;
-//        };
-//    }
+
 
     private Usuario convertToEntity(CreateUsuarioDTO createUsuarioDTO) {
         return new Usuario(createUsuarioDTO.getNombre(),
