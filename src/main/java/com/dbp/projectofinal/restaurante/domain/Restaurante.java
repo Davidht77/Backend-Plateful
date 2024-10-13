@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "restaurantes")
-public class RestauranteDTO {
+public class Restaurante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class RestauranteDTO {
     @JoinColumn(name = "id_ubicacion")
     private Ubicacion ubicacion;
 
-    public RestauranteDTO(Long id_restaurante) {
+    public Restaurante(Long id_restaurante) {
         this.id_restaurante = id_restaurante;
     }
 

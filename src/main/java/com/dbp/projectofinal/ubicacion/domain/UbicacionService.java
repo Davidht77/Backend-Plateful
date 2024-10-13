@@ -1,7 +1,7 @@
 package com.dbp.projectofinal.ubicacion.domain;
 
 import com.dbp.projectofinal.MapsAPI.domain.GoogleMapsService;
-import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
+import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import com.dbp.projectofinal.restaurante.dto.RestauranteResponseDTO;
 import com.dbp.projectofinal.restaurante.infrastructure.RestauranteRepository;
 import com.dbp.projectofinal.ubicacion.dto.UbicacionResponseDTO;
@@ -47,7 +47,7 @@ public class UbicacionService {
         ubicacionRepository.deleteById(id);}
 
     public List<RestauranteResponseDTO> getNearRestaurantUbication(Double latitud, Double longitud) throws IOException, InterruptedException, ApiException {
-        List<RestauranteDTO> restaurantes = restauranteRepository.findAll();
+        List<Restaurante> restaurantes = restauranteRepository.findAll();
         List<RestauranteResponseDTO> restaurantsNear = new ArrayList<>();
 
         //convertir km a lat y lng:
@@ -57,7 +57,7 @@ public class UbicacionService {
 
         Double newlatitud = latitud+variacionLAT; Double newlongitud = longitud+variacionLNG;
 
-        for(RestauranteDTO restaurante: restaurantes){
+        for(Restaurante restaurante: restaurantes){
             Ubicacion ubicacion = restaurante.getUbicacion();
             if(ubicacion.getLatitud()<= newlatitud && ubicacion.getLongitud()<=newlatitud &&
             ubicacion.getLatitud() > latitud && ubicacion.getLongitud() > longitud){

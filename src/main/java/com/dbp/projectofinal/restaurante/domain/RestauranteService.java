@@ -32,16 +32,16 @@ public class RestauranteService {
     @Autowired
     private PropietarioRepository propietarioRepository;
 
-    public List<RestauranteDTO> getAllRestaurantes() {
+    public List<Restaurante> getAllRestaurantes() {
         return restauranteRepository.findAll();
     }
 
-    public Optional<RestauranteDTO> getRestauranteById(Long id) {
+    public Optional<Restaurante> getRestauranteById(Long id) {
         return restauranteRepository.findById(id);
     }
 
-    public RestauranteDTO saveRestaurante(CreateRestauranteDTO createRestauranteDTO) {
-        RestauranteDTO restaurante = new RestauranteDTO();
+    public Restaurante saveRestaurante(CreateRestauranteDTO createRestauranteDTO) {
+        Restaurante restaurante = new Restaurante();
         restaurante.setNombre_restaurante(createRestauranteDTO.getNombre_restaurante());
         restaurante.setHorario(createRestauranteDTO.getHorario());
         restaurante.setTipoRestaurante(createRestauranteDTO.getTipoRestaurante());
@@ -56,11 +56,11 @@ public class RestauranteService {
         restauranteRepository.deleteById(id);
     }
 
-    public RestauranteDTO reemplaze(Long id , CreateRestauranteDTO createRestauranteDTO){
-        Optional<RestauranteDTO> restaurante2 = restauranteRepository.findById(id);
+    public Restaurante reemplaze(Long id , CreateRestauranteDTO createRestauranteDTO){
+        Optional<Restaurante> restaurante2 = restauranteRepository.findById(id);
         if(restaurante2.isEmpty())
             throw new RestauranteNotFoundException("");
-        RestauranteDTO restaurante = new RestauranteDTO();
+        Restaurante restaurante = new Restaurante();
         restaurante.setId_restaurante(restaurante2.get().getId_restaurante());
         restaurante.setNombre_restaurante(createRestauranteDTO.getNombre_restaurante());
         restaurante.setHorario(createRestauranteDTO.getHorario());
@@ -74,8 +74,8 @@ public class RestauranteService {
         return restaurante;
     }
 
-    public RestauranteDTO actualizar(Long id, String email){
-        Optional<RestauranteDTO> restaurante2 = restauranteRepository.findById(id);
+    public Restaurante actualizar(Long id, String email){
+        Optional<Restaurante> restaurante2 = restauranteRepository.findById(id);
         if(restaurante2.isEmpty())
             throw new RestauranteNotFoundException("");
         Optional<Propietario> propietario = propietarioRepository.findByEmail(email);
@@ -90,9 +90,9 @@ public class RestauranteService {
         Optional<Propietario> propietario = propietarioRepository.findById(id);
         if(propietario.isEmpty())
             throw new PropietarioNotFoundException("");
-        List<RestauranteDTO> restaurantes = propietario.get().getRestaurantes();
+        List<Restaurante> restaurantes = propietario.get().getRestaurantes();
         List<RestauranteResponseDTO> newRestaurantes = new ArrayList<>();
-        for(RestauranteDTO restaurante: restaurantes){
+        for(Restaurante restaurante: restaurantes){
             RestauranteResponseDTO restauranteResponseDTO = new RestauranteResponseDTO();
             restauranteResponseDTO.setNombre_restaurante(restaurante.getNombre_restaurante());
             restauranteResponseDTO.setHorario(restaurante.getHorario());

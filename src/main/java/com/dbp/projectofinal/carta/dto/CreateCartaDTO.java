@@ -1,6 +1,6 @@
 package com.dbp.projectofinal.carta.dto;
 
-import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
+import com.dbp.projectofinal.restaurante.domain.Restaurante;
 
 import java.time.LocalDate;
 
@@ -8,11 +8,11 @@ public class CreateCartaDTO {
 
     private String nombre;
     private LocalDate fecha_actualizacion;
-    private RestauranteDTO restaurante;
+    private Restaurante restaurante;
 
     public CreateCartaDTO() {}
 
-    public CreateCartaDTO(String nombre, LocalDate fecha_actualizacion, RestauranteDTO restaurante) {
+    public CreateCartaDTO(String nombre, LocalDate fecha_actualizacion, Restaurante restaurante) {
         this.nombre = nombre;
         this.fecha_actualizacion = fecha_actualizacion;
         this.restaurante = restaurante;
@@ -34,11 +34,11 @@ public class CreateCartaDTO {
         this.fecha_actualizacion = fecha_actualizacion;
     }
 
-    public RestauranteDTO getRestaurante() {
+    public Restaurante getRestaurante() {
         return restaurante;
     }
 
-    public void setRestaurante(RestauranteDTO restaurante) {
+    public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
 }

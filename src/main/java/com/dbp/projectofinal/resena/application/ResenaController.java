@@ -5,13 +5,12 @@ import com.dbp.projectofinal.resena.dto.CreateResenaDTO;
 import com.dbp.projectofinal.resena.dto.ResenaDTO;
 import com.dbp.projectofinal.resena.domain.Resena;
 import com.dbp.projectofinal.usuario.domain.Usuario;
-import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
+import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,7 +41,7 @@ public class ResenaController {
         Resena resena = new Resena();
         resena.setCalificacion(createResenaDTO.getCalificacion());
         resena.setUsuario(new Usuario(createResenaDTO.getId_usuario()));
-        resena.setRestaurante(new RestauranteDTO(createResenaDTO.getId_restaurante()));
+        resena.setRestaurante(new Restaurante(createResenaDTO.getId_restaurante()));
 
         Resena savedResena = resenaService.saveResena(resena);
         return ResponseEntity.ok(convertToDTO(savedResena));
@@ -95,7 +94,7 @@ public class ResenaController {
         resena.setCalificacion(createResenaDTO.getCalificacion());
         resena.setComentario(createResenaDTO.getComentario());  // Asignar el comentario
         resena.setUsuario(new Usuario(createResenaDTO.getId_usuario()));  // Asignar el usuario
-        resena.setRestaurante(new RestauranteDTO(createResenaDTO.getId_restaurante()));  // Asignar el restaurante
+        resena.setRestaurante(new Restaurante(createResenaDTO.getId_restaurante()));  // Asignar el restaurante
 
         Resena updatedResena = resenaService.updateResena(id, resena);  // Llamar al servicio con Resena
         return ResponseEntity.ok(convertToDTO(updatedResena));
