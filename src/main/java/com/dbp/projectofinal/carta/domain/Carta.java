@@ -1,7 +1,7 @@
 package com.dbp.projectofinal.carta.domain;
 
 import jakarta.persistence.*;
-import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
+import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class Carta {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_restaurante", nullable = false)
-    private RestauranteDTO restaurante;
+    private Restaurante restaurante;
 
     public Carta(Long id_carta) {
         this.id_carta = id_carta;

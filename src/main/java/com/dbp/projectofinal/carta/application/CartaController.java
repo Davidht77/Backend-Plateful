@@ -46,6 +46,12 @@ public class CartaController {
         }
     }
 
+    @GetMapping("/restaurante/{id}")
+    public ResponseEntity<CartaDTO> getbyRestaurante(@PathVariable Long id){
+        CartaDTO carta = cartaService.byRestaurante(id);
+        return ResponseEntity.ok(carta);
+    }
+
     @PostMapping
     public CartaDTO createCarta(@RequestBody CreateCartaDTO requestDTO) {
         Carta carta = new Carta();

@@ -1,7 +1,7 @@
 package com.dbp.projectofinal.restaurante.application;
 
 
-import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
+import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import com.dbp.projectofinal.restaurante.dto.CreateRestauranteDTO;
 import com.dbp.projectofinal.restaurante.domain.RestauranteService;
 import com.dbp.projectofinal.restaurante.dto.RestauranteResponseDTO;
@@ -40,7 +40,7 @@ public class RestauranteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> getRestauranteById(@PathVariable Long id) {
-        Optional<RestauranteDTO> restaurante = restauranteService.getRestauranteById(id);
+        Optional<Restaurante> restaurante = restauranteService.getRestauranteById(id);
         if (restaurante.isPresent()) {
             return ResponseEntity.ok(convertToDTO(restaurante.get()));
         } else {
@@ -56,19 +56,19 @@ public class RestauranteController {
 
     @PostMapping
     public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> saveRestaurante(@RequestBody CreateRestauranteDTO createRestauranteDTO) {
-        RestauranteDTO savedRestaurante = restauranteService.saveRestaurante(createRestauranteDTO);
+        Restaurante savedRestaurante = restauranteService.saveRestaurante(createRestauranteDTO);
         return ResponseEntity.created(null).body(convertToDTO(savedRestaurante));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> reemplazar(@PathVariable Long id, @RequestBody CreateRestauranteDTO createRestauranteDTO){
-        RestauranteDTO savedRestaurante = restauranteService.reemplaze(id,createRestauranteDTO);
+        Restaurante savedRestaurante = restauranteService.reemplaze(id,createRestauranteDTO);
         return ResponseEntity.ok(convertToDTO(savedRestaurante));
     }
 
     @PatchMapping("/propietario/{id}")
     public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> actualizarPropietario(@PathVariable Long id, @PathVariable String email){
-        RestauranteDTO savedRestaurante = restauranteService.actualizar(id,email);
+        Restaurante savedRestaurante = restauranteService.actualizar(id,email);
         return ResponseEntity.ok(convertToDTO(savedRestaurante));
     }
 
@@ -78,7 +78,7 @@ public class RestauranteController {
         return ResponseEntity.noContent().build();
     }
 
-    private com.dbp.projectofinal.restaurante.dto.RestauranteDTO convertToDTO(RestauranteDTO restaurante) {
+    private com.dbp.projectofinal.restaurante.dto.RestauranteDTO convertToDTO(Restaurante restaurante) {
         com.dbp.projectofinal.restaurante.dto.RestauranteDTO dto = new com.dbp.projectofinal.restaurante.dto.RestauranteDTO();
         dto.setId_restaurante(restaurante.getId_restaurante());
         dto.setNombre_restaurante(restaurante.getNombre_restaurante());

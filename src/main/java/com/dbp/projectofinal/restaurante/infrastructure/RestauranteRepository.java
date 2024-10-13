@@ -1,10 +1,10 @@
 package com.dbp.projectofinal.restaurante.infrastructure;
 
-import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
+import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RestauranteRepository extends JpaRepository<RestauranteDTO, Long> {
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
 
 }

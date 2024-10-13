@@ -2,7 +2,7 @@ package com.dbp.projectofinal.resena.domain;
 
 import jakarta.persistence.*;
 import com.dbp.projectofinal.usuario.domain.Usuario;
-import com.dbp.projectofinal.restaurante.domain.RestauranteDTO;
+import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +30,7 @@ public class Resena {
 
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
-    private RestauranteDTO restaurante;
+    private Restaurante restaurante;
 
     private LocalDate fecha;
 
