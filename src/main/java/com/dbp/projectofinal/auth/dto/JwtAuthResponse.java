@@ -1,7 +1,11 @@
 package org.e2e.e2e.auth.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class JwtAuthResponse {
     private String token;

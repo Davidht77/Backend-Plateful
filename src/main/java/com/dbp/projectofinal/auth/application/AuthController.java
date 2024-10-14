@@ -38,8 +38,6 @@ public class AuthController {
             return ResponseEntity.badRequest().body("La contraseña no puede ser nula o vacía");
         }
 
-        // Aquí puedes agregar más validaciones, como comprobar que los demás campos no sean nulos o vacíos
-
         JwtAuthResponse response = authService.register(req);
         return ResponseEntity.ok(response);
     }
