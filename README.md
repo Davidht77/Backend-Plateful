@@ -248,40 +248,87 @@ A continuación, se describen las tecnologías utilizadas:
 ## Testing y Manejo de Errores
 
 ### 9. Niveles de Testing Realizados
-Describir los niveles de prueba (por ejemplo, unitarias, integración, sistema, aceptación) realizados para asegurar la calidad del software.
+
+Para garantizar la calidad del software desarrollado, se implementaron varios niveles de pruebas en Plateful:
+
+Pruebas Unitarias: Se probaron las funcionalidades individuales, como la creación de usuarios y la actualización de menús, para asegurar que cada componente funcione correctamente de forma aislada.
+Pruebas de Integración: Se verificó la interacción entre módulos, como la comunicación entre el backend (Spring Boot) y la base de datos (PostgreSQL), garantizando que las consultas y actualizaciones se realicen sin errores.
+Pruebas de Sistema: Se ejecutaron pruebas end-to-end (E2E) para validar el funcionamiento completo de la aplicación, desde el registro de usuarios hasta la publicación de comentarios y reseñas.
+Pruebas de Aceptación: Se realizaron pruebas con usuarios simulados para asegurar que el sistema cumple con las expectativas y requisitos establecidos en el proyecto.
+Pruebas de Seguridad: Se llevaron a cabo pruebas para verificar la protección contra inyección SQL, XSS y CSRF, asegurando que la aplicación sea robusta frente a ataques comunes.
 
 ### 10. Resultados
-Resumir los resultados de las pruebas, incluyendo los principales errores o fallos encontrados y corregidos
+
+Durante las pruebas realizadas se identificaron los siguientes resultados:
+
+Errores Detectados y Corregidos: Se encontraron fallos en la gestión de tokens de sesión que inicialmente permitían accesos no autorizados; este problema se resolvió ajustando la configuración del sistema de autenticación JWT.
+Validación de Funcionalidades: Las pruebas unitarias confirmaron el correcto funcionamiento de las funcionalidades básicas, como la creación de cartas y la gestión de menús por parte de los propietarios.
+Rendimiento Optimizado: Las pruebas de integración revelaron demoras en las consultas SQL, lo que motivó la optimización de índices en la base de datos para mejorar el rendimiento.
+Pruebas de Aceptación Exitosas: Los usuarios simulados validaron que la navegación entre secciones sea intuitiva y que las acciones principales (como dejar reseñas) sean fluidas.
+Seguridad Verificada: Las pruebas de seguridad confirmaron que no es posible explotar vulnerabilidades comunes, garantizando la protección de los datos de los usuarios y restaurantes.
 
 ### 11. Manejo de Errores
-Explicar en términos generales las excepciones globales utilizadas y por qué se deben manejar
+
+El manejo de errores en Plateful se implementó para garantizar una experiencia fluida y predecible para los usuarios, incluso en situaciones imprevistas. Se utilizaron las siguientes estrategias:
+
+Excepciones Globales: Se configuró un controlador global para manejar excepciones comunes, como ResourceNotFoundException y InvalidDataException, proporcionando respuestas claras y estandarizadas.
+Mensajes de Error Personalizados: Los errores se comunican al usuario de manera amigable y comprensible, evitando mensajes técnicos que puedan causar confusión.
+Registro de Errores (Logging): Todos los errores críticos se registran en logs detallados, facilitando la detección y resolución de problemas en producción.
+Redirección Automática: En caso de fallos, los usuarios son redirigidos a una página de error personalizada o se les solicita repetir la acción fallida, minimizando la interrupción en la experiencia de uso.
+Manejo de Excepciones en Asincronía: Las acciones asíncronas (como el envío de correos) cuentan con controladores que registran errores y vuelven a intentar el proceso en caso de fallos temporales.
 
 ---
 
 ## Medidas de Seguridad Implementadas
 
 ### 12. Seguridad de Datos
-Explicar las técnicas y mecanismos adoptados para garantizar la seguridad de los datos (por ejemplo, cifrado, autenticación, gestión de permisos).
+
+Para garantizar la protección de la información de los usuarios y los restaurantes registrados en Plateful, se implementaron las siguientes técnicas de seguridad:
+
+Cifrado de Contraseñas: Todas las contraseñas se almacenan en la base de datos utilizando algoritmos de hash como BCrypt, evitando el almacenamiento de texto plano y mitigando riesgos en caso de fuga de datos.
+Autenticación Basada en Tokens (JWT): Cada usuario autenticado recibe un token que se utiliza para validar las sesiones activas de manera segura y sin necesidad de almacenar información sensible en el servidor.
+Control de Acceso: Se configuraron roles diferenciados (usuario y propietario), permitiendo una gestión de permisos adecuada para que cada perfil acceda solo a las funcionalidades relevantes.
+Uso de HTTPS: Todo el tráfico entre la aplicación y los usuarios está protegido mediante HTTPS, evitando la exposición de datos sensibles en redes públicas.
+Gestión de Sesiones: Se implementaron tiempos de expiración de sesiones para usuarios inactivos y políticas de cierre de sesión automático, evitando accesos no autorizados.
 
 ### 13. Prevencion de Vulnerabilidades
-Describir las medidas tomadas para prevenir vulnerabilidades comunes (por ejemplo, inyección SQL, XSS, CSRF)
+
+Plateful adoptó una serie de prácticas para mitigar las vulnerabilidades más comunes en aplicaciones web, asegurando un entorno seguro para todos los usuarios:
+
+Protección contra Inyección SQL: Se utilizó Spring Data JPA con consultas parametrizadas, evitando la inyección de código malicioso en las bases de datos.
+Mitigación de Ataques XSS (Cross-Site Scripting): La plataforma valida y escapa los contenidos ingresados por los usuarios en campos de texto (como reseñas y comentarios), evitando que se ejecuten scripts maliciosos en los navegadores de otros usuarios.
+Prevención de Ataques CSRF (Cross-Site Request Forgery): Se implementaron tokens CSRF para proteger las acciones sensibles de los usuarios autenticados, garantizando que cada solicitud provenga de una fuente legítima.
+Validación de Datos en el Backend: Se aseguraron controles estrictos para validar los datos recibidos desde el frontend, evitando el ingreso de información no deseada o dañina.
+Límites en Intentos de Inicio de Sesión: Para prevenir ataques de fuerza bruta, se establecieron límites de intentos fallidos de inicio de sesión, bloqueando temporalmente la cuenta después de varios intentos consecutivos.
+Monitorización de Actividad: Se añadieron registros (logs) de actividad en el sistema para detectar comportamientos anómalos y responder rápidamente a posibles incidentes de seguridad.
 
 ---
 
 ## Eventos y Asincronia
 
 ### 14. Descripcion de Eventos
-Detallar los eventos utilizados, explicar la importancia de su implementación en su proyecto, así como exponer el porqué deben ser asincrónicos
 
----
+Para el projecto usamos los siguientes eventos:
+
+SendMailEvent: Implementamos un evento que se manda cada vez que el usuario se registra para que el EmailListener lo escuche y pueda ejecutar la accion con asincronía.
+
+EmailListener: Implementamos un EmailListener para que escuche cada vez que se registre un Usuario se registre en la plataforma y mandarle un aviso de confirmacion.
+
 
 ## GitHub
 
 ### 15. Utilizacion de Github Projects
+
 Describir la manera en que se usó GitHub projects (asignación de issues, deadlines, etc)
+Emplemos Githu Projects de manera que a la mayoria de pull request se les asignaba un issue correspondiente.
+Tambien implementamos la asignacion correspondiente de cada pull request y cada issue.
+Por ultimo, nos aseguramos de que no se pueda forzar el merge y que quien hacia pull request debia verificar que el merge sea posible y efectivo.
+
 
 ### 16. Utilizacion de Github Actions
-Describir el uso de GitHub Actions y el flujo que implementaron para su proyecto en particular
+
+Usamos Github Actions para implementar el deployment de todos los push que se hagan en el repositorio a traves del deploy.yml y a traves de establecer variables de entorno en los settings de Github.
+
 
 ---
 
