@@ -19,7 +19,7 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @GetMapping("/hello")
+    @GetMapping
     public ResponseEntity<String> hello(){
         return ResponseEntity.ok("Hola, Deployaste");
     }
