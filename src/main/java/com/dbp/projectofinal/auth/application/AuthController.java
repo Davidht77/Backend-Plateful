@@ -17,6 +17,11 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello(){
+        return ResponseEntity.ok("Hola, Deployaste");
+    }
+    
 //    @PostMapping("/login")
 //    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginReq loginReq) {
 //        return ResponseEntity.ok(authService.login(loginReq));
