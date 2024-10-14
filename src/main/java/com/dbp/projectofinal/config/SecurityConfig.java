@@ -35,7 +35,10 @@ public class SecurityConfig {
 //                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
 //                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/**").permitAll()
+                        auth.requestMatchers("/usuarios").permitAll()
+                                .requestMatchers("/ubicaciones","/cartas","/platos").hasRole("PROPIETARIO")
+                                .requestMatchers("/ubicaciones/**","/cartas/**","/platos/**","/resenas").hasRole("CLIENTE")
+                                .requestMatchers("/api/comentarios").hasAnyRole("PROPIETARIO","CLIENTE")
                                 .anyRequest().authenticated()
                 )
                 .build();
