@@ -6,10 +6,7 @@ import com.dbp.projectofinal.usuario.domain.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +41,14 @@ public class JwtService {
                 .sign(algorithm);
     }
 
-    public void validateToken(String token, String userEmail) throws AuthenticationException {
+    public boolean validateToken(String token, String userEmail) throws AuthenticationException {
 
         JWT.require(Algorithm.HMAC256(secret)).build().verify(token);
+
+        return true;
+    }
+}
+
 
 //        UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
 //
@@ -54,5 +56,3 @@ public class JwtService {
 //        context.setAuthentication(new UsernamePasswordAuthenticationToken(
 //                userDetails, token, userDetails.getAuthorities()));
 //        SecurityContextHolder.setContext(context);
-    }
-}

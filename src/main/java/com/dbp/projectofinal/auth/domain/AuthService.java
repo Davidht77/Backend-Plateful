@@ -9,20 +9,21 @@ import com.dbp.projectofinal.usuario.infrastructure.BaseUserRepository;
 import com.dbp.projectofinal.usuario.infrastructure.RoleRepository;
 import org.e2e.e2e.auth.dto.JwtAuthResponse;
 import org.e2e.e2e.auth.dto.LoginReq;
-import org.e2e.e2e.auth.exceptions.UserAlreadyExistException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
-import java.util.Optional;
+import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
 
+    @Autowired
     private final BaseUserRepository<Usuario> userRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
@@ -38,7 +39,7 @@ public class AuthService {
         this.modelMapper = new ModelMapper();
     }
 
-    public void register(RegisterReq registerReq) {
+    public JwtAuthResponse register(RegisterReq registerReq) {
         Usuario usuario = new Usuario();
         usuario.setNombre(registerReq.getFirstName());
         usuario.setEmail(registerReq.getEmail());
@@ -57,7 +58,46 @@ public class AuthService {
         }
 
         userRepository.save(usuario);
+
+        Usuario user = new Usuario();
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                usuario.getEmail(),
+                usuario.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority("USER"))
+        );
+        String token = jwtService.generateToken(userDetails);
+
+        return new JwtAuthResponse(token);
     }
+
+    public JwtAuthResponse login(LoginReq loginReq) {
+        // Autenticación del usuario
+        Usuario usuario = userRepository.findByEmail(loginReq.getEmail())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Verificar la contraseña
+        if (!passwordEncoder.matches(loginReq.getPassword(), usuario.getPassword())) {
+            throw new RuntimeException("Contraseña incorrecta");
+        }
+
+        // Generar el token
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                usuario.getEmail(),
+                usuario.getPassword(),
+                usuario.getRoles().stream()
+                        .map(role -> new SimpleGrantedAuthority(role.getName()))
+                        .collect(Collectors.toList())
+        );
+        String token = jwtService.generateToken(userDetails);
+
+        // Obtener el rol del usuario
+        String role = usuario.getRoles().stream().findFirst()
+                .map(Role::getName)
+                .orElse("Unknown");
+
+        return new JwtAuthResponse(token);
+    }
+
 
 //    public JwtAuthResponse login(LoginReq req) {
 //        Optional<Usuario> user;

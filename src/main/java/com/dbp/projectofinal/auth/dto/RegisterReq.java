@@ -6,11 +6,10 @@ import lombok.Data;
 
 @Data
 public class RegisterReq {
-    private String FirstName;
-    private String LastName;
-    private String Email;
-    private String Password;
-    private String Phone;
-    private Boolean isDriver=false;
-    private Category Category;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String password;
+    private String phone;
+    private Category category;
 }
