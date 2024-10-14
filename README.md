@@ -288,13 +288,35 @@ Describir el uso de GitHub Actions y el flujo que implementaron para su proyecto
 ## Conclusion
 
 ### 17. Logros del Projecto
-Resumir los logros alcanzados con el proyecto en términos de resolver el problema o satisfacer la necesidad identificada.
+
+Plateful logró conectar eficientemente a clientes con restaurantes locales mediante una plataforma accesible, cubriendo las siguientes necesidades clave:
+
+Facilitar la toma de decisiones al permitir a los usuarios acceder a menús y reseñas en tiempo real, ahorrando tiempo al buscar opciones para comer.
+Apoyar la gestión de restaurantes, proporcionando herramientas para actualizar menús, recibir reseñas y responder a comentarios.
+Fomentar la interacción entre usuarios y restaurantes a través de un sistema de reseñas y comentarios bidireccionales, promoviendo una experiencia colaborativa.
+Implementación de funcionalidades críticas, como localización geográfica y disponibilidad en tiempo real, que agilizan la experiencia del usuario final.
+Desarrollo modular y seguro mediante la integración de tecnologías modernas como Spring Boot, PostgreSQL, y la API de Google Maps para escalabilidad y persistencia de datos.
 
 ### 18. Aprendizajes Clave
-Reflexionar sobre los aprendizajes más significativos obtenidos durante el desarrollo del proyecto
+
+El desarrollo de Plateful dejó aprendizajes significativos, entre ellos:
+
+Colaboración efectiva con herramientas de GitHub, integrando GitHub Projects y Actions para gestionar y automatizar el flujo de trabajo.
+Manejo de eventos asincrónicos, aprendiendo la importancia de la asincronía en sistemas donde múltiples usuarios interactúan simultáneamente.
+Seguridad en aplicaciones web, con la implementación de medidas contra inyección SQL, XSS y CSRF, así como autenticación robusta para proteger datos sensibles.
+Optimización del diseño modular, logrando una arquitectura escalable, que facilita futuras integraciones y mantenimiento del backend.
+Interacción usuario-restaurante efectiva, con la experiencia de usuarios y propietarios moldeando el desarrollo para maximizar la usabilidad.
 
 ### 19. Trabajo Futuro
-Sugerir posibles mejoras o extensiones para el proyecto
+
+Para potenciar Plateful y mantener su relevancia, se sugiere:
+
+Desarrollo de una aplicación móvil nativa, mejorando la accesibilidad y brindando notificaciones en tiempo real.
+Implementación de IA para recomendaciones personalizadas, utilizando datos de preferencias y comportamiento para sugerir restaurantes.
+Integración con sistemas de pago online, permitiendo reservas y pagos directamente desde la plataforma.
+Ampliación del sistema de reseñas mediante la incorporación de imágenes y reseñas multimedia para enriquecer las opiniones de los clientes.
+Expansión geográfica para incluir más ciudades y colaborar con nuevos restaurantes, aumentando la base de usuarios.
+Optimización del SEO y marketing digital, impulsando el posicionamiento de la plataforma y captando más clientes y restaurantes.
 
 ---
 
