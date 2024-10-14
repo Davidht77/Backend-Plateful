@@ -310,7 +310,7 @@ Monitorización de Actividad: Se añadieron registros (logs) de actividad en el 
 
 Para el projecto usamos los siguientes eventos:
 
-SendMailEvent: Implementamos un evento que se manda cada vez que el usuario se registra para que el EmailListener lo escuche y pueda ejecutar la accion con asincronía.
+SendMailEvent: Implementamos un evento que se manda cada vez que el usuario se registra para que el EmailListener lo escuche y pueda ejecutar la accion con asincronía. De esta manera la respuesta demora menos y el correo llega cuando el servicio del backend termine de ejecutar la instruccion.
 
 EmailListener: Implementamos un EmailListener para que escuche cada vez que se registre un Usuario se registre en la plataforma y mandarle un aviso de confirmacion.
 
