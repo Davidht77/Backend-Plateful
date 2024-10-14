@@ -12,11 +12,11 @@ public class RoleConfig {
     @Bean
     CommandLineRunner initRoles(RoleRepository roleRepository){
         return args ->{
-            if (roleRepository.findByName("PROPIETARIO").isEmpty()){
-                roleRepository.save(new Role(null, "PROPIETARIO"));
+            if (roleRepository.findByName("ROLE_PROPIETARIO").isEmpty()){
+                roleRepository.save(new Role(null, "ROLE_PROPIETARIO"));
             }
-            if (roleRepository.findByName("CLIENTE").isEmpty()){
-                roleRepository.save(new Role(null,"CLIENTE"));
+            if (roleRepository.findByName("ROLE_CLIENTE").isEmpty()){
+                roleRepository.save(new Role(null,"ROLE_CLIENTE"));
             }
         };
     }
