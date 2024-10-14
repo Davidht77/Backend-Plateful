@@ -64,13 +64,6 @@ public class AuthService {
             usuario.setRoles(Set.of(clienteRole));
         }
 
-        Map<String,Object> map = new HashMap<>();
-        map.put("to",usuario.getEmail());
-        map.put("name",usuario.getNombre());
-        applicationEventPublisher.publishEvent(new SendMailEvent(map) );
-        userRepository.save(usuario);
-
-        Usuario user = new Usuario();
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                 usuario.getEmail(),
                 usuario.getPassword(),
@@ -78,7 +71,14 @@ public class AuthService {
         );
         String token = jwtService.generateToken(userDetails);
 
-        return new JwtAuthResponse(token);
+        userRepository.save(usuario);
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("to",usuario.getEmail());
+        map.put("name",usuario.getNombre());
+        applicationEventPublisher.publishEvent(new SendMailEvent(map));
+
+        return new JwtAuthResponse(token, registerReq.getCategory().name());
     }
 
     public JwtAuthResponse login(LoginReq loginReq) {
@@ -109,64 +109,4 @@ public class AuthService {
         return new JwtAuthResponse(token);
     }
 
-
-//    public JwtAuthResponse login(LoginReq req) {
-//        Optional<Usuario> user;
-//        user = userRepository.findByEmail(req.getEmail());
-//
-//        if (user.isEmpty()) throw new UsernameNotFoundException("Email is not registered");
-//
-//        if (!passwordEncoder.matches(req.getPassword(), user.get().getPassword()))
-//            throw new IllegalArgumentException("Password is incorrect");
-//
-//        JwtAuthResponse response = new JwtAuthResponse();
-//
-//        response.setToken(jwtService.generateToken(user.get()));
-//        return response;
-//    }
-//
-//    public JwtAuthResponse register(RegisterReq req){
-//        Optional<User> user = userRepository.findByEmail(req.getEmail());
-//        if (user.isPresent()) throw new UserAlreadyExistException("Email is already registered");
-//
-//        if (req.getIsDriver()) {
-//            Driver driver = new Driver();
-//            driver.setCategory(req.getCategory());
-//            driver.setVehicle(modelMapper.map(req.getVehicle(), Vehicle.class));
-//            driver.setTrips(0);
-//            driver.setAvgRating(0f);
-//            driver.setCreatedAt(ZonedDateTime.now());
-//            driver.setRole(Role.DRIVER);
-//            driver.setFirstName(req.getFirstName());
-//            driver.setLastName(req.getLastName());
-//            driver.setEmail(req.getEmail());
-//            driver.setPassword(passwordEncoder.encode(req.getPassword()));
-//            driver.setPhoneNumber(req.getPhone());
-//
-//            userRepository.save(driver);
-//
-//            JwtAuthResponse response = new JwtAuthResponse();
-//            response.setToken(jwtService.generateToken(driver));
-//            return response;
-//        }
-//        else {
-//            Passenger passenger = new Passenger();
-//            passenger.setCreatedAt(ZonedDateTime.now());
-//            passenger.setRole(Role.PASSENGER);
-//            passenger.setFirstName(req.getFirstName());
-//            passenger.setLastName(req.getLastName());
-//            passenger.setEmail(req.getEmail());
-//            passenger.setPassword(passwordEncoder.encode(req.getPassword()));
-//            passenger.setPhoneNumber(req.getPhone());
-//            passenger.setAvgRating(0f);
-//            passenger.setTrips(0);
-//
-//            userRepository.save(passenger);
-//
-//            JwtAuthResponse response = new JwtAuthResponse();
-//            response.setToken(jwtService.generateToken(passenger));
-//            return response;
-//        }
-//
-//    }
 }
