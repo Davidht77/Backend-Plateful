@@ -2,6 +2,7 @@ package com.dbp.projectofinal.auth.domain;
 
 import com.dbp.projectofinal.auth.dto.RegisterReq;
 import com.dbp.projectofinal.config.JwtService;
+import com.dbp.projectofinal.eventos.SendMailEvent;
 import com.dbp.projectofinal.usuario.domain.Category;
 import com.dbp.projectofinal.usuario.domain.Role;
 import com.dbp.projectofinal.usuario.domain.Usuario;
@@ -11,12 +12,15 @@ import org.e2e.e2e.auth.dto.JwtAuthResponse;
 import org.e2e.e2e.auth.dto.LoginReq;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,6 +33,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final RoleRepository roleRepository;
+
+    @Autowired
+    ApplicationEventPublisher applicationEventPublisher;
 
     @Autowired
     public AuthService(BaseUserRepository<Usuario> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
@@ -57,6 +64,10 @@ public class AuthService {
             usuario.setRoles(Set.of(clienteRole));
         }
 
+        Map<String,Object> map = new HashMap<>();
+        map.put("to",usuario.getEmail());
+        map.put("name",usuario.getNombre());
+        applicationEventPublisher.publishEvent(new SendMailEvent(map) );
         userRepository.save(usuario);
 
         Usuario user = new Usuario();
