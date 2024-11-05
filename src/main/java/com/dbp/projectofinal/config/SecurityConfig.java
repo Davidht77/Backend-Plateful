@@ -31,8 +31,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/usuarios", "/auth/**", "/geocode/**").permitAll()
                                 .requestMatchers("/ubicaciones", "/cartas", "/platos").hasRole("PROPIETARIO") // Asegúrate de que los roles son correctamente manejados con el prefijo ROLE_
