@@ -8,8 +8,10 @@ import com.dbp.projectofinal.usuario.domain.Role;
 import com.dbp.projectofinal.usuario.domain.Usuario;
 import com.dbp.projectofinal.usuario.infrastructure.BaseUserRepository;
 import com.dbp.projectofinal.usuario.infrastructure.RoleRepository;
+import com.dbp.projectofinal.usuario.infrastructure.UsuarioRepository;
 import org.e2e.e2e.auth.dto.JwtAuthResponse;
 import org.e2e.e2e.auth.dto.LoginReq;
+import org.e2e.e2e.auth.exceptions.UserAlreadyExistException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,14 +20,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     private final BaseUserRepository<Usuario> userRepository;
@@ -48,10 +50,17 @@ public class AuthService {
 
     public JwtAuthResponse register(RegisterReq registerReq) {
         Usuario usuario = new Usuario();
-        usuario.setNombre(registerReq.getFirstName());
+        usuario.setNombre(registerReq.getName());
+        Optional<Usuario> user1 = usuarioRepository.findByEmail(registerReq.getEmail());
+        if(user1.isPresent()){
+            throw new UserAlreadyExistException("");
+        }
         usuario.setEmail(registerReq.getEmail());
+
         usuario.setPassword(passwordEncoder.encode(registerReq.getPassword()));
         usuario.setTelefono(registerReq.getPhone());
+        usuario.setFechaNacimiento(registerReq.getDate());
+
 
         Role propietarioRole = roleRepository.findByName("ROLE_PROPIETARIO")
                 .orElseThrow(() -> new RuntimeException("Error: Role PROPIETARIO is not found."));

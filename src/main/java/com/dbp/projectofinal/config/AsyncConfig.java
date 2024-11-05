@@ -1,4 +1,4 @@
-package com.example.pc1_2024_02.config;
+package com.dbp.projectofinal.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

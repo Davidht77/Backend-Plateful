@@ -31,14 +31,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/usuarios", "/auth/login", "/auth/register").permitAll()
+                        auth.requestMatchers("/usuarios", "/auth/**", "/geocode/**").permitAll()
                                 .requestMatchers("/ubicaciones", "/cartas", "/platos").hasRole("PROPIETARIO") // Asegúrate de que los roles son correctamente manejados con el prefijo ROLE_
                                 .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/resenas").hasRole("CLIENTE") // Igualmente aquí
                                 .requestMatchers("/api/comentarios").hasAnyRole("PROPIETARIO", "CLIENTE")
                                 .anyRequest().authenticated() // Cualquier otra solicitud necesita autenticación
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // Asegúrate de agregar el filtro JWT
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
