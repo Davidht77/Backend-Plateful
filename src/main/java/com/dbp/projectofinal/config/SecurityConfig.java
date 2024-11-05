@@ -31,6 +31,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/usuarios", "/auth/**", "/geocode/**").permitAll()
                                 .requestMatchers("/ubicaciones", "/cartas", "/platos").hasRole("PROPIETARIO") // Asegúrate de que los roles son correctamente manejados con el prefijo ROLE_
@@ -38,7 +41,6 @@ public class SecurityConfig {
                                 .requestMatchers("/api/comentarios").hasAnyRole("PROPIETARIO", "CLIENTE")
                                 .anyRequest().authenticated() // Cualquier otra solicitud necesita autenticación
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
