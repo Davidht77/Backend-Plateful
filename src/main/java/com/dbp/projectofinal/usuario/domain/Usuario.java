@@ -32,7 +32,7 @@ public class Usuario implements UserDetails {
     private String password;
     private String telefono;
     private LocalDate fechaNacimiento;
-    private LocalDate fechaCreacion;
+    private LocalDate fechaCreacion = LocalDate.now();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
