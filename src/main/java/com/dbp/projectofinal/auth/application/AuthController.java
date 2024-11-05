@@ -27,7 +27,7 @@ public class AuthController {
 
     @GetMapping
     public ResponseEntity<String> hello(){
-        return ResponseEntity.ok("Hola, Deployaste el proyect");
+        return ResponseEntity.ok("Hola, Deployaste el proyectoo");
     }
     
 
