@@ -31,7 +31,7 @@ public class AuthController {
     }
     
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterReq req) {
         // Verificar que la contraseña no sea nula
         if (req.getPassword() == null || req.getPassword().isEmpty()) {
