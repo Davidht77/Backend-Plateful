@@ -19,39 +19,44 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter; // Asegúrate de que este filtro esté configurado correctamente
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/usuarios", "/auth/**", "/geocode/**").permitAll()
-                                .requestMatchers("/ubicaciones", "/cartas", "/platos").hasRole("PROPIETARIO") // Asegúrate de que los roles son correctamente manejados con el prefijo ROLE_
-                                .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/resenas").hasRole("CLIENTE") // Igualmente aquí
-                                .requestMatchers("/api/comentarios").hasAnyRole("PROPIETARIO", "CLIENTE")
-                                .anyRequest().authenticated() // Cualquier otra solicitud necesita autenticación
+                .authorizeHttpRequests(auth -> auth
+                        // Permitir acceso público a estos endpoints
+                        .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/restaurantes/**").permitAll()
+
+                        // Restringir otros endpoints a roles específicos
+                        .requestMatchers("/ubicaciones", "/cartas", "/platos").hasRole("PROPIETARIO")
+                        .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/resenas").hasRole("CLIENTE")
+                        .requestMatchers("/api/comentarios").hasAnyRole("PROPIETARIO", "CLIENTE")
+
+                        // Cualquier otra solicitud necesita autenticación
+                        .anyRequest().authenticated()
                 )
+                // Agregar el filtro JWT antes del filtro de autenticación
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Codificación de contraseñas
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager(); // Administración de autenticación
+        return config.getAuthenticationManager();
     }
 }
 

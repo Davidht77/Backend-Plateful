@@ -88,6 +88,8 @@ public class RestauranteController {
         dto.setCartaId(restaurante.getCarta().getId_carta());                // Carta ID
         dto.setCalificacion_promedio(restaurante.getCalificacion_promedio());
         dto.setUbicacionId(restaurante.getUbicacion().getId_ubicacion());    // Ubicación ID
+        dto.setLatitude(restaurante.getUbicacion().getLatitud());
+        dto.setLongitude(restaurante.getUbicacion().getLongitud());
         return dto;
     }
 }

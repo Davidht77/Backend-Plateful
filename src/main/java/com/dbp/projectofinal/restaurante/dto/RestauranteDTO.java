@@ -12,4 +12,7 @@ public class RestauranteDTO {
     private Long cartaId;
     private Double calificacion_promedio;
     private Long ubicacionId;
+    private Double latitude;
+    private Double longitude;
 }
+
