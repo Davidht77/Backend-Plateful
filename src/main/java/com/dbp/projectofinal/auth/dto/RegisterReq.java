@@ -1,5 +1,6 @@
 package com.dbp.projectofinal.auth.dto;
 
+import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import com.dbp.projectofinal.usuario.domain.Category;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class RegisterReq {
     private String phone;
     private LocalDate date;
     private Category category;
+    private Ubicacion ubicacion;
 }
