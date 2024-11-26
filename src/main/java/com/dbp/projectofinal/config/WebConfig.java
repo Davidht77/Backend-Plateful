@@ -10,7 +10,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")  // Permitir todas las rutas
-                .allowedOrigins("*")  // Permitir todos los orígenes (ajusta según tus necesidades)
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                .allowedOrigins("https://main.d2wpgy1h5q22ko.amplifyapp.com/","*")  // Permitir todos los orígenes (ajusta según tus necesidades)
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 }
