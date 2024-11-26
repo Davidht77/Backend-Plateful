@@ -38,7 +38,9 @@ public class SecurityConfig {
                         .requestMatchers("/usuarios", "/auth/**", "/geocode/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/restaurantes/nearby").authenticated()
                         .requestMatchers(HttpMethod.GET, "/restaurantes").authenticated()
-
+                        .requestMatchers(HttpMethod.POST, "/ubicaciones").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/ubicaciones/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/ubicaciones/**").authenticated()
                         // Restringir otros endpoints a roles específicos
                         .requestMatchers("/ubicaciones/**", "/cartas", "/platos").hasRole("PROPIETARIO")
                         .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/resenas").hasRole("CLIENTE")
