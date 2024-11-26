@@ -34,10 +34,12 @@ public class SecurityConfig {
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Permitir acceso público a estos endpoints
-                        .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/restaurantes/**").permitAll()
+                        .requestMatchers("/usuarios", "/auth/**", "/geocode/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/restaurantes/nearby").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/restaurantes").authenticated()
 
                         // Restringir otros endpoints a roles específicos
-                        .requestMatchers("/ubicaciones", "/cartas", "/platos").hasRole("PROPIETARIO")
+                        .requestMatchers("/ubicaciones/**", "/cartas", "/platos").hasRole("PROPIETARIO")
                         .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/resenas").hasRole("CLIENTE")
                         .requestMatchers("/api/comentarios").hasAnyRole("PROPIETARIO", "CLIENTE")
 
