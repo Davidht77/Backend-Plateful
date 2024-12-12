@@ -1,0 +1,935 @@
+{
+	"info": {
+		"_postman_id": "36941251-7190-442f-b001-099d04a7ec98",
+		"name": "Plateful",
+		"description": "Esta colección contiene los endpoints para gestionar usuarios en el sistema:  \ncreación, edición, obtención y eliminación de usuarios, así como asignación de roles.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37862296"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Juan\",\r\n  \"email\": \"juan@example.com\",\r\n  \"password\": \"123456\",\r\n  \"telefono\": \"123456789\",\r\n  \"fechaNacimiento\": \"1990-01-01\",\r\n  \"fechaCreacion\": \"2024-10-12\",\r\n  \"roles\": [\r\n    { \"id\": 1, \"nombre\": \"ROLE_USER\" }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						},
+						"description": "Crea un nuevo usuario en el sistema. El cuerpo de la solicitud debe incluir la siguiente información en formato JSON:\n\n{  \n\"nombre\": \"Juan\",  \n\"email\": \"[juan@example.com](https://mailto:juan@example.com)\",  \n\"password\": \"123456\",  \n\"telefono\": \"987654321\",  \n\"fechaNacimiento\": \"1990-01-01\",  \n\"fechaCreacion\": \"2024-10-12\"  \n}\n\nRespuesta:\n\n- 201 Created: Usuario creado exitosamente.\n    \n- 400 Bad Request: Datos faltantes o inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						},
+						"description": "Obtiene una lista de todos los usuarios registrados en el sistema.\n\nRespuesta:\n\n- 200 OK: Devuelve una lista de usuarios.\n    \n- \"id\": 1,\"nombre\": \"Juan\",\"email\": \"juan@example.com\",\"telefono\": \"987654321\" },  \n    {\"id\": 2,\"nombre\": \"Maria\",\"email\": \"maria@example.com\",\"telefono\": \"987654322\" }  \n    \\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Usuario por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"1\n"
+							]
+						},
+						"description": "Devuelve los detalles de un usuario específico mediante su ID.\n\nParámetros:\n\n- id (path): ID del usuario a obtener.\n    \n\nRespuesta:\n\n- 200 OK: Usuario encontrado.\n    \n- Ejemplo:  \n    {  \n    \"id\": 1,  \n    \"nombre\": \"Juan\",  \n    \"email\": \"[juan@example.com](https://mailto:juan@example.com)\",  \n    \"telefono\": \"987654321\"  \n    }\n    \n- 404 Not Found: Usuario no encontrado."
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Usuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Juan Editado\",\r\n  \"email\": \"juaneditado@example.com\",\r\n  \"telefono\": \"987654321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"1"
+							]
+						},
+						"description": "Actualiza los datos de un usuario específico por su ID. El cuerpo de la solicitud debe incluir la información que se desea actualizar.\n\nParámetros:\n\n- id (path): ID del usuario a actualizar.\n    \n\nCuerpo JSON:  \n{  \n\"nombre\": \"Juan Actualizado\",  \n\"email\": \"[juan.updated@example.com](https://mailto:juan.updated@example.com)\",  \n\"telefono\": \"987654322\"  \n}\n\nRespuesta:\n\n- 200 OK: Usuario actualizado exitosamente.\n    \n- 404 Not Found: Usuario no encontrado.\n    \n- 400 Bad Request: Datos inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"1"
+							]
+						},
+						"description": "Elimina un usuario específico por su ID.\n\nParámetros:\n\n- id (path): ID del usuario a eliminar.\n    \n\nRespuesta:\n\n- 200 OK: Usuario eliminado exitosamente.\n    \n- 404 Not Found: Usuario no encontrado."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurante",
+			"item": [
+				{
+					"name": "Crear Restaurante",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Restaurante Central\",\r\n  \"direccion\": \"Calle Lima 123\",\r\n  \"telefono\": \"987654321\",\r\n  \"usuarioId\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/restaurantes\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"restaurantes\n"
+							]
+						},
+						"description": "Crea un nuevo restaurante en el sistema. El cuerpo de la solicitud debe incluir los siguientes campos en formato JSON:\n\n{  \n\"nombre\": \"Restaurante Central\",  \n\"direccion\": \"Calle Lima 123\",  \n\"telefono\": \"987654321\",  \n\"usuarioId\": 1  \n}\n\nRespuesta:\n\n- 201 Created: Restaurante creado exitosamente.\n    \n- 400 Bad Request: Datos faltantes o inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Restaurantes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/restaurantes\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"restaurantes\n"
+							]
+						},
+						"description": "Devuelve una lista de todos los restaurantes registrados en el sistema.\n\nRespuesta:\n\n- 200 OK: Devuelve una lista de restaurantes.\n    \n- \"id\": 1,\"nombre\": \"Restaurante Central\",\"direccion\": \"Calle Lima 123\",\"telefono\": \"987654321\" },  \n    {\"id\": 2,\"nombre\": \"La Mar\",\"direccion\": \"Av. Del Mar 456\",\"telefono\": \"123456789\" }  \n    \\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Restaurante ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/restaurantes\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"restaurantes\n"
+							]
+						},
+						"description": "Devuelve los detalles de un restaurante específico mediante su ID.\n\nParámetros:\n\n- id (path): ID del restaurante a obtener.\n    \n\nRespuesta:\n\n- 200 OK: Restaurante encontrado.\n    \n- Ejemplo:  \n    {  \n    \"id\": 1,  \n    \"nombre\": \"Restaurante Central\",  \n    \"direccion\": \"Calle Lima 123\",  \n    \"telefono\": \"987654321\"  \n    }\n    \n- 404 Not Found: Restaurante no encontrado."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Restaurante por Usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/restaurantes/usuario/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"restaurantes",
+								"usuario",
+								"1\n"
+							]
+						},
+						"description": "Devuelve todos los restaurantes registrados por un usuario específico mediante su ID.\n\nParámetros:\n\n- usuarioId (path): ID del usuario propietario.\n    \n\nRespuesta:\n\n- 200 OK: Restaurantes encontrados.\n    \n- \"id\": 1,\"nombre\": \"Restaurante Central\",\"direccion\": \"Calle Lima 123\",\"telefono\": \"987654321\" }  \n    \\]\n    \n- 404 Not Found: No se encontraron restaurantes para este usuario."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Restaurante",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Restaurante Central Actualizado\",\r\n  \"direccion\": \"Calle Nueva 456\",\r\n  \"telefono\": \"998877665\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/restaurantes/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"restaurantes",
+								"1\n"
+							]
+						},
+						"description": "Actualiza los datos de un restaurante específico por su ID. El cuerpo de la solicitud debe incluir los campos que se desean modificar.\n\nParámetros:\n\n- id (path): ID del restaurante a actualizar.\n    \n\nCuerpo JSON:  \n{  \n\"nombre\": \"Restaurante Central Actualizado\",  \n\"direccion\": \"Av. Nueva 456\",  \n\"telefono\": \"998877665\"  \n}\n\nRespuesta:\n\n- 200 OK: Restaurante actualizado exitosamente.\n    \n- 404 Not Found: Restaurante no encontrado.\n    \n- 400 Bad Request: Datos inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Restaurante",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/restaurantes/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"restaurantes",
+								"1\n"
+							]
+						},
+						"description": "Elimina un restaurante específico mediante su ID.\n\nParámetros:\n\n- id (path): ID del restaurante a eliminar.\n    \n\nRespuesta:\n\n- 200 OK: Restaurante eliminado exitosamente.\n    \n- 404 Not Found: Restaurante no encontrado."
+					},
+					"response": []
+				},
+				{
+					"name": "Calificacion Restaurante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/restaurantes/1/calificacion\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"restaurantes",
+								"1",
+								"calificacion\n"
+							]
+						},
+						"description": "Devuelve la calificación promedio del restaurante especificado por su ID, basada en las reseñas disponibles.\n\nParámetros:\n\n- id (path): ID del restaurante.\n    \n\nRespuesta:\n\n- 200 OK: Calificación promedio obtenida.\n    \n- Ejemplo:  \n    {  \n    \"id\": 1,  \n    \"nombre\": \"Restaurante Central\",  \n    \"calificacionPromedio\": 4.7  \n    }\n    \n- 404 Not Found: Restaurante no encontrado o sin reseñas."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carta",
+			"item": [
+				{
+					"name": "Crear Carta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Carta de Verano\",\r\n  \"descripcion\": \"Platos ligeros y frescos para el verano\",\r\n  \"restauranteId\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cartas\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cartas\n"
+							]
+						},
+						"description": "Crea una nueva carta en el sistema y la asocia a un restaurante mediante su ID.\n\nCuerpo JSON:  \n{  \n\"nombre\": \"Carta Verano\",  \n\"descripcion\": \"Platos frescos para la temporada\",  \n\"restauranteId\": 1  \n}\n\nRespuesta:\n\n- 201 Created: Carta creada exitosamente.\n    \n- 400 Bad Request: Datos faltantes o inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Cartas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cartas\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cartas\n"
+							]
+						},
+						"description": "Devuelve una lista de todas las cartas registradas en el sistema.\n\nRespuesta:\n\n- 200 OK: Devuelve una lista de cartas.\n    \n- \"id\": 1,\"nombre\": \"Carta Verano\",\"descripcion\": \"Platos frescos para la temporada\",\"restauranteId\": 1 }  \n    \\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Cartas ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cartas/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cartas",
+								"1\n"
+							]
+						},
+						"description": "Devuelve los detalles de una carta específica mediante su ID.\n\nParámetros:\n\n- id (path): ID de la carta a obtener.\n    \n\nRespuesta:\n\n- 200 OK: Carta encontrada.\n    \n- Ejemplo:  \n    {  \n    \"id\": 1,  \n    \"nombre\": \"Carta Verano\",  \n    \"descripcion\": \"Platos frescos para la temporada\"  \n    }\n    \n- 404 Not Found: Carta no encontrada."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Carta por Restaurante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cartas/restaurante/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cartas",
+								"restaurante",
+								"1\n"
+							]
+						},
+						"description": "Devuelve todas las cartas asociadas a un restaurante específico.\n\nParámetros:\n\n- restauranteId (path): ID del restaurante.\n    \n\nRespuesta:\n\n- 200 OK: Devuelve una lista de cartas.\n    \n- \"id\": 1,\"nombre\": \"Carta Verano\",\"descripcion\": \"Platos frescos para la temporada\" }  \n    \\]\n    \n- 404 Not Found: No se encontraron cartas para este restaurante."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Carta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Carta de Invierno\",\r\n  \"descripcion\": \"Platos calientes y reconfortantes\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/cartas/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cartas",
+								"1\n"
+							]
+						},
+						"description": "Actualiza los datos de una carta específica por su ID.\n\nParámetros:\n\n- id (path): ID de la carta a actualizar.\n    \n\nCuerpo JSON:  \n{  \n\"nombre\": \"Carta Invierno\",  \n\"descripcion\": \"Platos calientes y reconfortantes\"  \n}\n\nRespuesta:\n\n- 200 OK: Carta actualizada exitosamente.\n    \n- 404 Not Found: Carta no encontrada.\n    \n- 400 Bad Request: Datos inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Carta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/cartas/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"cartas",
+								"1\n"
+							]
+						},
+						"description": "Elimina una carta específica mediante su ID.\n\nParámetros:\n\n- id (path): ID de la carta a eliminar.\n    \n\nRespuesta:\n\n- 200 OK: Carta eliminada exitosamente.\n    \n- 404 Not Found: Carta no encontrada."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Plato",
+			"item": [
+				{
+					"name": "Crear Plato",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Lomo Saltado\",\r\n  \"descripcion\": \"Plato típico peruano\",\r\n  \"precio\": 25.5,\r\n  \"disponible\": true,\r\n  \"cartaId\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/platos\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"platos\n"
+							]
+						},
+						"description": "Crea un nuevo plato en el sistema y lo asocia a una carta mediante su ID.\n\nCuerpo JSON:  \n{  \n\"nombre\": \"Lomo Saltado\",  \n\"descripcion\": \"Plato típico peruano con carne y papas fritas\",  \n\"precio\": 25.5,  \n\"disponible\": true,  \n\"cartaId\": 1  \n}\n\nRespuesta:\n\n- 201 Created: Plato creado exitosamente.\n    \n- 400 Bad Request: Datos faltantes o inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Platos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/platos\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"platos\n"
+							]
+						},
+						"description": "Devuelve una lista de todos los platos registrados en el sistema.\n\nRespuesta:\n\n- 200 OK: Devuelve una lista de platos.\n    \n- \"id\": 1,\"nombre\": \"Lomo Saltado\",\"descripcion\": \"Plato típico peruano con carne y papas fritas\",\"precio\": 25.5,\"disponible\": true }  \n    \\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Platos ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/platos/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"platos",
+								"1\n"
+							]
+						},
+						"description": "Devuelve los detalles de un plato específico mediante su ID.\n\nParámetros:\n\n- id (path): ID del plato.\n    \n\nRespuesta:\n\n- 200 OK: Plato encontrado.\n    \n- Ejemplo:  \n    {  \n    \"id\": 1,  \n    \"nombre\": \"Lomo Saltado\",  \n    \"descripcion\": \"Plato típico peruano con carne y papas fritas\",  \n    \"precio\": 25.5,  \n    \"disponible\": true  \n    }\n    \n- 404 Not Found: Plato no encontrado."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Platos por Carta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/platos/carta/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"platos",
+								"carta",
+								"1\n"
+							]
+						},
+						"description": "Devuelve todos los platos asociados a una carta específica.\n\nParámetros:\n\n- cartaId (path): ID de la carta.\n    \n\nRespuesta:\n\n- 200 OK: Devuelve una lista de platos.\n    \n- \"id\": 1,\"nombre\": \"Lomo Saltado\",\"descripcion\": \"Plato típico peruano\",\"precio\": 25.5,\"disponible\": true }  \n    \\]\n    \n- 404 Not Found: No se encontraron platos para esta carta."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Platos Disponibles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/platos/disponibles\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"platos",
+								"disponibles\n"
+							]
+						},
+						"description": "Devuelve una lista de todos los platos disponibles en el sistema.\n\nRespuesta:\n\n- 200 OK: Devuelve una lista de platos disponibles.\n    \n- \"id\": 2,\"nombre\": \"Ceviche\",\"descripcion\": \"Pescado fresco marinado en limón\",\"precio\": 20.0,\"disponible\": true }  \n    \\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Plato",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Lomo Saltado Actualizado\",\r\n  \"descripcion\": \"Versión especial del plato típico peruano\",\r\n  \"precio\": 30.0,\r\n  \"disponible\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/platos/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"platos",
+								"1\n"
+							]
+						},
+						"description": "Actualiza los datos de un plato específico por su ID.\n\nParámetros:\n\n- id (path): ID del plato.\n    \n\nCuerpo JSON:  \n{  \n\"nombre\": \"Lomo Saltado Especial\",  \n\"descripcion\": \"Versión especial del plato con más papas fritas\",  \n\"precio\": 30.0,  \n\"disponible\": true  \n}\n\nRespuesta:\n\n- 200 OK: Plato actualizado exitosamente.\n    \n- 404 Not Found: Plato no encontrado.\n    \n- 400 Bad Request: Datos inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Plato",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/platos/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"platos",
+								"1\n"
+							]
+						},
+						"description": "Elimina un plato específico mediante su ID.\n\nParámetros:\n\n- id (path): ID del plato.\n    \n\nRespuesta:\n\n- 200 OK: Plato eliminado exitosamente.\n    \n- 404 Not Found: Plato no encontrado."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reseña",
+			"item": [
+				{
+					"name": "Crear Reseña",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"comentario\": \"Excelente servicio y comida deliciosa\",\r\n  \"calificacion\": 5,\r\n  \"restauranteId\": 1,\r\n  \"usuarioId\": 2\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/resenas\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"resenas\n"
+							]
+						},
+						"description": "Crea una nueva reseña en el sistema y la asocia a un restaurante y un usuario mediante sus IDs.\n\nCuerpo JSON:  \n{  \n\"comentario\": \"Excelente atención y comida deliciosa.\",  \n\"calificacion\": 5,  \n\"restauranteId\": 1,  \n\"usuarioId\": 2  \n}\n\nRespuesta:\n\n- 201 Created: Reseña creada exitosamente.\n    \n- 400 Bad Request: Datos faltantes o inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Reseñas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/resenas\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"resenas\n"
+							]
+						},
+						"description": "Devuelve una lista de todas las reseñas registradas en el sistema.\n\nRespuesta:\n\n- 200 OK: Devuelve una lista de reseñas.\n    \n- \"id\": 1,\"comentario\": \"Excelente atención y comida deliciosa.\",\"calificacion\": 5,\"restauranteId\": 1,\"usuarioId\": 2 }  \n    \\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Reseñas ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/resenas/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"resenas",
+								"1\n"
+							]
+						},
+						"description": "Devuelve los detalles de una reseña específica mediante su ID.\n\nParámetros:\n\n- id (path): ID de la reseña.\n    \n\nRespuesta:\n\n- 200 OK: Reseña encontrada.\n    \n- Ejemplo:  \n    {  \n    \"id\": 1,  \n    \"comentario\": \"Excelente atención y comida deliciosa.\",  \n    \"calificacion\": 5,  \n    \"restauranteId\": 1,  \n    \"usuarioId\": 2  \n    }\n    \n- 404 Not Found: Reseña no encontrada."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Platos por Restaurante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/resenas/restaurante/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"resenas",
+								"restaurante",
+								"1\n"
+							]
+						},
+						"description": "Devuelve todas las reseñas asociadas a un restaurante específico mediante su ID.\n\nParámetros:\n\n- restauranteId (path): ID del restaurante.\n    \n\nRespuesta:\n\n- 200 OK: Devuelve una lista de reseñas.\n    \n- \"id\": 1,\"comentario\": \"Excelente comida y atención.\",\"calificacion\": 5 }  \n    \\]\n    \n- 404 Not Found: No se encontraron reseñas para este restaurante."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Reseñas de un Usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/resenas/usuario/2\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"resenas",
+								"usuario",
+								"2\n"
+							]
+						},
+						"description": "Devuelve todas las reseñas realizadas por un usuario específico mediante su ID.\n\nParámetros:\n\n- usuarioId (path): ID del usuario.\n    \n\nRespuesta:\n\n- 200 OK: Devuelve una lista de reseñas.\n    \n- \"id\": 1,\"comentario\": \"Excelente atención.\",\"calificacion\": 5,\"restauranteId\": 1 }  \n    \\]\n    \n- 404 Not Found: No se encontraron reseñas de este usuario."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Reseña",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"comentario\": \"Servicio mejorado, pero aún puede mejorar.\",\r\n  \"calificacion\": 4\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/resenas/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"resenas",
+								"1\n"
+							]
+						},
+						"description": "Actualiza los datos de una reseña específica mediante su ID.\n\nParámetros:\n\n- id (path): ID de la reseña.\n    \n\nCuerpo JSON:  \n{  \n\"comentario\": \"La atención fue buena, pero puede mejorar.\",  \n\"calificacion\": 4  \n}\n\nRespuesta:\n\n- 200 OK: Reseña actualizada exitosamente.\n    \n- 404 Not Found: Reseña no encontrada.\n    \n- 400 Bad Request: Datos inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Reseña",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/resenas/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"resenas",
+								"1\n"
+							]
+						},
+						"description": "Elimina una reseña específica mediante su ID.\n\nParámetros:\n\n- id (path): ID de la reseña.\n    \n\nRespuesta:\n\n- 200 OK: Reseña eliminada exitosamente.\n    \n- 404 Not Found: Reseña no encontrada."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comentario",
+			"item": [
+				{
+					"name": "Crear Comentario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"contenido\": \"Muy buena reseña, concuerdo totalmente\",\r\n  \"usuarioId\": 2,\r\n  \"resenaId\": 1\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/comentarios\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios\n"
+							]
+						},
+						"description": "Crea un nuevo comentario asociado a una reseña específica.\n\nCuerpo JSON:  \n{  \n\"contenido\": \"Muy de acuerdo con esta reseña.\",  \n\"usuarioId\": 2,  \n\"resenaId\": 1  \n}\n\nRespuesta:\n\n- 201 Created: Comentario creado exitosamente.\n    \n- 400 Bad Request: Datos faltantes o inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Comentario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/comentarios\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios\n"
+							]
+						},
+						"description": "Devuelve una lista de todos los comentarios registrados en el sistema.\n\nRespuesta:\n\n- 200 OK: Devuelve una lista de comentarios.\n    \n- \"id\": 1,\"contenido\": \"Muy de acuerdo con esta reseña.\",\"usuarioId\": 2,\"resenaId\": 1 }  \n    \\]"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Comentario ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/comentarios\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios\n"
+							]
+						},
+						"description": "Devuelve los detalles de un comentario específico mediante su ID.\n\nParámetros:\n\n- id (path): ID del comentario.\n    \n\nRespuesta:\n\n- 200 OK: Comentario encontrado.\n    \n- Ejemplo:  \n    {  \n    \"id\": 1,  \n    \"contenido\": \"Muy de acuerdo con esta reseña.\",  \n    \"usuarioId\": 2,  \n    \"resenaId\": 1  \n    }\n    \n- 404 Not Found: Comentario no encontrado."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Comentarios Reseñas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/comentarios/resena/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios",
+								"resena",
+								"1\n"
+							]
+						},
+						"description": "Devuelve todos los comentarios asociados a una reseña específica.\n\nParámetros:\n\n- resenaId (path): ID de la reseña.\n    \n\nRespuesta:\n\n- 200 OK: Devuelve una lista de comentarios.\n    \n- \"id\": 1,\"contenido\": \"Muy de acuerdo con esta reseña.\" }  \n    \\]\n    \n- 404 Not Found: No se encontraron comentarios para esta reseña."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Comentarios Usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/comentarios/usuario/2\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios",
+								"usuario",
+								"2\n"
+							]
+						},
+						"description": "Devuelve todos los comentarios realizados por un usuario específico.\n\nParámetros:\n\n- usuarioId (path): ID del usuario.\n    \n\nRespuesta:\n\n- 200 OK: Devuelve una lista de comentarios.\n    \n- \"id\": 1,\"contenido\": \"Comentario interesante.\",\"resenaId\": 1 }  \n    \\]\n    \n- 404 Not Found: No se encontraron comentarios de este usuario."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Comentario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"contenido\": \"Comentario actualizado, con observaciones adicionales.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/comentarios/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios",
+								"1\n"
+							]
+						},
+						"description": "Actualiza el contenido de un comentario específico mediante su ID.\n\nParámetros:\n\n- id (path): ID del comentario.\n    \n\nCuerpo JSON:  \n{  \n\"contenido\": \"He cambiado de opinión, esta reseña es excelente.\"  \n}\n\nRespuesta:\n\n- 200 OK: Comentario actualizado exitosamente.\n    \n- 404 Not Found: Comentario no encontrado.\n    \n- 400 Bad Request: Datos inválidos."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Comentario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/comentarios/1\n",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"comentarios",
+								"1\n"
+							]
+						},
+						"description": "Elimina un comentario específico mediante su ID.\n\nParámetros:\n\n- id (path): ID del comentario.\n    \n\nRespuesta:\n\n- 200 OK: Comentario eliminado exitosamente.\n    \n- 404 Not Found: Comentario no encontrado."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
