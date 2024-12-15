@@ -36,14 +36,7 @@ public class PropietarioController {
 
     @PostMapping
     public ResponseEntity<PropietarioDTO> savePropietario(@RequestBody CreatePropietarioDTO createPropietarioDTO) {
-        Propietario propietario = new Propietario();
-        propietario.setNombre(createPropietarioDTO.getNombre());
-        propietario.setEmail(createPropietarioDTO.getCorreo());
-        propietario.setTipoDocumento(createPropietarioDTO.getTipoDocumento());
-        propietario.setNumeroDocumento(createPropietarioDTO.getNumeroDocumento());
-        propietario.setFotoPerfil(createPropietarioDTO.getFotoPerfil());
-
-        Propietario savedPropietario = propietarioService.savePropietario(propietario);
+        Propietario savedPropietario = propietarioService.savePropietarioDTO(createPropietarioDTO);
         return ResponseEntity.ok(convertToDTO(savedPropietario));
     }
 

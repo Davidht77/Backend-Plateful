@@ -1,15 +1,15 @@
 package com.dbp.projectofinal.ubicacion.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Getter
+@Setter
 @Entity
 @Table(name = "ubicaciones")
 public class Ubicacion {
@@ -26,4 +26,10 @@ public class Ubicacion {
     public Ubicacion(Long id_ubicacion) {
         this.id_ubicacion = id_ubicacion;
     }
+
+    public Ubicacion(Double latitud, Double longitud) {
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
+
 }

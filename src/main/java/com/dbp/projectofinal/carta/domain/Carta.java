@@ -25,7 +25,7 @@ public class Carta {
 
     private LocalDate fecha_actualizacion;
 
-    @OneToMany
+    @OneToMany(mappedBy = "carta")
     private List<Plato> platos;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

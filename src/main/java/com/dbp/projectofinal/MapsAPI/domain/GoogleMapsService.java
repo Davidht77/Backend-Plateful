@@ -18,7 +18,6 @@ import java.io.IOException;
 @Service
 public class GoogleMapsService {
 
-    @Value("${key}")
     private String encripted = "QUl6YVN5QnhLSnRlakNMUFgzZ2NKSEhWUHh3azR1Vkd6eVRrWWpj";
 
     private final GeoApiContext context;

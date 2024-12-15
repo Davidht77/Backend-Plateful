@@ -18,7 +18,7 @@ public class Propietario extends Usuario {
     private String numeroDocumento;
     private String fotoPerfil;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "propietario")
     private List<Restaurante> restaurantes;
 
     public Propietario(Long id_usuario) {

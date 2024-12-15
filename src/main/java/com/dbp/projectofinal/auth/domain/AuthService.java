@@ -3,6 +3,8 @@ package com.dbp.projectofinal.auth.domain;
 import com.dbp.projectofinal.auth.dto.RegisterReq;
 import com.dbp.projectofinal.config.JwtService;
 import com.dbp.projectofinal.eventos.SendMailEvent;
+import com.dbp.projectofinal.propietario.domain.PropietarioService;
+import com.dbp.projectofinal.propietario.infrastructure.PropietarioRepository;
 import com.dbp.projectofinal.usuario.domain.Category;
 import com.dbp.projectofinal.usuario.domain.Role;
 import com.dbp.projectofinal.usuario.domain.Usuario;
@@ -38,6 +40,10 @@ public class AuthService {
 
     @Autowired
     ApplicationEventPublisher applicationEventPublisher;
+    @Autowired
+    private PropietarioRepository propietarioRepository;
+    @Autowired
+    private PropietarioService propietarioService;
 
     @Autowired
     public AuthService(BaseUserRepository<Usuario> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
@@ -69,7 +75,7 @@ public class AuthService {
 
         if (registerReq.getCategory() == Category.PROPIETARIO) {
             usuario.setRoles(Set.of(propietarioRole));
-        } else {
+        } else if (registerReq.getCategory() == Category.CLIENTE){
             usuario.setRoles(Set.of(clienteRole));
         }
 
@@ -80,7 +86,12 @@ public class AuthService {
         );
         String token = jwtService.generateToken(userDetails);
 
-        userRepository.save(usuario);
+        if (registerReq.getCategory() == Category.PROPIETARIO) {
+            propietarioService.savePropReq(usuario);
+
+        } else if (registerReq.getCategory() == Category.CLIENTE){
+            userRepository.save(usuario);
+        }
 
         Map<String,Object> map = new HashMap<>();
         map.put("to",usuario.getEmail());

@@ -1,5 +1,6 @@
 package com.dbp.projectofinal.restaurante.domain;
 
+import com.dbp.projectofinal.auth.utils.AuthorizationUtils;
 import com.dbp.projectofinal.carta.domain.Carta;
 import com.dbp.projectofinal.exceptions.PropietarioNotFoundException;
 import com.dbp.projectofinal.exceptions.RestauranteNotFoundException;
@@ -9,6 +10,7 @@ import com.dbp.projectofinal.restaurante.dto.CreateRestauranteDTO;
 import com.dbp.projectofinal.restaurante.dto.RestauranteResponseDTO;
 import com.dbp.projectofinal.restaurante.dto.UbiRequestDTO;
 import com.dbp.projectofinal.restaurante.infrastructure.RestauranteRepository;
+import com.dbp.projectofinal.ubicacion.controller.UbicacionController;
 import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import com.dbp.projectofinal.ubicacion.domain.UbicacionService;
 import com.dbp.projectofinal.ubicacion.dto.UbicacionResponseDTO;
@@ -31,6 +33,8 @@ public class RestauranteService {
     private UbicacionService ubicacionService;
     @Autowired
     private PropietarioRepository propietarioRepository;
+    @Autowired
+    private AuthorizationUtils authorizationUtils;
 
     public List<Restaurante> getAllRestaurantes() {
         return restauranteRepository.findAll();
@@ -40,15 +44,20 @@ public class RestauranteService {
         return restauranteRepository.findById(id);
     }
 
-    public Restaurante saveRestaurante(CreateRestauranteDTO createRestauranteDTO) {
+    public Restaurante saveRestaurante(CreateRestauranteDTO createRestauranteDTO) throws IOException, InterruptedException, ApiException {
         Restaurante restaurante = new Restaurante();
         restaurante.setNombre_restaurante(createRestauranteDTO.getNombre_restaurante());
         restaurante.setHorario(createRestauranteDTO.getHorario());
         restaurante.setTipoRestaurante(createRestauranteDTO.getTipoRestaurante());
-        restaurante.setPropietario(new Propietario(createRestauranteDTO.getPropietarioId()));
-        restaurante.setCarta(new Carta(createRestauranteDTO.getCartaId()));
-        restaurante.setCalificacion_promedio(createRestauranteDTO.getCalificacion_promedio());
-        restaurante.setUbicacion(new Ubicacion(createRestauranteDTO.getUbicacionId()));
+//        Propietario propietario = getOwnSelf();
+        Optional<Propietario> propietario = propietarioRepository.findByEmail(createRestauranteDTO.getEmail());
+        if (propietario.isEmpty())
+            throw new PropietarioNotFoundException("No se encontro el propietario");
+
+        restaurante.setPropietario(propietario.get());
+        restaurante.setCalificacion_promedio(0.0);
+        Ubicacion ubi =  ubicacionService.findAndsaveUbication(createRestauranteDTO.getDireccion());
+        restaurante.setUbicacion(ubi);
         return restauranteRepository.save(restaurante);
     }
 
@@ -56,7 +65,7 @@ public class RestauranteService {
         restauranteRepository.deleteById(id);
     }
 
-    public Restaurante reemplaze(Long id , CreateRestauranteDTO createRestauranteDTO){
+    public Restaurante reemplaze(Long id , CreateRestauranteDTO createRestauranteDTO) throws IOException, InterruptedException, ApiException {
         Optional<Restaurante> restaurante2 = restauranteRepository.findById(id);
         if(restaurante2.isEmpty())
             throw new RestauranteNotFoundException("");
@@ -65,10 +74,11 @@ public class RestauranteService {
         restaurante.setNombre_restaurante(createRestauranteDTO.getNombre_restaurante());
         restaurante.setHorario(createRestauranteDTO.getHorario());
         restaurante.setTipoRestaurante(createRestauranteDTO.getTipoRestaurante());
-        restaurante.setPropietario(new Propietario(createRestauranteDTO.getPropietarioId()));
-        restaurante.setCarta(new Carta(createRestauranteDTO.getCartaId()));
-        restaurante.setCalificacion_promedio(createRestauranteDTO.getCalificacion_promedio());
-        restaurante.setUbicacion(new Ubicacion(createRestauranteDTO.getUbicacionId()));
+//        restaurante.setPropietario(new Propietario(createRestauranteDTO.getPropietarioId()));
+        restaurante.setCalificacion_promedio(0.0);
+
+        Ubicacion ubi =  ubicacionService.findAndsaveUbication(createRestauranteDTO.getDireccion());
+        restaurante.setUbicacion(ubi);
         deleteRestaurante(restaurante2.get().getId_restaurante());
         restauranteRepository.save(restaurante);
         return restaurante;
@@ -104,6 +114,18 @@ public class RestauranteService {
         }
         return newRestaurantes;
     }
+
+//    public Propietario getOwnSelf(){
+//        String email = authorizationUtils.getCurrentUserEmail();
+//        if (email == null)
+//            throw new PropietarioNotFoundException("Anonymous User not allowed to access this resource");
+//
+//        Optional<Propietario> propietario = propietarioRepository.findByEmail(email);
+//        if (propietario.isEmpty())
+//            throw new PropietarioNotFoundException("No se encontro el propietario");
+//
+//        return propietario.get();
+//    }
 
     public List<RestauranteResponseDTO> getNear(UbiRequestDTO requestDTO) throws IOException, InterruptedException, ApiException {
         Double lat = requestDTO.getLatitud();

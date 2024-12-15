@@ -25,13 +25,13 @@ public class AuthorizationUtils {
 //        return passenger.getId().equals(id) || passenger.getRole().equals(Role.ADMIN);
 //    }
 //
-//    public boolean getCurrentUserEmail() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
+    public String getCurrentUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            return userDetails.getUsername();
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
 }
