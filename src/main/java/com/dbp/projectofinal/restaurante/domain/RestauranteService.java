@@ -16,6 +16,8 @@ import com.dbp.projectofinal.ubicacion.domain.UbicacionService;
 import com.dbp.projectofinal.ubicacion.dto.UbicacionResponseDTO;
 import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -36,10 +38,10 @@ public class RestauranteService {
     @Autowired
     private AuthorizationUtils authorizationUtils;
 
-    public List<Restaurante> getAllRestaurantes() {
-        return restauranteRepository.findAll();
+    public Page<Restaurante> getAllRestaurantesPaginated(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page-1, size);
+        return restauranteRepository.findAll(pageRequest);
     }
-
     public Optional<Restaurante> getRestauranteById(Long id) {
         return restauranteRepository.findById(id);
     }
@@ -74,7 +76,12 @@ public class RestauranteService {
         restaurante.setNombre_restaurante(createRestauranteDTO.getNombre_restaurante());
         restaurante.setHorario(createRestauranteDTO.getHorario());
         restaurante.setTipoRestaurante(createRestauranteDTO.getTipoRestaurante());
-//        restaurante.setPropietario(new Propietario(createRestauranteDTO.getPropietarioId()));
+        Optional<Propietario> propietario = propietarioRepository.findByEmail(createRestauranteDTO.getEmail());
+        if (propietario.isEmpty())
+            throw new PropietarioNotFoundException("No se encontro el propietario");
+
+        restaurante.setPropietario(propietario.get());
+
         restaurante.setCalificacion_promedio(0.0);
 
         Ubicacion ubi =  ubicacionService.findAndsaveUbication(createRestauranteDTO.getDireccion());

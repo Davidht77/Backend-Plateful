@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class RestauranteResponseDTO {
+    private Long id;
     private String nombre_restaurante;
     private String horario;
     private String tipoRestaurante;

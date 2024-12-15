@@ -10,6 +10,8 @@ import com.dbp.projectofinal.ubicacion.dto.UbicacionResponseDTO;
 import com.dbp.projectofinal.ubicacion.infrastructure.UbicacionRepository;
 import com.google.maps.errors.ApiException;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ import java.util.Optional;
 
 @Service
 public class UbicacionService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UbicacionService.class);
+
 
     @Autowired
     private GoogleMapsService googleMapsService;
@@ -74,10 +79,11 @@ public class UbicacionService {
 
         for(Restaurante restaurante: restaurantes){
             Ubicacion ubicacion = restaurante.getUbicacion();
-            if(ubicacion.getLatitud()<= newlatitud && ubicacion.getLongitud()<=newlatitud &&
-            ubicacion.getLatitud() > latitud && ubicacion.getLongitud() > longitud){
+            if(ubicacion.getLatitud()<= newlatitud && ubicacion.getLongitud()<=newlongitud &&
+            ubicacion.getLatitud() >= latitud && ubicacion.getLongitud() >= longitud){
                 UbicacionResponseDTO ubicacionResponseDTO =  googleMapsService.getUbicationDetails(ubicacion.getDireccionCompleta());
                 RestauranteResponseDTO restauranteResponseDTO = new RestauranteResponseDTO();
+                restauranteResponseDTO.setId(restaurante.getId_restaurante());
                 restauranteResponseDTO.setNombre_restaurante(restaurante.getNombre_restaurante());
                 restauranteResponseDTO.setTipoRestaurante(restaurante.getTipoRestaurante());
                 restauranteResponseDTO.setHorario(restaurante.getHorario());
