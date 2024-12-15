@@ -23,6 +23,6 @@ public class Plato {
 
     @ManyToOne
     @JoinColumn(name = "id_carta")
-    private Carta carta;  // Relación con la carta
+    private Carta carta;
 
 }

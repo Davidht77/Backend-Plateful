@@ -15,5 +15,4 @@ public class RegisterReq {
     private String phone;
     private LocalDate date;
     private Category category;
-    private Ubicacion ubicacion;
 }

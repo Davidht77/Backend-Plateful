@@ -3,7 +3,9 @@ package com.dbp.projectofinal.ubicacion.domain;
 import com.dbp.projectofinal.MapsAPI.domain.GoogleMapsService;
 import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import com.dbp.projectofinal.restaurante.dto.RestauranteResponseDTO;
+import com.dbp.projectofinal.restaurante.dto.UbiRequestDTO;
 import com.dbp.projectofinal.restaurante.infrastructure.RestauranteRepository;
+import com.dbp.projectofinal.ubicacion.dto.UbicacionDTO;
 import com.dbp.projectofinal.ubicacion.dto.UbicacionResponseDTO;
 import com.dbp.projectofinal.ubicacion.infrastructure.UbicacionRepository;
 import com.google.maps.errors.ApiException;
@@ -39,8 +41,21 @@ public class UbicacionService {
         return ubicacionRepository.findById(id);
     }
 
-    public Ubicacion saveUbicacion(Ubicacion usuario) {
-        return ubicacionRepository.save(usuario);
+    public Ubicacion findAndsaveUbication(String address) throws IOException, InterruptedException, ApiException {
+        UbicacionResponseDTO ubicacionResponseDTO =  googleMapsService.getUbicationDetails(address);
+        Ubicacion ubi = new Ubicacion();
+        ubi.setCiudad(ubicacionResponseDTO.getCiudad());
+        ubi.setDireccionCompleta(ubicacionResponseDTO.getDireccionCompleta());
+        ubi.setLatitud(ubicacionResponseDTO.getLatitud());
+        ubi.setLongitud(ubicacionResponseDTO.getLongitud());
+        ubi.setCodigoPostal(ubicacionResponseDTO.getCodigoPostal());
+        return ubicacionRepository.save(ubi);
+    }
+
+    public Ubicacion saveUbicationDTO (UbiRequestDTO ubi) {return ubicacionRepository.save(new Ubicacion(ubi.getLatitud(),ubi.getLongitud()));}
+
+    public Ubicacion saveUbicacion(Ubicacion ubicacion) {
+        return ubicacionRepository.save(ubicacion);
     }
 
     public void deleteUbicacion(Long id) {

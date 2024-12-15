@@ -35,16 +35,19 @@ public class SecurityConfig {
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Permitir acceso público a estos endpoints
-                        .requestMatchers("/usuarios", "/auth/**", "/geocode/**").permitAll()
+                        .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/propietarios/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/restaurantes/nearby").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/restaurantes").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/restaurantes/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/propietarios").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/restaurantes/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/restaurantes").permitAll()
                         .requestMatchers(HttpMethod.POST, "/ubicaciones").authenticated()
                         .requestMatchers(HttpMethod.POST, "/ubicaciones/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/ubicaciones/**").authenticated()
                         // Restringir otros endpoints a roles específicos
                         .requestMatchers("/ubicaciones/**", "/cartas", "/platos").hasRole("PROPIETARIO")
                         .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/resenas").hasRole("CLIENTE")
-                        .requestMatchers("/api/comentarios").hasAnyRole("PROPIETARIO", "CLIENTE")
+                        .requestMatchers("/comentarios").hasAnyRole("PROPIETARIO", "CLIENTE")
 
                         // Cualquier otra solicitud necesita autenticación
                         .anyRequest().authenticated()

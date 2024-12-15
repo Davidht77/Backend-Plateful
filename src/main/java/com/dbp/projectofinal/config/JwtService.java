@@ -35,7 +35,7 @@ public class JwtService {
 
         return JWT.create()
                 .withSubject(data.getUsername())
-                .withClaim("role", data.getAuthorities().toArray()[0].toString())
+                .withClaim("role", data.getAuthorities().toString())
                 .withIssuedAt(now)
                 .withExpiresAt(expiration)
                 .sign(algorithm);
@@ -48,11 +48,3 @@ public class JwtService {
         return true;
     }
 }
-
-
-//        UserDetails userDetails = userService.userDetailsService().loadUserByUsername(userEmail);
-//
-//        SecurityContext context = SecurityContextHolder.createEmptyContext();
-//        context.setAuthentication(new UsernamePasswordAuthenticationToken(
-//                userDetails, token, userDetails.getAuthorities()));
-//        SecurityContextHolder.setContext(context);

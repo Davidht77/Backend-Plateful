@@ -42,7 +42,7 @@ public class Usuario implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "usuario")
     private List<Resena> resenas;
 
     @ManyToOne
@@ -69,6 +69,6 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "";
+        return email;
     }
 }

@@ -34,7 +34,7 @@ public class Restaurante {
 
     private Double calificacion_promedio;
 
-    @OneToMany
+    @OneToMany(mappedBy = "restaurante")
     private List<Resena> resenas;
 
     @ManyToOne
