@@ -37,10 +37,10 @@ public class SecurityConfig {
                         // Permitir acceso público a estos endpoints
                         .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/propietarios/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/restaurantes/nearby").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/restaurantes/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/restaurantes/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/propietarios").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/restaurantes/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/restaurantes").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/restaurantes/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/restaurantes").authenticated()
                         .requestMatchers(HttpMethod.POST, "/ubicaciones").authenticated()
                         .requestMatchers(HttpMethod.POST, "/ubicaciones/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/ubicaciones/**").authenticated()

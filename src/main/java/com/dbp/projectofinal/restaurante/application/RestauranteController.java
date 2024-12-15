@@ -33,11 +33,12 @@ public class RestauranteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RestauranteResponseDTO>> getAllRestaurantes() {
-        List<RestauranteResponseDTO> restaurantes = restauranteService.getAllRestaurantes()
-                .stream()
+    public ResponseEntity<List<RestauranteResponseDTO>> getAllRestaurantes(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<RestauranteResponseDTO> restaurantes = restauranteService.getAllRestaurantesPaginated(page, size)
                 .map(this::convertResponse)
-                .collect(Collectors.toList());
+                .getContent();
         return ResponseEntity.ok(restaurantes);
     }
 
@@ -64,9 +65,9 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> reemplazar(@PathVariable Long id, @RequestBody CreateRestauranteDTO createRestauranteDTO) throws IOException, InterruptedException, ApiException {
+    public ResponseEntity<RestauranteResponseDTO> reemplazar(@PathVariable Long id, @RequestBody CreateRestauranteDTO createRestauranteDTO) throws IOException, InterruptedException, ApiException {
         Restaurante savedRestaurante = restauranteService.reemplaze(id,createRestauranteDTO);
-        return ResponseEntity.ok(convertToDTO(savedRestaurante));
+        return ResponseEntity.ok(convertResponse(savedRestaurante));
     }
 
     @PatchMapping("/propietario/{id}")
@@ -83,6 +84,7 @@ public class RestauranteController {
 
     private RestauranteResponseDTO convertResponse(Restaurante restaurante){
         RestauranteResponseDTO restauranteResponseDTO = new RestauranteResponseDTO();
+        restauranteResponseDTO.setId(restaurante.getId_restaurante());
         restauranteResponseDTO.setNombre_restaurante(restaurante.getNombre_restaurante());
         restauranteResponseDTO.setHorario(restaurante.getHorario());
         restauranteResponseDTO.setTipoRestaurante(restaurante.getTipoRestaurante());
