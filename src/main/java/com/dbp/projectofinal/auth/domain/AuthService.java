@@ -8,6 +8,7 @@ import com.dbp.projectofinal.propietario.infrastructure.PropietarioRepository;
 import com.dbp.projectofinal.usuario.domain.Category;
 import com.dbp.projectofinal.usuario.domain.Role;
 import com.dbp.projectofinal.usuario.domain.Usuario;
+import com.dbp.projectofinal.usuario.domain.UsuarioService;
 import com.dbp.projectofinal.usuario.infrastructure.BaseUserRepository;
 import com.dbp.projectofinal.usuario.infrastructure.RoleRepository;
 import com.dbp.projectofinal.usuario.infrastructure.UsuarioRepository;
@@ -44,6 +45,8 @@ public class AuthService {
     private PropietarioRepository propietarioRepository;
     @Autowired
     private PropietarioService propietarioService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     public AuthService(BaseUserRepository<Usuario> userRepository, JwtService jwtService, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
@@ -74,15 +77,15 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("Error: Role CLIENTE is not found."));
 
         if (registerReq.getCategory() == Category.PROPIETARIO) {
-            usuario.setRoles(Set.of(propietarioRole));
+            usuario.getRoles().add(propietarioRole);
         } else if (registerReq.getCategory() == Category.CLIENTE){
-            usuario.setRoles(Set.of(clienteRole));
+            usuario.getRoles().add(clienteRole);
         }
 
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                 usuario.getEmail(),
                 usuario.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority("USER"))
+                usuario.getAuthorities()
         );
         String token = jwtService.generateToken(userDetails);
 
@@ -98,7 +101,7 @@ public class AuthService {
         map.put("name",usuario.getNombre());
         applicationEventPublisher.publishEvent(new SendMailEvent(map));
 
-        return new JwtAuthResponse(token, registerReq.getCategory().name());
+        return new JwtAuthResponse(token, usuario.getRoles().toString());
     }
 
     public JwtAuthResponse login(LoginReq loginReq) {
@@ -111,13 +114,21 @@ public class AuthService {
             throw new RuntimeException("Contraseña incorrecta");
         }
 
+        List<Role> roles = usuarioService.obtenerRoles(usuario.getId_usuario());
+        Set<Role> set = new HashSet<>();
+        //Asignar los roles
+        for(Role role: roles){
+            set.add(role);
+            System.out.println("Role Name: " + role);
+        }
+
+        usuario.setRoles(set);
+
         // Generar el token
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                 usuario.getEmail(),
                 usuario.getPassword(),
-                usuario.getRoles().stream()
-                        .map(role -> new SimpleGrantedAuthority(role.getName()))
-                        .collect(Collectors.toList())
+                usuario.getAuthorities()
         );
         String token = jwtService.generateToken(userDetails);
 
@@ -126,7 +137,7 @@ public class AuthService {
                 .map(Role::getName)
                 .orElse("Unknown");
 
-        return new JwtAuthResponse(token);
+        return new JwtAuthResponse(token, usuario.getRoles().toString());
     }
 
 }

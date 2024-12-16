@@ -35,7 +35,7 @@ public class JwtService {
 
         return JWT.create()
                 .withSubject(data.getUsername())
-                .withClaim("role", data.getAuthorities().toString())
+                .withClaim("role", data.getAuthorities().iterator().next().getAuthority()) // Asegúrate de incluir el prefijo ROLE_
                 .withIssuedAt(now)
                 .withExpiresAt(expiration)
                 .sign(algorithm);
@@ -46,5 +46,9 @@ public class JwtService {
         JWT.require(Algorithm.HMAC256(secret)).build().verify(token);
 
         return true;
+    }
+
+    public String extractRole(String token) {
+        return JWT.decode(token).getClaim("role").asString();
     }
 }

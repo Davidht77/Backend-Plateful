@@ -1,11 +1,14 @@
 package com.dbp.projectofinal.config;
 
+import com.auth0.jwt.JWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -13,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -26,7 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt;
         String userEmail;
 
-        // Cambiar "Driver" por "Bearer"
         if (!StringUtils.hasText(authHeader) || !StringUtils.startsWithIgnoreCase(authHeader, "Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -39,9 +42,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
             // Validar el token
             if (jwtService.validateToken(jwt, userEmail)) {
-                // Crear un objeto de autenticación
+                // Extraer el rol del token
+                String role = jwtService.extractRole(jwt);
+
+                // Crear una lista de autoridades (con prefijo ROLE_)
+                List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
+
+                // Crear un objeto de autenticación con las autoridades
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        userEmail, null, new ArrayList<>()); // Puedes añadir los roles aquí si lo necesitas
+                        userEmail, null, authorities);
 
                 // Establecer la autenticación en el contexto
                 SecurityContextHolder.getContext().setAuthentication(authentication);

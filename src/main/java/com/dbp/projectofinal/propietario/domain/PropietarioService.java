@@ -32,6 +32,7 @@ public class PropietarioService {
         propietario.setPassword(registerReq.getPassword());
         propietario.setTelefono(registerReq.getTelefono());
         propietario.setFechaNacimiento(registerReq.getFechaNacimiento());
+        propietario.setRoles(registerReq.getRoles());
         propietarioRepository.save(propietario);
     }
 
