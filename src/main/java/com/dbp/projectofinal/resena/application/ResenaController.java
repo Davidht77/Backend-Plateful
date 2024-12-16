@@ -40,6 +40,7 @@ public class ResenaController {
     public ResponseEntity<ResenaDTO> createResena(@RequestBody CreateResenaDTO createResenaDTO) {
         Resena resena = new Resena();
         resena.setCalificacion(createResenaDTO.getCalificacion());
+        resena.setContenido(createResenaDTO.getContenido());
         resena.setUsuario(new Usuario(createResenaDTO.getId_usuario()));
         resena.setRestaurante(new Restaurante(createResenaDTO.getId_restaurante()));
 

@@ -36,18 +36,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Permitir acceso público a estos endpoints
                         .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/propietarios/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/restaurantes/nearby").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/restaurantes/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/propietarios").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/restaurantes/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/restaurantes").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/ubicaciones").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/ubicaciones/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/ubicaciones/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE,"/platos/**").hasRole("PROPIETARIO")
                         // Restringir otros endpoints a roles específicos
-                        .requestMatchers("/ubicaciones/**", "/cartas", "/platos").hasRole("PROPIETARIO")
-                        .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/resenas","/usuarios/me").hasRole("CLIENTE")
-                        .requestMatchers("/comentarios").hasAnyRole("PROPIETARIO", "CLIENTE")
+                        .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/restaurantes/**").hasRole("PROPIETARIO")
+                        .requestMatchers("/ubicaciones/**", "/platos/disponibles","/restaurantes/nearby" ,"/usuarios/me","/comentarios/usuario/**").hasRole("CLIENTE")
+                        .requestMatchers("/comentarios/resena/**","/resenas/restaurante/**","/resenas/usuario/**").hasAnyRole("PROPIETARIO", "CLIENTE")
 
                         // Cualquier otra solicitud necesita autenticación
                         .anyRequest().authenticated()

@@ -101,7 +101,11 @@ public class AuthService {
         map.put("name",usuario.getNombre());
         applicationEventPublisher.publishEvent(new SendMailEvent(map));
 
-        return new JwtAuthResponse(token, usuario.getRoles().toString());
+        String role = usuario.getRoles().stream().findFirst()
+                .map(Role::getName)
+                .orElse("Unknown");
+
+        return new JwtAuthResponse(token, role);
     }
 
     public JwtAuthResponse login(LoginReq loginReq) {
@@ -133,7 +137,7 @@ public class AuthService {
                 .map(Role::getName)
                 .orElse("Unknown");
 
-        return new JwtAuthResponse(token, usuario.getRoles().toString());
+        return new JwtAuthResponse(token, role);
     }
 
 }
