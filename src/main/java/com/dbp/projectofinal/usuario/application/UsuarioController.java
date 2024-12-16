@@ -5,6 +5,7 @@ import com.dbp.projectofinal.usuario.dto.CreateUsuarioDTO;
 import com.dbp.projectofinal.usuario.dto.UserNewPassword;
 import com.dbp.projectofinal.usuario.dto.UsuarioDTO;
 import com.dbp.projectofinal.usuario.domain.UsuarioService;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,12 @@ public class UsuarioController {
                 .map(this::convertToDTO)
                 .toList();
         return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/roles/{id}")
+    public ResponseEntity<String> verifyroles(@PathVariable Long id) {
+        usuarioService.verificarRoles(id);
+        return ResponseEntity.ok("Roles verificados");
     }
 
     @PostMapping

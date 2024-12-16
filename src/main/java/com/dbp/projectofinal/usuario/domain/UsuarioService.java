@@ -5,6 +5,7 @@ import com.dbp.projectofinal.propietario.domain.Propietario;
 import com.dbp.projectofinal.propietario.infrastructure.PropietarioRepository;
 import com.dbp.projectofinal.usuario.dto.CreateUsuarioDTO;
 import com.dbp.projectofinal.usuario.dto.UserNewPassword;
+import com.dbp.projectofinal.usuario.infrastructure.RoleRepository;
 import com.dbp.projectofinal.usuario.infrastructure.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -14,10 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UsuarioService {
@@ -30,6 +28,8 @@ public class UsuarioService {
 
     @Autowired
     ApplicationEventPublisher applicationEventPublisher;
+    @Autowired
+    private RoleRepository roleRepository;
 
 
     public List<Usuario> getAllUsuarios() {
@@ -40,11 +40,40 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
+    public List<Role> obtenerRoles(Long id){
+        Role propietarioRole = roleRepository.findByName("ROLE_PROPIETARIO")
+                .orElseThrow(() -> new RuntimeException("Error: Role PROPIETARIO is not found."));
+        Role clienteRole = roleRepository.findByName("ROLE_CLIENTE")
+                .orElseThrow(() -> new RuntimeException("Error: Role CLIENTE is not found."));
+
+        List<Object[]> results = usuarioRepository.findUsuarioWithRoles(id);
+        List<Role> lista = new ArrayList<>();
+        for (Object[] row : results) {
+            Object palabra= row[row.length-1];
+            String palabrastring = palabra.toString();
+            if (palabrastring.equals("ROLE_PROPIETARIO")) {
+                lista.add(propietarioRole);
+            } else if (palabrastring.equals("ROLE_CLIENTE")){
+                lista.add(clienteRole);
+            }
+        }
+        return lista;
+    }
+
+    public void verificarRoles(Long id) {
+        List<Object[]> results = usuarioRepository.findUsuarioWithRoles(id);
+
+        for (Object[] row : results) {
+            System.out.println("Usuario: " + row[5]);
+            System.out.println("Role Name: " + row[row.length-1]);
+        }
+    }
+
     public Usuario saveUsuario(Usuario usuario) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("to",usuario.getEmail());
-        map.put("name",usuario.getNombre());
-        applicationEventPublisher.publishEvent(new SendMailEvent(map) );
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("to",usuario.getEmail());
+//        map.put("name",usuario.getNombre());
+//        applicationEventPublisher.publishEvent(new SendMailEvent(map) );
         return usuarioRepository.save(usuario);
     }
 

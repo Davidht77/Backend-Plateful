@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Permitir acceso público a estos endpoints
-                        .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/propietarios/**").permitAll()
+                        .requestMatchers("/usuarios/**", "/auth/**", "/geocode/**", "/propietarios/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/restaurantes/nearby").authenticated()
                         .requestMatchers(HttpMethod.GET, "/restaurantes/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/propietarios").permitAll()
