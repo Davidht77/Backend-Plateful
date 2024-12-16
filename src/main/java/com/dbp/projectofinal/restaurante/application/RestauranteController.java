@@ -42,6 +42,16 @@ public class RestauranteController {
         return ResponseEntity.ok(restaurantes);
     }
 
+    @GetMapping("/tipo")
+    public ResponseEntity<List<RestauranteResponseDTO>> getTipo(@RequestParam String tipo,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        List<RestauranteResponseDTO> restaurantes = restauranteService.getRestaurantesPorTipo(tipo, page, size)
+                .map(this::convertResponse)
+                .getContent();
+        return ResponseEntity.ok(restaurantes);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> getRestauranteById(@PathVariable Long id) {
         Optional<Restaurante> restaurante = restauranteService.getRestauranteById(id);

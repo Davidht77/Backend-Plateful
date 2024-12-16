@@ -45,5 +45,11 @@ public class Restaurante {
         this.id_restaurante = id_restaurante;
     }
 
-
+    public void actualizarCalificacion(){
+         Double calificacion = resenas.stream()
+                .mapToDouble(Resena::getCalificacion)
+                .average()
+                .orElse(0.0);
+         setCalificacion_promedio(calificacion);
+    }
 }

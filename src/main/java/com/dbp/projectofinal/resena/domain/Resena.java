@@ -7,6 +7,7 @@ import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,7 +39,7 @@ public class Resena {
     @JoinColumn(name = "id_restaurante")
     private Restaurante restaurante;
 
-    private LocalDate fecha;
+    private LocalDate fecha = LocalDate.now();
 
     public Resena(Long id_resena) {
         this.id_resena = id_resena;

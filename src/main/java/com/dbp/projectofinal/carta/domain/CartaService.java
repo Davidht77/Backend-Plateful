@@ -30,7 +30,14 @@ public class CartaService {
         return cartaRepository.findById(id);
     }
 
-    public Carta saveCarta(Carta carta) {
+    public Carta saveCarta(CreateCartaDTO requestDTO) {
+        Carta carta = new Carta();
+        carta.setNombre(requestDTO.getNombre());
+        carta.setFecha_actualizacion(requestDTO.getFecha_actualizacion());
+        Optional<Restaurante> restaurante = restauranteRepository.findById(requestDTO.getRestauranteId());
+        if(restaurante.isEmpty())
+            throw new RestauranteNotFoundException("");
+        carta.setRestaurante(restaurante.get());
         return cartaRepository.save(carta);
     }
 
@@ -43,7 +50,9 @@ public class CartaService {
         if (restaurante1.isEmpty())
             throw new RestauranteNotFoundException("");
         Carta carta  = restaurante1.get().getCarta();
-        return new CartaDTO(carta.getId_carta(),carta.getNombre(),carta.getFecha_actualizacion(),restaurante1.get().getNombre_restaurante());
+        return new CartaDTO(
+                carta.getId_carta(),carta.getNombre(),
+                carta.getFecha_actualizacion(),restaurante1.get().getNombre_restaurante());
     }
 
     public CartaDTO reemplazar(Long id, CreateCartaDTO createCartaDTO){

@@ -30,6 +30,6 @@ public class Comentario {
 
     private String contenido;
 
-    private LocalDate fecha;
+    private LocalDate fecha = LocalDate.now();
 
 }

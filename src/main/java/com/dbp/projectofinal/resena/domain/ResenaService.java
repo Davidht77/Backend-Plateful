@@ -34,6 +34,11 @@ public class ResenaService {
     }
 
     public Resena saveResena(Resena resena) {
+        Optional<Restaurante> restaurante = restauranteRepository.findById(resena.getRestaurante().getId_restaurante());
+        if(restaurante.isEmpty())
+            throw new RestauranteNotFoundException("");
+        restaurante.get().actualizarCalificacion();
+        restauranteRepository.save(restaurante.get());
         return resenaRepository.save(resena);
     }
 

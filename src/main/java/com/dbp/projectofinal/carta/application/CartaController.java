@@ -54,12 +54,7 @@ public class CartaController {
 
     @PostMapping
     public CartaDTO createCarta(@RequestBody CreateCartaDTO requestDTO) {
-        Carta carta = new Carta();
-        carta.setNombre(requestDTO.getNombre());
-        carta.setFecha_actualizacion(requestDTO.getFecha_actualizacion());
-        carta.setRestaurante(requestDTO.getRestaurante());
-
-        Carta savedCarta = cartaService.saveCarta(carta);
+        Carta savedCarta = cartaService.saveCarta(requestDTO);
         return new CartaDTO(
                 savedCarta.getId_carta(),
                 savedCarta.getNombre(),

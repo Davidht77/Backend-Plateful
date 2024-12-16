@@ -1,44 +1,25 @@
 package com.dbp.projectofinal.carta.dto;
 
 import com.dbp.projectofinal.restaurante.domain.Restaurante;
+import com.dbp.projectofinal.restaurante.dto.RestauranteDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateCartaDTO {
 
     private String nombre;
-    private LocalDate fecha_actualizacion;
-    private Restaurante restaurante;
+    private LocalDate fecha_actualizacion = LocalDate.now();
+    @NotNull
+    private Long restauranteId;
 
-    public CreateCartaDTO() {}
-
-    public CreateCartaDTO(String nombre, LocalDate fecha_actualizacion, Restaurante restaurante) {
-        this.nombre = nombre;
-        this.fecha_actualizacion = fecha_actualizacion;
-        this.restaurante = restaurante;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public LocalDate getFecha_actualizacion() {
-        return fecha_actualizacion;
-    }
-
-    public void setFecha_actualizacion(LocalDate fecha_actualizacion) {
-        this.fecha_actualizacion = fecha_actualizacion;
-    }
-
-    public Restaurante getRestaurante() {
-        return restaurante;
-    }
-
-    public void setRestaurante(Restaurante restaurante) {
-        this.restaurante = restaurante;
-    }
 }
