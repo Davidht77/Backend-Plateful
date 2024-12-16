@@ -35,6 +35,11 @@ public class UsuarioController {
         return ResponseEntity.ok("Roles verificados");
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioDTO> getOwn() {
+        Usuario user = usuarioService.getOwnSelf();
+        return ResponseEntity.ok(convertToDTO(user));
+    }
     @PostMapping
     public ResponseEntity<UsuarioDTO> saveUsuario(@RequestBody CreateUsuarioDTO createUsuarioDTO) {
         Usuario usuario = usuarioService.saveUsuario(convertToEntity(createUsuarioDTO));

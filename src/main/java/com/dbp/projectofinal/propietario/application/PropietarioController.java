@@ -4,6 +4,8 @@ import com.dbp.projectofinal.propietario.domain.Propietario;
 import com.dbp.projectofinal.propietario.dto.CreatePropietarioDTO;
 import com.dbp.projectofinal.propietario.dto.PropietarioDTO;
 import com.dbp.projectofinal.propietario.domain.PropietarioService;
+import com.dbp.projectofinal.usuario.domain.Usuario;
+import com.dbp.projectofinal.usuario.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,12 @@ public class PropietarioController {
         Propietario propietario = propietarioService.getPropietarioById(id)
                 .orElseThrow(() -> new RuntimeException("Propietario no encontrado"));
         return ResponseEntity.ok(convertToDTO(propietario));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<PropietarioDTO> getOwn() {
+        Propietario user = propietarioService.getOwnSelf();
+        return ResponseEntity.ok(convertToDTO(user));
     }
 
     @PostMapping

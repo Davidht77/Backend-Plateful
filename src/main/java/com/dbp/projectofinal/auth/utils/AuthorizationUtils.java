@@ -3,6 +3,7 @@ package com.dbp.projectofinal.auth.utils;
 import com.dbp.projectofinal.usuario.domain.Usuario;
 import com.dbp.projectofinal.usuario.domain.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,26 +13,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthorizationUtils {
 
-    @Autowired
-    private UsuarioService userService ;
-
-//    public boolean isAdminOrResourceOwner(Long id) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userdetails = (UserDetails) authentication.getPrincipal();
-//        String username = userdetails.getUsername();
-//        String role = userdetails.getAuthorities().toArray()[0].toString();
-//        Usuario passenger= userService.findByEmail(username, role);
-//
-//        return passenger.getId().equals(id) || passenger.getRole().equals(Role.ADMIN);
-//    }
-//
     public String getCurrentUserEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        try {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return userDetails.getUsername();
-        } catch (ClassCastException e) {
+        if (authentication == null || !authentication.isAuthenticated()) {
             return null;
         }
+
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else if (principal instanceof String) {
+            // A veces el principal es directamente el email o el nombre de usuario
+            return (String) principal;
+        }
+
+        return null;
     }
+
 }
