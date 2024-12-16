@@ -115,12 +115,8 @@ public class AuthService {
         }
 
         List<Role> roles = usuarioService.obtenerRoles(usuario.getId_usuario());
-        Set<Role> set = new HashSet<>();
         //Asignar los roles
-        for(Role role: roles){
-            set.add(role);
-            System.out.println("Role Name: " + role);
-        }
+        Set<Role> set = new HashSet<>(roles);
 
         usuario.setRoles(set);
 

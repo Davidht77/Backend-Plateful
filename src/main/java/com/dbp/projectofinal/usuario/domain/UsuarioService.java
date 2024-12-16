@@ -1,5 +1,7 @@
 package com.dbp.projectofinal.usuario.domain;
+import com.dbp.projectofinal.auth.utils.AuthorizationUtils;
 import com.dbp.projectofinal.eventos.SendMailEvent;
+import com.dbp.projectofinal.exceptions.PropietarioNotFoundException;
 import com.dbp.projectofinal.exceptions.UsuarioNotFoundException;
 import com.dbp.projectofinal.propietario.domain.Propietario;
 import com.dbp.projectofinal.propietario.infrastructure.PropietarioRepository;
@@ -10,6 +12,7 @@ import com.dbp.projectofinal.usuario.infrastructure.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,12 +27,12 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PropietarioRepository propietarioRepository;
-
-    @Autowired
     ApplicationEventPublisher applicationEventPublisher;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    @Lazy
+    private AuthorizationUtils authorizationUtils;
 
 
     public List<Usuario> getAllUsuarios() {
@@ -67,6 +70,18 @@ public class UsuarioService {
             System.out.println("Usuario: " + row[5]);
             System.out.println("Role Name: " + row[row.length-1]);
         }
+    }
+
+    public Usuario getOwnSelf(){
+        String email = authorizationUtils.getCurrentUserEmail();
+        if (email == null)
+            throw new UsuarioNotFoundException("Anonymous User not allowed to access this resource");
+
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        if (usuario.isEmpty())
+            throw new UsuarioNotFoundException("No se encontro el usuario");
+
+        return usuario.get();
     }
 
     public Usuario saveUsuario(Usuario usuario) {

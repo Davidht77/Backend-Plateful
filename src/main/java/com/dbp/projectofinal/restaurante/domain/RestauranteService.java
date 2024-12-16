@@ -122,17 +122,6 @@ public class RestauranteService {
         return newRestaurantes;
     }
 
-//    public Propietario getOwnSelf(){
-//        String email = authorizationUtils.getCurrentUserEmail();
-//        if (email == null)
-//            throw new PropietarioNotFoundException("Anonymous User not allowed to access this resource");
-//
-//        Optional<Propietario> propietario = propietarioRepository.findByEmail(email);
-//        if (propietario.isEmpty())
-//            throw new PropietarioNotFoundException("No se encontro el propietario");
-//
-//        return propietario.get();
-//    }
 
     public List<RestauranteResponseDTO> getNear(UbiRequestDTO requestDTO) throws IOException, InterruptedException, ApiException {
         Double lat = requestDTO.getLatitud();
