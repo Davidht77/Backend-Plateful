@@ -30,13 +30,7 @@ public class PlatoController {
 
     @PostMapping
     public ResponseEntity<PlatoDTO> savePlato(@RequestBody CreatePlatoDTO createPlatoDTO) {
-        Plato plato = new Plato();
-        plato.setNombre(createPlatoDTO.getNombre());
-        plato.setPrecio(createPlatoDTO.getPrecio());
-        plato.setDisponibilidad(createPlatoDTO.getDisponibilidad());
-        plato.setCarta(new Carta(createPlatoDTO.getId_carta()));
-
-        Plato savedPlato = platoService.savePlato(plato);
+        Plato savedPlato = platoService.savePlato(createPlatoDTO);
         return ResponseEntity.ok(convertToDTO(savedPlato));
     }
 
