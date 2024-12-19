@@ -37,6 +37,7 @@ public class SecurityConfig {
                         // Permitir acceso público a estos endpoints
                         .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/propietarios/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE,"/platos/**").hasRole("PROPIETARIO")
+                        .requestMatchers(HttpMethod.GET,"/restaurantes/**").hasRole("CLIENTE")
                         // Restringir otros endpoints a roles específicos
                         .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/restaurantes/**").hasRole("PROPIETARIO")
                         .requestMatchers("/ubicaciones/**", "/platos/disponibles","/restaurantes/nearby" ,"/usuarios/me","/comentarios/usuario/**").hasRole("CLIENTE")

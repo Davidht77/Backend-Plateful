@@ -9,7 +9,9 @@ public class RestauranteDTO {
     private String horario;
     private String tipoRestaurante;
     private Long propietarioId;
+    private String nombre_propietario;
     private Long cartaId;
+    private String nombre_carta;
     private Double calificacion_promedio;
     private Long ubicacionId;
     private Double latitude;

@@ -2,6 +2,8 @@ package com.dbp.projectofinal.restaurante.domain;
 
 import com.dbp.projectofinal.auth.utils.AuthorizationUtils;
 import com.dbp.projectofinal.carta.domain.Carta;
+import com.dbp.projectofinal.carta.infrastructure.CartaRepository;
+import com.dbp.projectofinal.exceptions.CartaNotFoundException;
 import com.dbp.projectofinal.exceptions.PropietarioNotFoundException;
 import com.dbp.projectofinal.exceptions.RestauranteNotFoundException;
 import com.dbp.projectofinal.propietario.domain.Propietario;
@@ -37,6 +39,8 @@ public class RestauranteService {
     private PropietarioRepository propietarioRepository;
     @Autowired
     private AuthorizationUtils authorizationUtils;
+    @Autowired
+    private CartaRepository cartaRepository;
 
     public Page<Restaurante> getAllRestaurantesPaginated(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page-1, size);
@@ -105,6 +109,18 @@ public class RestauranteService {
         if(propietario.isEmpty())
             throw new PropietarioNotFoundException("");
         restaurante2.get().setPropietario(propietario.get());
+        restauranteRepository.save(restaurante2.get());
+        return restaurante2.get();
+    }
+
+    public Restaurante actualizarCarta(Long id_rest, Long id_carta){
+        Optional<Restaurante> restaurante2 = restauranteRepository.findById(id_rest);
+        if(restaurante2.isEmpty())
+            throw new RestauranteNotFoundException("");
+        Optional<Carta> carta = cartaRepository.findById(id_carta);
+        if(carta.isEmpty())
+            throw new CartaNotFoundException(id_carta);
+        restaurante2.get().setCarta(carta.get());
         restauranteRepository.save(restaurante2.get());
         return restaurante2.get();
     }

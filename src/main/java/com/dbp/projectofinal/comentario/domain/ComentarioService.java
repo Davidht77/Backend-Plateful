@@ -39,8 +39,16 @@ public class ComentarioService {
     public ComentarioDTO saveComentario(CreateComentarioDTO createComentarioDTO) {
         Comentario comentario = new Comentario();
         comentario.setContenido(createComentarioDTO.getContenido());
-        comentario.setResena(new Resena(createComentarioDTO.getId_resena())); // Usando el constructor de ID
-        comentario.setUsuario(new Usuario(createComentarioDTO.getId_usuario())); // Usando el constructor de ID
+        Optional<Resena> resena = resenaRepository.findById(createComentarioDTO.getId_resena());
+        if(resena.isEmpty()){
+            throw new ResenaNotFoundException("");
+        }
+        comentario.setResena(resena.get());
+        Optional<Usuario> usuario = usuarioRepository.findById(createComentarioDTO.getId_usuario());
+        if(usuario.isEmpty()){
+            throw new ResenaNotFoundException("");
+        }
+        comentario.setUsuario(usuario.get());
 
         Comentario savedComentario = comentarioRepository.save(comentario);
         return convertToDTO(savedComentario);

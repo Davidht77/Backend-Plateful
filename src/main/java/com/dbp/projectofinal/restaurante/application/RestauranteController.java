@@ -32,6 +32,16 @@ public class RestauranteController {
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/nearby2")
+    public ResponseEntity<List<RestauranteResponseDTO>> getNearbyyy1km(
+            @RequestParam Double latitud,
+            @RequestParam Double longitud
+    ) throws IOException, InterruptedException, ApiException {
+        UbiRequestDTO ubiRequestDTO = new UbiRequestDTO(latitud, longitud);
+        List<RestauranteResponseDTO> lista = restauranteService.getNear(ubiRequestDTO);
+        return ResponseEntity.ok(lista);
+    }
+
     @GetMapping
     public ResponseEntity<List<RestauranteResponseDTO>> getAllRestaurantes(
             @RequestParam(defaultValue = "0") int page,
@@ -80,9 +90,15 @@ public class RestauranteController {
         return ResponseEntity.ok(convertResponse(savedRestaurante));
     }
 
-    @PatchMapping("/propietario/{id}")
+    @PatchMapping("/propietario/{id}/{email}")
     public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> actualizarPropietario(@PathVariable Long id, @PathVariable String email){
         Restaurante savedRestaurante = restauranteService.actualizar(id,email);
+        return ResponseEntity.ok(convertToDTO(savedRestaurante));
+    }
+
+    @PatchMapping("/carta/{id_rest}/{id_carta}")
+    public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> actualizarcarta(@PathVariable Long id_rest, @PathVariable Long id_carta){
+        Restaurante savedRestaurante = restauranteService.actualizarCarta(id_rest,id_carta);
         return ResponseEntity.ok(convertToDTO(savedRestaurante));
     }
 
@@ -106,13 +122,15 @@ public class RestauranteController {
     }
 
     private com.dbp.projectofinal.restaurante.dto.RestauranteDTO convertToDTO(Restaurante restaurante) {
-        com.dbp.projectofinal.restaurante.dto.RestauranteDTO dto = new com.dbp.projectofinal.restaurante.dto.RestauranteDTO();
+        com.dbp.projectofinal.restaurante.dto.RestauranteDTO dto = new RestauranteDTO();
         dto.setId_restaurante(restaurante.getId_restaurante());
         dto.setNombre_restaurante(restaurante.getNombre_restaurante());
         dto.setHorario(restaurante.getHorario());
         dto.setTipoRestaurante(restaurante.getTipoRestaurante());
-        dto.setPropietarioId(restaurante.getPropietario().getId_usuario());  // Propietario ID
+        dto.setPropietarioId(restaurante.getPropietario().getId_usuario());
+        dto.setNombre_propietario(restaurante.getPropietario().getNombre());// Propietario ID
         dto.setCartaId(restaurante.getCarta().getId_carta());                // Carta ID
+        dto.setNombre_carta(restaurante.getCarta().getNombre());
         dto.setCalificacion_promedio(restaurante.getCalificacion_promedio());
         dto.setUbicacionId(restaurante.getUbicacion().getId_ubicacion());    // Ubicación ID
         dto.setLatitude(restaurante.getUbicacion().getLatitud());
