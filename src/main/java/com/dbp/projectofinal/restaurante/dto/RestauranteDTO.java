@@ -13,7 +13,7 @@ public class RestauranteDTO {
     private Long cartaId;
     private String nombre_carta;
     private Double calificacion_promedio;
-    private Long ubicacionId;
+    private String direccion;
     private Double latitude;
     private Double longitude;
 }
