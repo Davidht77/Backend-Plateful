@@ -55,7 +55,7 @@ public class GoogleMapsService {
                     postalCode = component.longName;
                 }
             }
-            return new UbicacionResponseDTO(city,fullAddress,latitud,longitud,postalCode);
+            return new UbicacionResponseDTO(city,fullAddress,longitud,latitud,postalCode);
         }
          throw new UbicacionNotFoundException("");
     }

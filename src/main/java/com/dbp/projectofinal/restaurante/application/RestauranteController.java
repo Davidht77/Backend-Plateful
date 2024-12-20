@@ -26,13 +26,13 @@ public class RestauranteController {
     @Autowired
     private RestauranteService restauranteService;
 
-    @GetMapping("/nearby")
+    @GetMapping("/nearby2")
     public ResponseEntity<List<RestauranteResponseDTO>> getNearby1km(@RequestBody UbiRequestDTO ubiRequestDTO) throws IOException, InterruptedException, ApiException {
         List<RestauranteResponseDTO> lista = restauranteService.getNear(ubiRequestDTO);
         return ResponseEntity.ok(lista);
     }
 
-    @GetMapping("/nearby2")
+    @GetMapping("/nearby")
     public ResponseEntity<List<RestauranteResponseDTO>> getNearbyyy1km(
             @RequestParam Double latitud,
             @RequestParam Double longitud
@@ -132,7 +132,7 @@ public class RestauranteController {
         dto.setCartaId(restaurante.getCarta().getId_carta());                // Carta ID
         dto.setNombre_carta(restaurante.getCarta().getNombre());
         dto.setCalificacion_promedio(restaurante.getCalificacion_promedio());
-        dto.setUbicacionId(restaurante.getUbicacion().getId_ubicacion());    // Ubicación ID
+        dto.setDireccion(restaurante.getUbicacion().getDireccionCompleta());    // Ubicación ID
         dto.setLatitude(restaurante.getUbicacion().getLatitud());
         dto.setLongitude(restaurante.getUbicacion().getLongitud());
         return dto;
