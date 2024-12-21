@@ -40,6 +40,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,"/restaurantes/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET,"/cartas/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET,"/platos/carta/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET,"/resenas/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.POST,"/comentarios/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET,"/comentarios/**").hasRole("CLIENTE")
                         // Restringir otros endpoints a roles específicos
                         .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/restaurantes/**").hasRole("PROPIETARIO")
                         .requestMatchers("/ubicaciones/**", "/platos/disponibles","/platos/carta/**","/restaurantes/nearby" ,"/usuarios/me","/comentarios/usuario/**").hasRole("CLIENTE")

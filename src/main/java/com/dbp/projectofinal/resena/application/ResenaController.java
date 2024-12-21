@@ -38,13 +38,8 @@ public class ResenaController {
 
     @PostMapping
     public ResponseEntity<ResenaDTO> createResena(@RequestBody CreateResenaDTO createResenaDTO) {
-        Resena resena = new Resena();
-        resena.setCalificacion(createResenaDTO.getCalificacion());
-        resena.setContenido(createResenaDTO.getContenido());
-        resena.setUsuario(new Usuario(createResenaDTO.getId_usuario()));
-        resena.setRestaurante(new Restaurante(createResenaDTO.getId_restaurante()));
 
-        Resena savedResena = resenaService.saveResena(resena);
+        Resena savedResena = resenaService.saveResena(createResenaDTO);
         return ResponseEntity.ok(convertToDTO(savedResena));
     }
 
@@ -81,8 +76,10 @@ public class ResenaController {
     private ResenaDTO convertToDTO(Resena resena) {
         ResenaDTO dto = new ResenaDTO();
         dto.setId_resena(resena.getId_resena());
+        dto.setContenido(resena.getContenido());
         dto.setCalificacion(resena.getCalificacion());
         dto.setId_usuario(resena.getUsuario().getId_usuario());
+        dto.setNombre_usuario(resena.getUsuario().getNombre());
         dto.setId_restaurante(resena.getRestaurante().getId_restaurante());
         dto.setFecha(resena.getFecha().toString());
         return dto;
