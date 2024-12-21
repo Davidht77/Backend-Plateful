@@ -101,6 +101,7 @@ public class ComentarioService {
         dto.setContenido(comentario.getContenido());
         dto.setId_resena(comentario.getResena().getId_resena());
         dto.setId_usuario(comentario.getUsuario().getId_usuario());
+        dto.setNombre_usuario(comentario.getUsuario().getNombre());
         dto.setFecha(comentario.getFecha());
         return dto;
     }

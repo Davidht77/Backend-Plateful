@@ -2,6 +2,7 @@ package com.dbp.projectofinal.resena.domain;
 
 import com.dbp.projectofinal.exceptions.RestauranteNotFoundException;
 import com.dbp.projectofinal.exceptions.UsuarioNotFoundException;
+import com.dbp.projectofinal.resena.dto.CreateResenaDTO;
 import com.dbp.projectofinal.resena.infrastructure.ResenaRepository;
 import com.dbp.projectofinal.restaurante.domain.Restaurante;
 import com.dbp.projectofinal.restaurante.infrastructure.RestauranteRepository;
@@ -33,10 +34,21 @@ public class ResenaService {
         return resenaRepository.findById(id);
     }
 
-    public Resena saveResena(Resena resena) {
-        Optional<Restaurante> restaurante = restauranteRepository.findById(resena.getRestaurante().getId_restaurante());
+    public Resena saveResena(CreateResenaDTO createResenaDTO) {
+        Resena resena = new Resena();
+        resena.setCalificacion(createResenaDTO.getCalificacion());
+        resena.setContenido(createResenaDTO.getContenido());
+
+        Optional<Usuario> usuario = usuarioRepository.findById(createResenaDTO.getId_usuario());
+        if(usuario.isEmpty())
+            throw new UsuarioNotFoundException("");
+        resena.setUsuario(usuario.get());
+
+        Optional<Restaurante> restaurante = restauranteRepository.findById(createResenaDTO.getId_restaurante());
         if(restaurante.isEmpty())
             throw new RestauranteNotFoundException("");
+        resena.setRestaurante(restaurante.get());
+
         restaurante.get().actualizarCalificacion();
         restauranteRepository.save(restaurante.get());
         return resenaRepository.save(resena);

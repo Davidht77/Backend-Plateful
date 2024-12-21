@@ -37,7 +37,7 @@ public class RestauranteController {
             @RequestParam Double latitud,
             @RequestParam Double longitud
     ) throws IOException, InterruptedException, ApiException {
-        UbiRequestDTO ubiRequestDTO = new UbiRequestDTO(latitud, longitud);
+        UbiRequestDTO ubiRequestDTO = new UbiRequestDTO(longitud,latitud);
         List<RestauranteResponseDTO> lista = restauranteService.getNear(ubiRequestDTO);
         return ResponseEntity.ok(lista);
     }
