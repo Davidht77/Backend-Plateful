@@ -34,19 +34,19 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Permitir acceso público a estos endpoints
                         .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/propietarios/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE,"/platos/**").hasRole("PROPIETARIO")
                         .requestMatchers(HttpMethod.GET,"/restaurantes/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET,"/cartas/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET,"/platos/carta/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.POST,"/resenas/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET,"/resenas/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.POST,"/comentarios/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET,"/comentarios/**").hasRole("CLIENTE")
                         // Restringir otros endpoints a roles específicos
-                        .requestMatchers("/ubicaciones/**", "/cartas/**", "/platos/**", "/restaurantes/**").hasRole("PROPIETARIO")
-                        .requestMatchers("/ubicaciones/**", "/platos/disponibles","/platos/carta/**","/restaurantes/nearby" ,"/usuarios/me","/comentarios/usuario/**").hasRole("CLIENTE")
-                        .requestMatchers("/comentarios/resena/**","/resenas/restaurante/**","/resenas/usuario/**").hasAnyRole("PROPIETARIO", "CLIENTE")
+                        .requestMatchers("/cartas/**", "/platos/**", "/restaurantes/**").hasRole("PROPIETARIO")
+                        .requestMatchers("/platos/disponibles","/platos/carta/**","/restaurantes/nearby","/comentarios/usuario/**").hasRole("CLIENTE")
+                        .requestMatchers("/ubicaciones/**","/comentarios/resena/**","/resenas/restaurante/**","/resenas/usuario/**", "/usuarios/me").hasAnyRole("PROPIETARIO", "CLIENTE")
 
                         // Cualquier otra solicitud necesita autenticación
                         .anyRequest().authenticated()

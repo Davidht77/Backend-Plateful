@@ -85,6 +85,13 @@ public class UsuarioService {
     }
 
     public Usuario saveUsuario(Usuario usuario) {
+        Usuario usuario1 = new Usuario();
+        usuario1.setNombre(usuario.getNombre());
+        usuario1.setEmail(usuario.getEmail());
+        usuario1.setPassword(usuario.getPassword());
+        usuario1.setTelefono(usuario.getTelefono());
+        usuario1.setFechaNacimiento(usuario.getFechaNacimiento());
+        usuario1.setRoles(usuario.getRoles());
 //        Map<String,Object> map = new HashMap<>();
 //        map.put("to",usuario.getEmail());
 //        map.put("name",usuario.getNombre());
