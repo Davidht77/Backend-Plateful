@@ -44,11 +44,17 @@ public class ComentarioService {
             throw new ResenaNotFoundException("");
         }
         comentario.setResena(resena.get());
+
         Optional<Usuario> usuario = usuarioRepository.findById(createComentarioDTO.getId_usuario());
         if(usuario.isEmpty()){
-            throw new ResenaNotFoundException("");
+            throw new UsuarioNotFoundException("");
         }
         comentario.setUsuario(usuario.get());
+
+        List<Comentario> comentarios = resena.get().getComentarios();
+        comentarios.add(comentario);
+        Resena resena1 = resena.get();
+        resena1.setComentarios(comentarios);
 
         Comentario savedComentario = comentarioRepository.save(comentario);
         return convertToDTO(savedComentario);

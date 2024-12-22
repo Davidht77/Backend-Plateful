@@ -93,7 +93,7 @@ public class AuthService {
             propietarioService.savePropReq(usuario);
 
         } else if (registerReq.getCategory() == Category.CLIENTE){
-            userRepository.save(usuario);
+            usuarioService.saveUsuario(usuario);
         }
 
         Map<String,Object> map = new HashMap<>();

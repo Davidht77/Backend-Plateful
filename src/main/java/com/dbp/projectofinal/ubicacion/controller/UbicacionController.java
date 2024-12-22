@@ -59,9 +59,8 @@ public class UbicacionController {
     }
 
     private Ubicacion convertToEntity(CreateUbicacionDTO createUbicacionDTO) {
-        return new Ubicacion(null, createUbicacionDTO.getCiudad(),
+        return new Ubicacion(createUbicacionDTO.getCiudad(),
                 createUbicacionDTO.getDireccionCompleta(),
-                createUbicacionDTO.getLongitud(), createUbicacionDTO.getLatitud(),
-                null);
+                createUbicacionDTO.getLongitud(), createUbicacionDTO.getLatitud());
     }
 }

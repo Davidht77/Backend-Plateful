@@ -1,5 +1,6 @@
 package com.dbp.projectofinal.usuario.application;
 
+import com.dbp.projectofinal.usuario.domain.Role;
 import com.dbp.projectofinal.usuario.domain.Usuario;
 import com.dbp.projectofinal.usuario.dto.CreateUsuarioDTO;
 import com.dbp.projectofinal.usuario.dto.UserNewPassword;
@@ -10,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -67,13 +70,20 @@ public class UsuarioController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<UsuarioDTO> cambiarcontrasena(@RequestBody UserNewPassword newuser) {
-        Usuario  usuario = usuarioService.changePassword(newuser);
+        Usuario usuario = usuarioService.changePassword(newuser);
         return ResponseEntity.ok(convertToDTO(usuario));
     }
 
     private UsuarioDTO convertToDTO(Usuario usuario) {
+        List<Role> roles = usuarioService.obtenerRoles(usuario.getId_usuario());
+        //Asignar los roles
+
+        String role = roles.stream().findFirst()
+                .map(Role::getName)
+                .orElse("Unknown");
+
         return new UsuarioDTO(usuario.getId_usuario(), usuario.getNombre(),
-                usuario.getEmail(), usuario.getTelefono());
+                usuario.getEmail(), usuario.getTelefono(),role);
     }
 
     private Usuario convertToEntity(CreateUsuarioDTO createUsuarioDTO) {

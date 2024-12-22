@@ -1,14 +1,13 @@
 package com.dbp.projectofinal.auth.utils;
 
-import com.dbp.projectofinal.usuario.domain.Usuario;
-import com.dbp.projectofinal.usuario.domain.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+
 import org.springframework.stereotype.Component;
+
 
 @Component
 public class AuthorizationUtils {
@@ -29,5 +28,4 @@ public class AuthorizationUtils {
 
         return null;
     }
-
 }

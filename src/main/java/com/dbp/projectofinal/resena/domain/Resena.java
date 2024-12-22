@@ -27,8 +27,7 @@ public class Resena {
 
     private String contenido;
 
-    @OneToMany
-    @JoinColumn(name = "id_comentario")
+    @OneToMany(mappedBy = "resena", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comentario> comentarios;
 
     @ManyToOne
