@@ -61,16 +61,22 @@ public class RestauranteService {
         restaurante.setNombre_restaurante(createRestauranteDTO.getNombre_restaurante());
         restaurante.setHorario(createRestauranteDTO.getHorario());
         restaurante.setTipoRestaurante(createRestauranteDTO.getTipoRestaurante());
-//        Propietario propietario = getOwnSelf();
         Optional<Propietario> propietario = propietarioRepository.findByEmail(createRestauranteDTO.getEmail());
         if (propietario.isEmpty())
             throw new PropietarioNotFoundException("No se encontro el propietario");
 
         restaurante.setPropietario(propietario.get());
         restaurante.setCalificacion_promedio(0.0);
+
         Ubicacion ubi =  ubicacionService.findAndsaveUbication(createRestauranteDTO.getDireccion());
         restaurante.setUbicacion(ubi);
-        return restauranteRepository.save(restaurante);
+
+        Restaurante restaurante2 = restauranteRepository.save(restaurante);
+
+        propietario.get().getRestaurantes().add(restaurante2);
+
+        propietarioRepository.save(propietario.get());
+        return restaurante2;
     }
 
     public void deleteRestaurante(Long id) {
@@ -125,22 +131,33 @@ public class RestauranteService {
         return restaurante2.get();
     }
 
-    public List<RestauranteResponseDTO> porPropietario(Long id){
-        Optional<Propietario> propietario = propietarioRepository.findById(id);
-        if(propietario.isEmpty())
-            throw new PropietarioNotFoundException("");
-        List<Restaurante> restaurantes = propietario.get().getRestaurantes();
+    public List<RestauranteResponseDTO> porPropietario(Long id) {
+        Optional<Propietario> propietarioOpt = propietarioRepository.findById(id);
+        if (propietarioOpt.isEmpty()) {
+            throw new PropietarioNotFoundException("No se encontró el propietario");
+        }
+
+        // Forzar la inicialización de la lista de restaurantes
+        List<Restaurante> restaurantes = restauranteRepository.findByPropietarioId(id);
+
         List<RestauranteResponseDTO> newRestaurantes = new ArrayList<>();
-        for(Restaurante restaurante: restaurantes){
+        for (Restaurante restaurante : restaurantes) {
             RestauranteResponseDTO restauranteResponseDTO = new RestauranteResponseDTO();
+            restauranteResponseDTO.setId(restaurante.getId_restaurante());
             restauranteResponseDTO.setNombre_restaurante(restaurante.getNombre_restaurante());
             restauranteResponseDTO.setHorario(restaurante.getHorario());
             restauranteResponseDTO.setTipoRestaurante(restaurante.getTipoRestaurante());
             restauranteResponseDTO.setCalificacion_promedio(restaurante.getCalificacion_promedio());
             Ubicacion ubicacion = restaurante.getUbicacion();
-            restauranteResponseDTO.setUbicacion(new UbicacionResponseDTO(ubicacion.getCiudad(),ubicacion.getDireccionCompleta()
-                    ,ubicacion.getLongitud(),ubicacion.getLatitud(),ubicacion.getCodigoPostal()));
+            restauranteResponseDTO.setUbicacion(new UbicacionResponseDTO(
+                    ubicacion.getCiudad(),
+                    ubicacion.getDireccionCompleta(),
+                    ubicacion.getLongitud(),
+                    ubicacion.getLatitud(),
+                    ubicacion.getCodigoPostal()));
+            newRestaurantes.add(restauranteResponseDTO);
         }
+
         return newRestaurantes;
     }
 
