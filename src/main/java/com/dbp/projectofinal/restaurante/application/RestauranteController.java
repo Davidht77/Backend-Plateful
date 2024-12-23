@@ -129,8 +129,12 @@ public class RestauranteController {
         dto.setTipoRestaurante(restaurante.getTipoRestaurante());
         dto.setPropietarioId(restaurante.getPropietario().getId_usuario());
         dto.setNombre_propietario(restaurante.getPropietario().getNombre());// Propietario ID
-        dto.setCartaId(restaurante.getCarta().getId_carta());                // Carta ID
-        dto.setNombre_carta(restaurante.getCarta().getNombre());
+        if (restaurante.getCarta() != null) {
+            dto.setCartaId(restaurante.getCarta().getId_carta());
+        }
+        if (restaurante.getCarta() != null) {
+            dto.setNombre_carta(restaurante.getCarta().getNombre());
+        }
         dto.setCalificacion_promedio(restaurante.getCalificacion_promedio());
         dto.setDireccion(restaurante.getUbicacion().getDireccionCompleta());    // Ubicación ID
         dto.setLatitude(restaurante.getUbicacion().getLatitud());

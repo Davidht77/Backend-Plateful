@@ -36,17 +36,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/usuarios", "/auth/**", "/geocode/**", "/propietarios/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE,"/platos/**").hasRole("PROPIETARIO")
-                        .requestMatchers(HttpMethod.GET,"/restaurantes/**").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.GET,"/cartas/**").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.GET,"/platos/carta/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET,"/restaurantes/**").hasAnyRole("PROPIETARIO","CLIENTE")
+                        .requestMatchers(HttpMethod.GET,"/cartas/**").hasAnyRole("PROPIETARIO","CLIENTE")
+                        .requestMatchers(HttpMethod.GET,"/platos/carta/**").hasAnyRole("PROPIETARIO","CLIENTE")
                         .requestMatchers(HttpMethod.POST,"/resenas/**").hasRole("CLIENTE")
-                        .requestMatchers(HttpMethod.GET,"/resenas/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.GET,"/resenas/**").hasAnyRole("PROPIETARIO","CLIENTE")
                         .requestMatchers(HttpMethod.POST,"/comentarios/**").hasRole("CLIENTE")
                         .requestMatchers(HttpMethod.GET,"/comentarios/**").hasRole("CLIENTE")
+                        .requestMatchers(HttpMethod.POST,"/restaurantes/**").hasRole("PROPIETARIO")
                         // Restringir otros endpoints a roles específicos
-                        .requestMatchers("/cartas/**", "/platos/**", "/restaurantes/**").hasRole("PROPIETARIO")
-                        .requestMatchers("/platos/disponibles","/platos/carta/**","/restaurantes/nearby","/comentarios/usuario/**").hasRole("CLIENTE")
-                        .requestMatchers("/ubicaciones/**","/comentarios/resena/**","/resenas/restaurante/**","/resenas/usuario/**", "/usuarios/me").hasAnyRole("PROPIETARIO", "CLIENTE")
+                        .requestMatchers("/platos/**").hasRole("PROPIETARIO")
+                        .requestMatchers("/platos/disponibles","/platos/carta/**","/comentarios/usuario/**").hasRole("CLIENTE")
+                        .requestMatchers("/ubicaciones/**","/comentarios/resena/**","/resenas/restaurante/**","/resenas/usuario/**", "/usuarios/me", "/restaurantes/nearby", "/restaurantes/**").hasAnyRole("PROPIETARIO", "CLIENTE")
 
                         // Cualquier otra solicitud necesita autenticación
                         .anyRequest().authenticated()
