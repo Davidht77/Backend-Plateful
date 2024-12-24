@@ -53,13 +53,13 @@ public class CartaController {
     }
 
     @PostMapping
-    public CartaDTO createCarta(@RequestBody CreateCartaDTO requestDTO) {
+    public ResponseEntity<CartaDTO> createCarta(@RequestBody CreateCartaDTO requestDTO) {
         Carta savedCarta = cartaService.saveCarta(requestDTO);
-        return new CartaDTO(
+        return ResponseEntity.ok(new CartaDTO(
                 savedCarta.getId_carta(),
                 savedCarta.getNombre(),
                 savedCarta.getFecha_actualizacion(),
-                savedCarta.getRestaurante().getNombre_restaurante());
+                savedCarta.getRestaurante().getNombre_restaurante()));
     }
 
     @DeleteMapping("/{id}")

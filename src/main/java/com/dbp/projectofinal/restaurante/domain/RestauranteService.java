@@ -6,6 +6,7 @@ import com.dbp.projectofinal.carta.infrastructure.CartaRepository;
 import com.dbp.projectofinal.exceptions.CartaNotFoundException;
 import com.dbp.projectofinal.exceptions.PropietarioNotFoundException;
 import com.dbp.projectofinal.exceptions.RestauranteNotFoundException;
+import com.dbp.projectofinal.exceptions.UsuarioNotFoundException;
 import com.dbp.projectofinal.propietario.domain.Propietario;
 import com.dbp.projectofinal.propietario.infrastructure.PropietarioRepository;
 import com.dbp.projectofinal.restaurante.dto.CreateRestauranteDTO;
@@ -16,6 +17,7 @@ import com.dbp.projectofinal.ubicacion.controller.UbicacionController;
 import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import com.dbp.projectofinal.ubicacion.domain.UbicacionService;
 import com.dbp.projectofinal.ubicacion.dto.UbicacionResponseDTO;
+import com.dbp.projectofinal.usuario.domain.Usuario;
 import com.google.maps.errors.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -61,7 +63,12 @@ public class RestauranteService {
         restaurante.setNombre_restaurante(createRestauranteDTO.getNombre_restaurante());
         restaurante.setHorario(createRestauranteDTO.getHorario());
         restaurante.setTipoRestaurante(createRestauranteDTO.getTipoRestaurante());
-        Optional<Propietario> propietario = propietarioRepository.findByEmail(createRestauranteDTO.getEmail());
+
+        String email = authorizationUtils.getCurrentUserEmail();
+        if (email == null)
+            throw new UsuarioNotFoundException("Anonymous User not allowed to access this resource");
+
+        Optional<Propietario> propietario = propietarioRepository.findByEmail(email);
         if (propietario.isEmpty())
             throw new PropietarioNotFoundException("No se encontro el propietario");
 
@@ -92,7 +99,11 @@ public class RestauranteService {
         restaurante.setNombre_restaurante(createRestauranteDTO.getNombre_restaurante());
         restaurante.setHorario(createRestauranteDTO.getHorario());
         restaurante.setTipoRestaurante(createRestauranteDTO.getTipoRestaurante());
-        Optional<Propietario> propietario = propietarioRepository.findByEmail(createRestauranteDTO.getEmail());
+
+        String email = authorizationUtils.getCurrentUserEmail();
+        if (email == null)
+            throw new UsuarioNotFoundException("Anonymous User not allowed to access this resource");
+        Optional<Propietario> propietario = propietarioRepository.findByEmail(email);
         if (propietario.isEmpty())
             throw new PropietarioNotFoundException("No se encontro el propietario");
 
