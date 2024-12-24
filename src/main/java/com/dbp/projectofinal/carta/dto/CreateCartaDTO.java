@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCartaDTO {
-
+    @NotNull
     private String nombre;
     private LocalDate fecha_actualizacion = LocalDate.now();
     @NotNull

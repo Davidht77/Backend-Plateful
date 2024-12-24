@@ -1,7 +1,17 @@
 package com.dbp.projectofinal.propietario.dto;
 
+import jakarta.validation.constraints.Email;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class CreatePropietarioDTO {
+    @NotNull
     private String nombre;
+    @NotNull
+    @Email
     private String correo;
     private String tipoDocumento;
     private String numeroDocumento;
