@@ -2,11 +2,8 @@ package com.dbp.projectofinal.restaurante.application;
 
 
 import com.dbp.projectofinal.restaurante.domain.Restaurante;
-import com.dbp.projectofinal.restaurante.dto.CreateRestauranteDTO;
+import com.dbp.projectofinal.restaurante.dto.*;
 import com.dbp.projectofinal.restaurante.domain.RestauranteService;
-import com.dbp.projectofinal.restaurante.dto.RestauranteDTO;
-import com.dbp.projectofinal.restaurante.dto.RestauranteResponseDTO;
-import com.dbp.projectofinal.restaurante.dto.UbiRequestDTO;
 import com.dbp.projectofinal.ubicacion.domain.Ubicacion;
 import com.dbp.projectofinal.ubicacion.dto.UbicacionResponseDTO;
 import com.google.maps.errors.ApiException;
@@ -90,9 +87,9 @@ public class RestauranteController {
         return ResponseEntity.ok(convertResponse(savedRestaurante));
     }
 
-    @PatchMapping("/propietario/{id}/{email}")
-    public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> actualizarPropietario(@PathVariable Long id, @PathVariable String email){
-        Restaurante savedRestaurante = restauranteService.actualizar(id,email);
+    @PatchMapping("/edit/{id}")
+    public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> actualizarPropietario(@PathVariable Long id, @RequestBody EditRestaurantDTO editRestaurantDTO){
+        Restaurante savedRestaurante = restauranteService.actualizar(id,editRestaurantDTO);
         return ResponseEntity.ok(convertToDTO(savedRestaurante));
     }
 

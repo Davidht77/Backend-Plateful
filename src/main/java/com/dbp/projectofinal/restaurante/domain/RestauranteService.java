@@ -10,6 +10,7 @@ import com.dbp.projectofinal.exceptions.UsuarioNotFoundException;
 import com.dbp.projectofinal.propietario.domain.Propietario;
 import com.dbp.projectofinal.propietario.infrastructure.PropietarioRepository;
 import com.dbp.projectofinal.restaurante.dto.CreateRestauranteDTO;
+import com.dbp.projectofinal.restaurante.dto.EditRestaurantDTO;
 import com.dbp.projectofinal.restaurante.dto.RestauranteResponseDTO;
 import com.dbp.projectofinal.restaurante.dto.UbiRequestDTO;
 import com.dbp.projectofinal.restaurante.infrastructure.RestauranteRepository;
@@ -118,16 +119,31 @@ public class RestauranteService {
         return restaurante;
     }
 
-    public Restaurante actualizar(Long id, String email){
-        Optional<Restaurante> restaurante2 = restauranteRepository.findById(id);
-        if(restaurante2.isEmpty())
+    public Restaurante actualizar(Long id, EditRestaurantDTO editRestaurantDTO) throws IOException, InterruptedException, ApiException {
+        Optional<Restaurante> restaurante = restauranteRepository.findById(id);
+        if(restaurante.isEmpty())
             throw new RestauranteNotFoundException("");
-        Optional<Propietario> propietario = propietarioRepository.findByEmail(email);
-        if(propietario.isEmpty())
-            throw new PropietarioNotFoundException("");
-        restaurante2.get().setPropietario(propietario.get());
-        restauranteRepository.save(restaurante2.get());
-        return restaurante2.get();
+        Restaurante restaurante1 = restaurante.get();
+        if(editRestaurantDTO.getNombre_restaurante() != null){
+            restaurante1.setNombre_restaurante(editRestaurantDTO.getNombre_restaurante());
+        }
+        if(editRestaurantDTO.getHorario() != null){
+            restaurante1.setHorario(editRestaurantDTO.getHorario());
+        }
+        if(editRestaurantDTO.getTipoRestaurante() != null){
+            restaurante1.setTipoRestaurante(editRestaurantDTO.getTipoRestaurante());
+        }
+        if(editRestaurantDTO.getDireccion() != null){
+            Ubicacion ubi =  ubicacionService.findAndsaveUbication(editRestaurantDTO.getDireccion());
+            restaurante1.setUbicacion(ubi);
+        }
+        if(editRestaurantDTO.getNombre_carta() != null){
+            Carta carta = restaurante1.getCarta();
+            carta.setNombre(editRestaurantDTO.getNombre_carta());
+            restaurante1.setCarta(carta);
+        }
+        System.out.println("Actualizado correctamente");
+        return restauranteRepository.save(restaurante1);
     }
 
     public Restaurante actualizarCarta(Long id_rest, Long id_carta){
