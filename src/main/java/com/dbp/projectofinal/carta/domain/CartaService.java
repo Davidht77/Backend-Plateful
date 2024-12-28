@@ -37,8 +37,13 @@ public class CartaService {
         Optional<Restaurante> restaurante = restauranteRepository.findById(requestDTO.getRestauranteId());
         if(restaurante.isEmpty())
             throw new RestauranteNotFoundException("");
+        Restaurante restaurante1 = restaurante.get();
         carta.setRestaurante(restaurante.get());
-        return cartaRepository.save(carta);
+
+        Carta carta2 = cartaRepository.save(carta);
+        restaurante1.setCarta(carta2);
+        restauranteRepository.save(restaurante1);
+        return carta2;
     }
 
     public void deleteCarta(Long id) {
