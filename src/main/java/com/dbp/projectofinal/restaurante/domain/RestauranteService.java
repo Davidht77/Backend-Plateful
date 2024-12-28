@@ -140,7 +140,8 @@ public class RestauranteService {
         if(editRestaurantDTO.getNombre_carta() != null){
             Carta carta = restaurante1.getCarta();
             carta.setNombre(editRestaurantDTO.getNombre_carta());
-            restaurante1.setCarta(carta);
+            Carta carta1 = cartaRepository.save(carta);
+            restaurante1.setCarta(carta1);
         }
         System.out.println("Actualizado correctamente");
         return restauranteRepository.save(restaurante1);

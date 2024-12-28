@@ -88,7 +88,7 @@ public class RestauranteController {
     }
 
     @PatchMapping("/edit/{id}")
-    public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> actualizarPropietario(@PathVariable Long id, @RequestBody EditRestaurantDTO editRestaurantDTO){
+    public ResponseEntity<com.dbp.projectofinal.restaurante.dto.RestauranteDTO> actualizarPropietario(@PathVariable Long id, @RequestBody EditRestaurantDTO editRestaurantDTO) throws IOException, InterruptedException, ApiException {
         Restaurante savedRestaurante = restauranteService.actualizar(id,editRestaurantDTO);
         return ResponseEntity.ok(convertToDTO(savedRestaurante));
     }
