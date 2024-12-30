@@ -55,6 +55,11 @@ public class RestauranteService {
         return restauranteRepository.findRestaurantesByTipoRestauranteContainingIgnoreCase(Tipo,pageRequest);
     }
 
+    public Page<Restaurante> getRestaurantePorNombre(String nombre,int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page-1, size);
+        return restauranteRepository.findRestaurantesBynameContainingIgnoreCase(nombre,pageRequest);
+    }
+
     public Optional<Restaurante> getRestauranteById(Long id) {
         return restauranteRepository.findById(id);
     }
