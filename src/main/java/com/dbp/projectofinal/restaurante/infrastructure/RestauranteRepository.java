@@ -14,8 +14,16 @@ import java.util.List;
 public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
     Page<Restaurante> findRestaurantesByTipoRestauranteContainingIgnoreCase(String tipo, Pageable pageable);
 
-    Page<Restaurante> findRestaurantesBynameContainingIgnoreCase(String tipo, Pageable pageable);
 
+    @Query(value = "SELECT * FROM restaurantes " +
+            "WHERE LOWER(nombre_restaurante) LIKE LOWER(CONCAT('%', :nombre, '%')) " +
+            "LIMIT :pageSize OFFSET :offset",
+            nativeQuery = true)
+    List<Restaurante> buscarPorNombre(
+            @Param("nombre") String nombre,
+            @Param("pageSize") int pageSize,
+            @Param("offset") int offset
+    );
     @Query("SELECT r FROM Restaurante r WHERE r.propietario.id_usuario = :propietarioId")
-    List<Restaurante> findByPropietarioId(@Param("propietarioId") Long propietarioId);
+    List<Restaurante> findRestaurantesByPropietarioId(@Param("propietarioId") Long propietarioId);
 }
