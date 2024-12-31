@@ -59,13 +59,12 @@ public class RestauranteController {
         return ResponseEntity.ok(restaurantes);
     }
 
-    @GetMapping("/tipo")
+    @GetMapping("/nombre")
     public ResponseEntity<List<RestauranteResponseDTO>> getbyNombre(@RequestParam String nombre,
-                                                                @RequestParam(defaultValue = "0") int page,
+                                                                @RequestParam(defaultValue = "1") int page,
                                                                 @RequestParam(defaultValue = "10") int size) {
-        List<RestauranteResponseDTO> restaurantes = restauranteService.getRestaurantePorNombre(nombre, page, size)
-                .map(this::convertResponse)
-                .getContent();
+        List<RestauranteResponseDTO> restaurantes = restauranteService.getRestaurantePorNombre(nombre, page, size).stream()
+                .map(this::convertResponse).toList();
         return ResponseEntity.ok(restaurantes);
     }
 

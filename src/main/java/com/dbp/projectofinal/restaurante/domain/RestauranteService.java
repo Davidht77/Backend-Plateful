@@ -55,9 +55,9 @@ public class RestauranteService {
         return restauranteRepository.findRestaurantesByTipoRestauranteContainingIgnoreCase(Tipo,pageRequest);
     }
 
-    public Page<Restaurante> getRestaurantePorNombre(String nombre,int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page-1, size);
-        return restauranteRepository.findRestaurantesBynameContainingIgnoreCase(nombre,pageRequest);
+    public List<Restaurante> getRestaurantePorNombre(String nombre,int page, int size) {
+        int offset = (page - 1) * size;
+        return restauranteRepository.buscarPorNombre(nombre,size,offset);
     }
 
     public Optional<Restaurante> getRestauranteById(Long id) {
@@ -171,7 +171,7 @@ public class RestauranteService {
         }
 
         // Forzar la inicialización de la lista de restaurantes
-        List<Restaurante> restaurantes = restauranteRepository.findByPropietarioId(id);
+        List<Restaurante> restaurantes = restauranteRepository.findRestaurantesByPropietarioId(id);
 
         List<RestauranteResponseDTO> newRestaurantes = new ArrayList<>();
         for (Restaurante restaurante : restaurantes) {
